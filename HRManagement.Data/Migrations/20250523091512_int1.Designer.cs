@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HRManagement.Data.Migrations
 {
     [DbContext(typeof(HRManagementDbContext))]
-    [Migration("20250522151952_int1")]
+    [Migration("20250523091512_int1")]
     partial class int1
     {
         /// <inheritdoc />
@@ -38,13 +38,15 @@ namespace HRManagement.Data.Migrations
 
                     b.Property<string>("CheckInMethod")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<DateTime?>("CheckInTime")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("CheckOutTime")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CreatedAt")
@@ -55,23 +57,24 @@ namespace HRManagement.Data.Migrations
 
                     b.Property<string>("Location")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<decimal>("OvertimeHours")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(5,2)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<decimal?>("WorkHours")
-                        .HasColumnType("decimal(18,2)");
+                        .IsRequired()
+                        .HasColumnType("decimal(5,2)");
 
                     b.HasKey("AttendanceID");
 
                     b.HasIndex("EmployeeID");
 
-                    b.ToTable("Attendances");
+                    b.ToTable("Attendances", (string)null);
 
                     b.HasData(
                         new
@@ -81,11 +84,11 @@ namespace HRManagement.Data.Migrations
                             CheckInMethod = "Mobile",
                             CheckInTime = new DateTime(2025, 5, 20, 8, 0, 0, 0, DateTimeKind.Unspecified),
                             CheckOutTime = new DateTime(2025, 5, 20, 17, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2847),
+                            CreatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             EmployeeID = 1,
                             Location = "Office",
                             OvertimeHours = 0m,
-                            UpdatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2848),
+                            UpdatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             WorkHours = 8.0m
                         },
                         new
@@ -95,11 +98,11 @@ namespace HRManagement.Data.Migrations
                             CheckInMethod = "CameraAI",
                             CheckInTime = new DateTime(2025, 5, 20, 8, 30, 0, 0, DateTimeKind.Unspecified),
                             CheckOutTime = new DateTime(2025, 5, 20, 14, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2852),
+                            CreatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             EmployeeID = 2,
                             Location = "Office",
                             OvertimeHours = 0m,
-                            UpdatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2852),
+                            UpdatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             WorkHours = 5.5m
                         },
                         new
@@ -109,11 +112,11 @@ namespace HRManagement.Data.Migrations
                             CheckInMethod = "GPS",
                             CheckInTime = new DateTime(2025, 5, 20, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             CheckOutTime = new DateTime(2025, 5, 20, 15, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2855),
+                            CreatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             EmployeeID = 3,
                             Location = "Office",
                             OvertimeHours = 0m,
-                            UpdatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2855),
+                            UpdatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             WorkHours = 6.0m
                         },
                         new
@@ -123,11 +126,11 @@ namespace HRManagement.Data.Migrations
                             CheckInMethod = "Biometric",
                             CheckInTime = new DateTime(2025, 5, 20, 8, 15, 0, 0, DateTimeKind.Unspecified),
                             CheckOutTime = new DateTime(2025, 5, 20, 17, 15, 0, 0, DateTimeKind.Unspecified),
-                            CreatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2859),
+                            CreatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             EmployeeID = 4,
                             Location = "Office",
                             OvertimeHours = 1.0m,
-                            UpdatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2859),
+                            UpdatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             WorkHours = 8.0m
                         });
                 });
@@ -153,29 +156,29 @@ namespace HRManagement.Data.Migrations
 
                     b.HasKey("DepartmentID");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Departments", (string)null);
 
                     b.HasData(
                         new
                         {
                             DepartmentID = 1,
-                            CreatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2584),
+                            CreatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             DepartmentName = "Human Resources",
-                            UpdatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2585)
+                            UpdatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963)
                         },
                         new
                         {
                             DepartmentID = 2,
-                            CreatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2588),
+                            CreatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             DepartmentName = "Information Technology",
-                            UpdatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2589)
+                            UpdatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963)
                         },
                         new
                         {
                             DepartmentID = 3,
-                            CreatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2590),
+                            CreatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             DepartmentName = "Finance",
-                            UpdatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2591)
+                            UpdatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963)
                         });
                 });
 
@@ -196,9 +199,13 @@ namespace HRManagement.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DateOfBirth")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("DepartmentID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DepartmentID1")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -207,8 +214,11 @@ namespace HRManagement.Data.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("EmployeeStatus")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasDefaultValue("Active");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -216,6 +226,7 @@ namespace HRManagement.Data.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("HireDate")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastName")
@@ -223,19 +234,15 @@ namespace HRManagement.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Position")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Role")
                         .IsRequired()
@@ -254,27 +261,16 @@ namespace HRManagement.Data.Migrations
 
                     b.HasIndex("DepartmentID");
 
-                    b.HasIndex("Email")
-                        .IsUnique();
+                    b.HasIndex("DepartmentID1");
 
-                    b.HasIndex("Username")
-                        .IsUnique();
-
-                    b.ToTable("Employees", t =>
-                        {
-                            t.HasCheckConstraint("CK_ContractType", "[ContractType] IN ('Full-time', 'Part-time')");
-
-                            t.HasCheckConstraint("CK_EmployeeStatus", "[EmployeeStatus] IN ('Intern', 'Fresher', 'Senior') OR [EmployeeStatus] IS NULL");
-
-                            t.HasCheckConstraint("CK_Role", "[Role] IN ('Admin', 'HR', 'Employee')");
-                        });
+                    b.ToTable("Employees", (string)null);
 
                     b.HasData(
                         new
                         {
                             EmployeeID = 1,
                             ContractType = "Full-time",
-                            CreatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2735),
+                            CreatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             DateOfBirth = new DateTime(1990, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DepartmentID = 1,
                             Email = "nguyenvana@example.com",
@@ -282,36 +278,34 @@ namespace HRManagement.Data.Migrations
                             FirstName = "Nguyen",
                             HireDate = new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastName = "Van A",
-                            PasswordHash = "Admin123",
                             Phone = "0901234567",
                             Position = "HR Manager",
                             Role = "Admin",
-                            UpdatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2735),
+                            UpdatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             Username = "nguyenvana"
                         },
                         new
                         {
                             EmployeeID = 2,
                             ContractType = "Part-time",
-                            CreatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2740),
+                            CreatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             DateOfBirth = new DateTime(1992, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DepartmentID = 2,
                             Email = "tranthib@example.com",
                             FirstName = "Tran",
                             HireDate = new DateTime(2022, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastName = "Thi B",
-                            PasswordHash = "HR123",
                             Phone = "0909876543",
                             Position = "Recruiter",
                             Role = "HR",
-                            UpdatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2740),
+                            UpdatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             Username = "tranthib"
                         },
                         new
                         {
                             EmployeeID = 3,
                             ContractType = "Part-time",
-                            CreatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2744),
+                            CreatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             DateOfBirth = new DateTime(1995, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DepartmentID = 3,
                             Email = "levanc@example.com",
@@ -319,18 +313,17 @@ namespace HRManagement.Data.Migrations
                             FirstName = "Le",
                             HireDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastName = "Van C",
-                            PasswordHash = "Employee123",
                             Phone = "0912345678",
                             Position = "Accountant",
                             Role = "Employee",
-                            UpdatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2744),
+                            UpdatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             Username = "levanc"
                         },
                         new
                         {
                             EmployeeID = 4,
                             ContractType = "Full-time",
-                            CreatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2747),
+                            CreatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             DateOfBirth = new DateTime(1988, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DepartmentID = 1,
                             Email = "phamthid@example.com",
@@ -338,11 +331,10 @@ namespace HRManagement.Data.Migrations
                             FirstName = "Pham",
                             HireDate = new DateTime(2025, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastName = "Thi D",
-                            PasswordHash = "Admin234",
                             Phone = "0923456789",
                             Position = "Payroll Manager",
                             Role = "Admin",
-                            UpdatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2748),
+                            UpdatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             Username = "phamthid"
                         });
                 });
@@ -369,8 +361,8 @@ namespace HRManagement.Data.Migrations
 
                     b.Property<string>("LeaveType")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Reason")
                         .IsRequired()
@@ -394,60 +386,60 @@ namespace HRManagement.Data.Migrations
 
                     b.HasIndex("EmployeeID");
 
-                    b.ToTable("LeaveRequests");
+                    b.ToTable("LeaveRequests", (string)null);
 
                     b.HasData(
                         new
                         {
                             LeaveRequestID = 1,
                             ApproverID = 2,
-                            CreatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2919),
+                            CreatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             EmployeeID = 1,
                             EndDate = new DateTime(2025, 6, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LeaveType = "Annual",
                             Reason = "Rest",
                             StartDate = new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "Pending",
-                            UpdatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2920)
+                            UpdatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963)
                         },
                         new
                         {
                             LeaveRequestID = 2,
                             ApproverID = 1,
-                            CreatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2922),
+                            CreatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             EmployeeID = 2,
                             EndDate = new DateTime(2025, 5, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LeaveType = "Sick",
                             Reason = "Health issue",
                             StartDate = new DateTime(2025, 5, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "Approved",
-                            UpdatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2923)
+                            UpdatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963)
                         },
                         new
                         {
                             LeaveRequestID = 3,
                             ApproverID = 1,
-                            CreatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2925),
+                            CreatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             EmployeeID = 3,
                             EndDate = new DateTime(2025, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LeaveType = "Annual",
                             Reason = "Personal",
                             StartDate = new DateTime(2025, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "Pending",
-                            UpdatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2926)
+                            UpdatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963)
                         },
                         new
                         {
                             LeaveRequestID = 4,
                             ApproverID = 1,
-                            CreatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2928),
+                            CreatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             EmployeeID = 4,
                             EndDate = new DateTime(2025, 6, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LeaveType = "Annual",
                             Reason = "Vacation",
                             StartDate = new DateTime(2025, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "Pending",
-                            UpdatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2928)
+                            UpdatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963)
                         });
                 });
 
@@ -475,6 +467,9 @@ namespace HRManagement.Data.Migrations
                     b.Property<int>("SalaryID")
                         .HasColumnType("int");
 
+                    b.Property<int?>("SalaryID1")
+                        .HasColumnType("int");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -489,48 +484,50 @@ namespace HRManagement.Data.Migrations
 
                     b.HasIndex("SalaryID");
 
-                    b.ToTable("Payslips");
+                    b.HasIndex("SalaryID1");
+
+                    b.ToTable("Payslips", (string)null);
 
                     b.HasData(
                         new
                         {
                             PayslipID = 1,
-                            CreatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2813),
+                            CreatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             EmployeeID = 1,
                             IssueDate = new DateTime(2025, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             SalaryID = 1,
                             Status = "Generated",
-                            UpdatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2814)
+                            UpdatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963)
                         },
                         new
                         {
                             PayslipID = 2,
-                            CreatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2816),
+                            CreatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             EmployeeID = 2,
                             IssueDate = new DateTime(2025, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             SalaryID = 2,
                             Status = "Sent",
-                            UpdatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2817)
+                            UpdatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963)
                         },
                         new
                         {
                             PayslipID = 3,
-                            CreatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2819),
+                            CreatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             EmployeeID = 3,
                             IssueDate = new DateTime(2025, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             SalaryID = 3,
                             Status = "Generated",
-                            UpdatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2819)
+                            UpdatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963)
                         },
                         new
                         {
                             PayslipID = 4,
-                            CreatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2821),
+                            CreatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             EmployeeID = 4,
                             IssueDate = new DateTime(2025, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             SalaryID = 4,
                             Status = "Generated",
-                            UpdatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2822)
+                            UpdatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963)
                         });
                 });
 
@@ -576,7 +573,7 @@ namespace HRManagement.Data.Migrations
 
                     b.HasIndex("EmployeeID");
 
-                    b.ToTable("Salaries");
+                    b.ToTable("Salaries", (string)null);
 
                     b.HasData(
                         new
@@ -585,13 +582,13 @@ namespace HRManagement.Data.Migrations
                             Allowance = 2000000m,
                             BaseSalary = 15000000m,
                             Bonus = 1000000m,
-                            CreatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2779),
+                            CreatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             Deduction = 500000m,
                             EmployeeID = 1,
                             NetSalary = 16750000m,
                             SalaryPeriod = new DateTime(2025, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Tax = 750000m,
-                            UpdatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2780)
+                            UpdatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963)
                         },
                         new
                         {
@@ -599,13 +596,13 @@ namespace HRManagement.Data.Migrations
                             Allowance = 1000000m,
                             BaseSalary = 10000000m,
                             Bonus = 500000m,
-                            CreatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2784),
+                            CreatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             Deduction = 300000m,
                             EmployeeID = 2,
                             NetSalary = 10700000m,
                             SalaryPeriod = new DateTime(2025, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Tax = 500000m,
-                            UpdatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2784)
+                            UpdatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963)
                         },
                         new
                         {
@@ -613,13 +610,13 @@ namespace HRManagement.Data.Migrations
                             Allowance = 500000m,
                             BaseSalary = 5000000m,
                             Bonus = 0m,
-                            CreatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2787),
+                            CreatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             Deduction = 100000m,
                             EmployeeID = 3,
                             NetSalary = 5400000m,
                             SalaryPeriod = new DateTime(2025, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Tax = 0m,
-                            UpdatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2787)
+                            UpdatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963)
                         },
                         new
                         {
@@ -627,14 +624,212 @@ namespace HRManagement.Data.Migrations
                             Allowance = 3000000m,
                             BaseSalary = 20000000m,
                             Bonus = 1500000m,
-                            CreatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2790),
+                            CreatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963),
                             Deduction = 600000m,
                             EmployeeID = 4,
                             NetSalary = 19900000m,
                             SalaryPeriod = new DateTime(2025, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Tax = 1000000m,
-                            UpdatedAt = new DateTime(2025, 5, 22, 22, 19, 51, 938, DateTimeKind.Local).AddTicks(2791)
+                            UpdatedAt = new DateTime(2025, 5, 23, 9, 15, 10, 296, DateTimeKind.Utc).AddTicks(5963)
                         });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("HRManagement.Data.Entity.Attendance", b =>
@@ -651,8 +846,13 @@ namespace HRManagement.Data.Migrations
             modelBuilder.Entity("HRManagement.Data.Entity.Employee", b =>
                 {
                     b.HasOne("HRManagement.Data.Entity.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("HRManagement.Data.Entity.Department", null)
                         .WithMany("Employees")
-                        .HasForeignKey("DepartmentID");
+                        .HasForeignKey("DepartmentID1");
 
                     b.Navigation("Department");
                 });
@@ -661,7 +861,8 @@ namespace HRManagement.Data.Migrations
                 {
                     b.HasOne("HRManagement.Data.Entity.Employee", "Approver")
                         .WithMany("ApprovedLeaveRequests")
-                        .HasForeignKey("ApproverID");
+                        .HasForeignKey("ApproverID")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HRManagement.Data.Entity.Employee", "Employee")
                         .WithMany("LeaveRequests")
@@ -683,10 +884,14 @@ namespace HRManagement.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("HRManagement.Data.Entity.Salary", "Salary")
-                        .WithMany("Payslips")
+                        .WithMany()
                         .HasForeignKey("SalaryID")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("HRManagement.Data.Entity.Salary", null)
+                        .WithMany("Payslips")
+                        .HasForeignKey("SalaryID1");
 
                     b.Navigation("Employee");
 
@@ -702,6 +907,57 @@ namespace HRManagement.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("HRManagement.Data.Entity.Department", b =>

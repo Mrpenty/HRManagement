@@ -11,46 +11,34 @@ namespace HRManagement.Data.Entity
 {
     public class Employee
     {
-        [Key]
         public int EmployeeID { get; set; }
 
-        [Required, StringLength(50)]
         public string FirstName { get; set; }
 
-        [Required, StringLength(50)]
         public string LastName { get; set; }
 
         public DateTime? DateOfBirth { get; set; }
 
-        [StringLength(100)]
         public string Email { get; set; }
 
-        [StringLength(20)]
         public string Phone { get; set; }
 
         public int? DepartmentID { get; set; }
 
-        [ForeignKey("DepartmentID")]
         public Department Department { get; set; }
 
         public DateTime? HireDate { get; set; }
 
-        [StringLength(20)]
         public string EmployeeStatus { get; set; } // Intern, Fresher, Senior, or null
 
-        [Required, StringLength(20)]
         public string ContractType { get; set; } // Full-time, Part-time
 
-        [Required, StringLength(50)]
         public string Username { get; set; }
 
-        [Required, StringLength(256)]
-        public string PasswordHash { get; set; }
+       
 
-        [Required, StringLength(20)]
         public string Role { get; set; } // Admin, HR, Employee
 
-        [StringLength(50)]
         public string Position { get; set; } // Manager, Developer, Accountant, or null
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;

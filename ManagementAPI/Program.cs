@@ -1,32 +1,24 @@
-using HRManagement.Data.Data;
-using Microsoft.EntityFrameworkCore;
+using ManagementAPI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-builder.Services.AddControllers();
+// Configure services
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var connectionString = builder.Configuration.GetConnectionString("MyCnn");
-builder.Services.AddDbContext<HRManagementDbContext>(options =>
-    options.UseSqlServer(
-        connectionString,
-        sql => sql.MigrationsAssembly("HRManagement.Data"))    
-    );
+builder.Services.AddSwaggerServices();
+builder.Services.AddControllersServices();
+builder.Services.AddDatabaseServices(builder.Configuration);
+builder.Services.AddIdentityServices();
+builder.Services.AddAuthenticationServices(builder.Configuration);
+builder.Services.AddDependencyInjectionServices();
+builder.Services.AddCorsServices(builder.Configuration, builder.Environment);
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseHttpsRedirection();
-
+app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-
+app.UseCorsPolicy(builder.Environment);
+app.UseSwaggerServices(builder.Environment);
 app.Run();

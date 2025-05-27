@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HRManagement.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateConfigurationAndEntity : Migration
+    public partial class updateentityandfluentapiconfig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -681,7 +681,7 @@ namespace HRManagement.Data.Migrations
                 column: "UserID",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_LeaveRequests_AspNetUsers_ApproverID",
@@ -697,7 +697,7 @@ namespace HRManagement.Data.Migrations
                 column: "UserID",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Payslips_AspNetUsers_UserID",
@@ -705,7 +705,7 @@ namespace HRManagement.Data.Migrations
                 column: "UserID",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Payslips_Salaries_SalaryID",
@@ -721,7 +721,7 @@ namespace HRManagement.Data.Migrations
                 column: "UserID",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
         }
 
         /// <inheritdoc />

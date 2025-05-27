@@ -589,7 +589,7 @@ namespace HRManagement.Data.Migrations
                     b.HasOne("HRManagement.Data.Entity.User", "User")
                         .WithMany("Attendances")
                         .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -605,7 +605,7 @@ namespace HRManagement.Data.Migrations
                     b.HasOne("HRManagement.Data.Entity.User", "User")
                         .WithMany("LeaveRequests")
                         .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Approver");
@@ -624,7 +624,7 @@ namespace HRManagement.Data.Migrations
                     b.HasOne("HRManagement.Data.Entity.User", "User")
                         .WithMany("Payslips")
                         .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Salary");
@@ -637,7 +637,7 @@ namespace HRManagement.Data.Migrations
                     b.HasOne("HRManagement.Data.Entity.User", "User")
                         .WithMany("Salaries")
                         .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("User");

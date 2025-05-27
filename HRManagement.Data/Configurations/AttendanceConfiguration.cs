@@ -42,6 +42,6 @@ public class AttendanceConfiguration : IEntityTypeConfiguration<Attendance>
         builder.HasOne(a => a.User)
             .WithMany(u => u.Attendances)
             .HasForeignKey(a => a.UserID)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

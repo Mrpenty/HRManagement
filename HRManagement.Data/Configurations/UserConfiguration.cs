@@ -50,18 +50,18 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasMany(u => u.Salaries)
             .WithOne(s => s.User)
             .HasForeignKey(s => s.UserID)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
         builder.HasMany(u => u.Payslips)
             .WithOne(p => p.User)
             .HasForeignKey(p => p.UserID)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
         builder.HasMany(u => u.Attendances)
             .WithOne(a => a.User)
             .HasForeignKey(a => a.UserID)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
         builder.HasMany(u => u.LeaveRequests)
             .WithOne(lr => lr.User)
             .HasForeignKey(lr => lr.UserID)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

@@ -47,6 +47,6 @@ public class SalaryConfiguration : IEntityTypeConfiguration<Salary>
         builder.HasOne(s => s.User)
             .WithMany(u => u.Salaries)
             .HasForeignKey(s => s.UserID)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

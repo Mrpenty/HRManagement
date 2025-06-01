@@ -1,6 +1,8 @@
 using ManagementAPI.Extensions;
+using Microsoft.AspNetCore.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Configure services
 builder.Services.AddEndpointsApiExplorer();
@@ -15,6 +17,7 @@ builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
+app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();

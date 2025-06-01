@@ -27,5 +27,7 @@
     <ProjectReference Include="..\HRManagement.Business\HRManagement.Business.csproj" />
     <ProjectReference Include="..\HRManagement.Data\HRManagement.Data.csproj" />
   </ItemGroup>
-
+<ItemGroup>
+    <Folder Include="wwwroot\" /> 
+  </ItemGroup>
 </Project>

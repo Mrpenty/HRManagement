@@ -157,7 +157,7 @@ public class TokenRepository : ITokenRepository
         private ClaimsPrincipal GetClaimsPrincipalFromExpiredToken(string token){
             var jwtSettings = _configuration.GetSection("JWT");
 
-            var TokenValidationParameters = new TokenValidationParameters
+            var validationParameters = new TokenValidationParameters
             {
                 ValidateAudience = true,
                 ValidateIssuer = true,
@@ -170,7 +170,7 @@ public class TokenRepository : ITokenRepository
 
             var tokenHandler = new JwtSecurityTokenHandler();
 
-            var principal = tokenHandler.ValidateToken(token, TokenValidationParameters, out SecurityToken securityToken);
+            var principal = tokenHandler.ValidateToken(token, validationParameters, out SecurityToken securityToken);
 
             if (securityToken is not JwtSecurityToken jwtToken || !jwtToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
             {

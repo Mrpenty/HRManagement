@@ -117,6 +117,7 @@ namespace HRManagement.Data.Migrations
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
                     RefreshToken = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ProfilePicture = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     DepartmentID = table.Column<int>(type: "int", nullable: true),
                     EmployeeLevelID = table.Column<int>(type: "int", nullable: true),
                     ContractTypeID = table.Column<int>(type: "int", nullable: true),
@@ -394,9 +395,9 @@ namespace HRManagement.Data.Migrations
                 columns: new[] { "DepartmentID", "CreatedAt", "DepartmentName" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 6, 1, 8, 42, 0, 237, DateTimeKind.Utc).AddTicks(9638), "IT" },
-                    { 2, new DateTime(2025, 6, 1, 8, 42, 0, 237, DateTimeKind.Utc).AddTicks(9640), "HR" },
-                    { 3, new DateTime(2025, 6, 1, 8, 42, 0, 237, DateTimeKind.Utc).AddTicks(9642), "Finance" }
+                    { 1, new DateTime(2025, 6, 1, 9, 33, 28, 101, DateTimeKind.Utc).AddTicks(1413), "IT" },
+                    { 2, new DateTime(2025, 6, 1, 9, 33, 28, 101, DateTimeKind.Utc).AddTicks(1420), "HR" },
+                    { 3, new DateTime(2025, 6, 1, 9, 33, 28, 101, DateTimeKind.Utc).AddTicks(1421), "Finance" }
                 });
 
             migrationBuilder.InsertData(
@@ -421,12 +422,12 @@ namespace HRManagement.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "ContractTypeID", "CreatedAt", "DateOfBirth", "DepartmentID", "Email", "EmailConfirmed", "EmployeeLevelID", "FirstName", "HireDate", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PositionID", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "ContractTypeID", "CreatedAt", "DateOfBirth", "DepartmentID", "Email", "EmailConfirmed", "EmployeeLevelID", "FirstName", "HireDate", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PositionID", "ProfilePicture", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, "1c42a079-8ff3-4387-b36a-69e02373ee92", 1, new DateTime(2025, 6, 1, 8, 42, 0, 314, DateTimeKind.Utc).AddTicks(2889), null, 1, "admin@example.com", false, 3, "Admin", null, "User", false, null, "ADMIN@EXAMPLE.COM", "ADMIN", "AQAAAAIAAYagAAAAEJ2V5UFzGUuAycjeVjc3lUSyGt2kSXLTodvGWFGP3UshGlq6qt7ZQctAt4T+SuhRmw==", null, false, 1, null, null, "611c4fab-5140-40b6-abd6-9428c99fa06d", false, "admin" },
-                    { 2, 0, "38561c4e-c56e-4d25-9a71-0579ac086627", 1, new DateTime(2025, 6, 1, 8, 42, 0, 383, DateTimeKind.Utc).AddTicks(9118), null, 2, "hr@example.com", false, 2, "HR", null, "User", false, null, "HR@EXAMPLE.COM", "HRUSER", "AQAAAAIAAYagAAAAEHtByTwJ12xYu0KQd1DlotmOiIoz7pc5Ksi6HdVx4sC/BRTUdHNnoZfBjhmKptqMNw==", null, false, 2, null, null, "46a20243-5bf8-4460-8bd7-9810ff7ea773", false, "hruser" },
-                    { 3, 0, "881aea32-cc1c-4584-afab-0f82ebafac99", 2, new DateTime(2025, 6, 1, 8, 42, 0, 454, DateTimeKind.Utc).AddTicks(7735), null, 3, "employee@example.com", false, 1, "Employee", null, "User", false, null, "EMPLOYEE@EXAMPLE.COM", "EMPLOYEE", "AQAAAAIAAYagAAAAENTTcYD8+0a9dvkRtwKXNSBwxx+YJwa2Cc79iCDQkkFASm3CI2oQVXar/xvJTRivZQ==", null, false, 3, null, null, "f2b5a968-7112-4992-81a4-3a4d8e318d85", false, "employee" }
+                    { 1, 0, "cccf4ef0-9999-4614-a160-f5111327dfd9", 1, new DateTime(2025, 6, 1, 9, 33, 28, 169, DateTimeKind.Utc).AddTicks(3499), null, 1, "admin@example.com", false, 3, "Admin", null, "User", false, null, "ADMIN@EXAMPLE.COM", "ADMIN", "AQAAAAIAAYagAAAAEEMwvsX1ZTTDQ+70id84/9H2wzf/5yYQJEQd1D0GnGhCr4khMVtYYlS8vnlhLENTHw==", null, false, 1, null, null, null, "3ee90e13-4714-4546-b618-5172e5256dd4", false, "admin" },
+                    { 2, 0, "10ee91eb-50c9-4228-ad72-fa278b660f94", 1, new DateTime(2025, 6, 1, 9, 33, 28, 234, DateTimeKind.Utc).AddTicks(191), null, 2, "hr@example.com", false, 2, "HR", null, "User", false, null, "HR@EXAMPLE.COM", "HRUSER", "AQAAAAIAAYagAAAAEPe21UJ2AGLic+dmosUqHSowh29c0oMlHFmZIZWJWf/CKVoFk5x4TIi8qFHnLxGa9A==", null, false, 2, null, null, null, "67c643c7-d63f-480c-92ea-597419e76385", false, "hruser" },
+                    { 3, 0, "ab0d41e2-a20b-44a5-8b65-74d7e370b380", 2, new DateTime(2025, 6, 1, 9, 33, 28, 320, DateTimeKind.Utc).AddTicks(4280), null, 3, "employee@example.com", false, 1, "Employee", null, "User", false, null, "EMPLOYEE@EXAMPLE.COM", "EMPLOYEE", "AQAAAAIAAYagAAAAEDc9uvLtMd2K743eJ50WyvHfjsy1wqhiLbRQrxgM0PGXPvuj/lANcD3/ygVgsYP00A==", null, false, 3, null, null, null, "4e662d60-f1d3-4195-9a3c-9abf9bf8f3ba", false, "employee" }
                 });
 
             migrationBuilder.InsertData(
@@ -444,8 +445,8 @@ namespace HRManagement.Data.Migrations
                 columns: new[] { "AttendanceID", "AttendanceDate", "CheckInTime", "CheckOutTime", "CreatedAt", "Location", "OvertimeHours", "UserID", "WorkHours" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 6, 1, 8, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 6, 1, 17, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 6, 1, 8, 42, 0, 454, DateTimeKind.Utc).AddTicks(8663), "Office", 0.0m, 1, 8.0m },
-                    { 2, new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 6, 1, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 6, 1, 18, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 6, 1, 8, 42, 0, 454, DateTimeKind.Utc).AddTicks(8766), "Office", 1.0m, 2, 8.0m }
+                    { 1, new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 6, 1, 8, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 6, 1, 17, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 6, 1, 9, 33, 28, 320, DateTimeKind.Utc).AddTicks(5205), "Office", 0.0m, 1, 8.0m },
+                    { 2, new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 6, 1, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 6, 1, 18, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 6, 1, 9, 33, 28, 320, DateTimeKind.Utc).AddTicks(5242), "Office", 1.0m, 2, 8.0m }
                 });
 
             migrationBuilder.InsertData(
@@ -453,8 +454,8 @@ namespace HRManagement.Data.Migrations
                 columns: new[] { "LeaveRequestID", "ApproverID", "CreatedAt", "EndDate", "LeaveType", "Reason", "StartDate", "Status", "UserID" },
                 values: new object[,]
                 {
-                    { 1, 2, new DateTime(2025, 6, 1, 8, 42, 0, 454, DateTimeKind.Utc).AddTicks(9755), new DateTime(2025, 6, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "Sick Leave", "Sick leave", new DateTime(2025, 6, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "Pending", 1 },
-                    { 2, 1, new DateTime(2025, 6, 1, 8, 42, 0, 454, DateTimeKind.Utc).AddTicks(9763), new DateTime(2025, 6, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "Sick Leave", "Vacation", new DateTime(2025, 6, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), "Approved", 2 }
+                    { 1, 2, new DateTime(2025, 6, 1, 9, 33, 28, 320, DateTimeKind.Utc).AddTicks(5483), new DateTime(2025, 6, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "Sick Leave", "Sick leave", new DateTime(2025, 6, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "Pending", 1 },
+                    { 2, 1, new DateTime(2025, 6, 1, 9, 33, 28, 320, DateTimeKind.Utc).AddTicks(5490), new DateTime(2025, 6, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "Sick Leave", "Vacation", new DateTime(2025, 6, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), "Approved", 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -462,8 +463,8 @@ namespace HRManagement.Data.Migrations
                 columns: new[] { "SalaryID", "Allowances", "BaseSalary", "Bonus", "CreatedAt", "Deduction", "NetSalary", "SalaryPeriod", "Tax", "UserID" },
                 values: new object[,]
                 {
-                    { 1, 500.00m, 5000.00m, 200.00m, new DateTime(2025, 6, 1, 8, 42, 0, 454, DateTimeKind.Utc).AddTicks(8844), 300.00m, 5000.00m, new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 400.00m, 1 },
-                    { 2, 400.00m, 4000.00m, 150.00m, new DateTime(2025, 6, 1, 8, 42, 0, 454, DateTimeKind.Utc).AddTicks(8851), 200.00m, 4050.00m, new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 300.00m, 2 }
+                    { 1, 500.00m, 5000.00m, 200.00m, new DateTime(2025, 6, 1, 9, 33, 28, 320, DateTimeKind.Utc).AddTicks(5304), 300.00m, 5000.00m, new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 400.00m, 1 },
+                    { 2, 400.00m, 4000.00m, 150.00m, new DateTime(2025, 6, 1, 9, 33, 28, 320, DateTimeKind.Utc).AddTicks(5309), 200.00m, 4050.00m, new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 300.00m, 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -471,8 +472,8 @@ namespace HRManagement.Data.Migrations
                 columns: new[] { "PayslipID", "CreatedAt", "FilePath", "IssueDate", "SalaryID", "Status", "UserID" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 6, 1, 8, 42, 0, 454, DateTimeKind.Utc).AddTicks(9620), "/payslips/user1_june2025.pdf", new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Generated", 1 },
-                    { 2, new DateTime(2025, 6, 1, 8, 42, 0, 454, DateTimeKind.Utc).AddTicks(9627), "/payslips/user2_june2025.pdf", new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "Generated", 2 }
+                    { 1, new DateTime(2025, 6, 1, 9, 33, 28, 320, DateTimeKind.Utc).AddTicks(5363), "/payslips/user1_june2025.pdf", new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Generated", 1 },
+                    { 2, new DateTime(2025, 6, 1, 9, 33, 28, 320, DateTimeKind.Utc).AddTicks(5369), "/payslips/user2_june2025.pdf", new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "Generated", 2 }
                 });
 
             migrationBuilder.CreateIndex(

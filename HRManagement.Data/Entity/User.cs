@@ -13,6 +13,8 @@ public class User : IdentityUser<int>
     public DateTime UpdatedAt { get; set; }
     public string? RefreshToken { get; set; }
     public DateTime? RefreshTokenExpiryTime { get; set; }
+
+    public string? ProfilePicture { get; set; }
     public int? DepartmentID { get; set; }
     public int? EmployeeLevelID { get; set; }
     public int? ContractTypeID { get; set; }

@@ -31,6 +31,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(500);
         builder.Property(u => u.RefreshTokenExpiryTime)
             .IsRequired(false);
+        builder.Property(u => u.ProfilePicture) 
+            .IsRequired(false)
+            .HasMaxLength(500);
         builder.HasOne(u => u.Department)
             .WithMany(d => d.Users)
             .HasForeignKey(u => u.DepartmentID)

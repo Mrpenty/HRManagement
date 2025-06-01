@@ -25,7 +25,8 @@ public static class AuthenticationExtensions
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"])),
                 NameClaimType = JwtRegisteredClaimNames.Sub,
-                RoleClaimType = "role"
+                // RoleClaimType = "role"
+                RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
             };
 
             options.Events = new JwtBearerEvents

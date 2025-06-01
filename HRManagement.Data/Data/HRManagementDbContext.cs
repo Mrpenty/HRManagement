@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using static HRManagement.Data.Data.SeedRoles;
 
 namespace HRManagement.Data.Data
 {
@@ -22,6 +23,8 @@ namespace HRManagement.Data.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(HRManagementDbContext).Assembly);
+            SeedData.Configure(modelBuilder);
+
         }
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace HRManagement.Data.Data;
 
-public class SeedRoles : IEntityTypeConfiguration<IdentityRole<int>>
+public partial class SeedRoles : IEntityTypeConfiguration<IdentityRole<int>>
 {
     public void Configure(EntityTypeBuilder<IdentityRole<int>> builder)
     {

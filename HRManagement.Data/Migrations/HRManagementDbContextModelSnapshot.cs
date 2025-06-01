@@ -69,6 +69,34 @@ namespace HRManagement.Data.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("Attendances", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            AttendanceID = 1,
+                            AttendanceDate = new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckInTime = new DateTime(2025, 6, 1, 8, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckOutTime = new DateTime(2025, 6, 1, 17, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 454, DateTimeKind.Utc).AddTicks(8663),
+                            Location = "Office",
+                            OvertimeHours = 0.0m,
+                            UpdatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 454, DateTimeKind.Utc).AddTicks(8663),
+                            UserID = 1,
+                            WorkHours = 8.0m
+                        },
+                        new
+                        {
+                            AttendanceID = 2,
+                            AttendanceDate = new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckInTime = new DateTime(2025, 6, 1, 9, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckOutTime = new DateTime(2025, 6, 1, 18, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 454, DateTimeKind.Utc).AddTicks(8766),
+                            Location = "Office",
+                            OvertimeHours = 1.0m,
+                            UpdatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 454, DateTimeKind.Utc).AddTicks(8767),
+                            UserID = 2,
+                            WorkHours = 8.0m
+                        });
                 });
 
             modelBuilder.Entity("HRManagement.Data.Entity.ContractType", b =>
@@ -87,6 +115,23 @@ namespace HRManagement.Data.Migrations
                     b.HasKey("ContractTypeID");
 
                     b.ToTable("ContractTypes", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            ContractTypeID = 1,
+                            ContractTypeName = "Full-Time"
+                        },
+                        new
+                        {
+                            ContractTypeID = 2,
+                            ContractTypeName = "Part-Time"
+                        },
+                        new
+                        {
+                            ContractTypeID = 3,
+                            ContractTypeName = "Freelance"
+                        });
                 });
 
             modelBuilder.Entity("HRManagement.Data.Entity.Department", b =>
@@ -115,6 +160,29 @@ namespace HRManagement.Data.Migrations
                     b.HasKey("DepartmentID");
 
                     b.ToTable("Departments", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            DepartmentID = 1,
+                            CreatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 237, DateTimeKind.Utc).AddTicks(9638),
+                            DepartmentName = "IT",
+                            UpdatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 237, DateTimeKind.Utc).AddTicks(9639)
+                        },
+                        new
+                        {
+                            DepartmentID = 2,
+                            CreatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 237, DateTimeKind.Utc).AddTicks(9640),
+                            DepartmentName = "HR",
+                            UpdatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 237, DateTimeKind.Utc).AddTicks(9641)
+                        },
+                        new
+                        {
+                            DepartmentID = 3,
+                            CreatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 237, DateTimeKind.Utc).AddTicks(9642),
+                            DepartmentName = "Finance",
+                            UpdatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 237, DateTimeKind.Utc).AddTicks(9642)
+                        });
                 });
 
             modelBuilder.Entity("HRManagement.Data.Entity.EmployeeLevel", b =>
@@ -133,6 +201,23 @@ namespace HRManagement.Data.Migrations
                     b.HasKey("EmployeeLevelID");
 
                     b.ToTable("EmployeeLevels", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            EmployeeLevelID = 1,
+                            EmployeeLevelName = "Junior"
+                        },
+                        new
+                        {
+                            EmployeeLevelID = 2,
+                            EmployeeLevelName = "Senior"
+                        },
+                        new
+                        {
+                            EmployeeLevelID = 3,
+                            EmployeeLevelName = "Manager"
+                        });
                 });
 
             modelBuilder.Entity("HRManagement.Data.Entity.LeaveRequest", b =>
@@ -188,6 +273,34 @@ namespace HRManagement.Data.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("LeaveRequests", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            LeaveRequestID = 1,
+                            ApproverID = 2,
+                            CreatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 454, DateTimeKind.Utc).AddTicks(9755),
+                            EndDate = new DateTime(2025, 6, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LeaveType = "Sick Leave",
+                            Reason = "Sick leave",
+                            StartDate = new DateTime(2025, 6, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = "Pending",
+                            UpdatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 454, DateTimeKind.Utc).AddTicks(9756),
+                            UserID = 1
+                        },
+                        new
+                        {
+                            LeaveRequestID = 2,
+                            ApproverID = 1,
+                            CreatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 454, DateTimeKind.Utc).AddTicks(9763),
+                            EndDate = new DateTime(2025, 6, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LeaveType = "Sick Leave",
+                            Reason = "Vacation",
+                            StartDate = new DateTime(2025, 6, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = "Approved",
+                            UpdatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 454, DateTimeKind.Utc).AddTicks(9763),
+                            UserID = 2
+                        });
                 });
 
             modelBuilder.Entity("HRManagement.Data.Entity.Payslip", b =>
@@ -235,6 +348,30 @@ namespace HRManagement.Data.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("Payslips", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            PayslipID = 1,
+                            CreatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 454, DateTimeKind.Utc).AddTicks(9620),
+                            FilePath = "/payslips/user1_june2025.pdf",
+                            IssueDate = new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SalaryID = 1,
+                            Status = "Generated",
+                            UpdatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 454, DateTimeKind.Utc).AddTicks(9621),
+                            UserID = 1
+                        },
+                        new
+                        {
+                            PayslipID = 2,
+                            CreatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 454, DateTimeKind.Utc).AddTicks(9627),
+                            FilePath = "/payslips/user2_june2025.pdf",
+                            IssueDate = new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            SalaryID = 2,
+                            Status = "Generated",
+                            UpdatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 454, DateTimeKind.Utc).AddTicks(9627),
+                            UserID = 2
+                        });
                 });
 
             modelBuilder.Entity("HRManagement.Data.Entity.Position", b =>
@@ -253,6 +390,23 @@ namespace HRManagement.Data.Migrations
                     b.HasKey("PositionID");
 
                     b.ToTable("Positions", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            PositionID = 1,
+                            PositionName = "Software Engineer"
+                        },
+                        new
+                        {
+                            PositionID = 2,
+                            PositionName = "HR Specialist"
+                        },
+                        new
+                        {
+                            PositionID = 3,
+                            PositionName = "Accountant"
+                        });
                 });
 
             modelBuilder.Entity("HRManagement.Data.Entity.Salary", b =>
@@ -308,6 +462,36 @@ namespace HRManagement.Data.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("Salaries", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            SalaryID = 1,
+                            Allowances = 500.00m,
+                            BaseSalary = 5000.00m,
+                            Bonus = 200.00m,
+                            CreatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 454, DateTimeKind.Utc).AddTicks(8844),
+                            Deduction = 300.00m,
+                            NetSalary = 5000.00m,
+                            SalaryPeriod = new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Tax = 400.00m,
+                            UpdatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 454, DateTimeKind.Utc).AddTicks(8845),
+                            UserID = 1
+                        },
+                        new
+                        {
+                            SalaryID = 2,
+                            Allowances = 400.00m,
+                            BaseSalary = 4000.00m,
+                            Bonus = 150.00m,
+                            CreatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 454, DateTimeKind.Utc).AddTicks(8851),
+                            Deduction = 200.00m,
+                            NetSalary = 4050.00m,
+                            SalaryPeriod = new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Tax = 300.00m,
+                            UpdatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 454, DateTimeKind.Utc).AddTicks(8851),
+                            UserID = 2
+                        });
                 });
 
             modelBuilder.Entity("HRManagement.Data.Entity.User", b =>
@@ -429,6 +613,80 @@ namespace HRManagement.Data.Migrations
                     b.HasIndex("PositionID");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "1c42a079-8ff3-4387-b36a-69e02373ee92",
+                            ContractTypeID = 1,
+                            CreatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 314, DateTimeKind.Utc).AddTicks(2889),
+                            DepartmentID = 1,
+                            Email = "admin@example.com",
+                            EmailConfirmed = false,
+                            EmployeeLevelID = 3,
+                            FirstName = "Admin",
+                            LastName = "User",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@EXAMPLE.COM",
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJ2V5UFzGUuAycjeVjc3lUSyGt2kSXLTodvGWFGP3UshGlq6qt7ZQctAt4T+SuhRmw==",
+                            PhoneNumberConfirmed = false,
+                            PositionID = 1,
+                            SecurityStamp = "611c4fab-5140-40b6-abd6-9428c99fa06d",
+                            TwoFactorEnabled = false,
+                            UpdatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 314, DateTimeKind.Utc).AddTicks(2894),
+                            UserName = "admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "38561c4e-c56e-4d25-9a71-0579ac086627",
+                            ContractTypeID = 1,
+                            CreatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 383, DateTimeKind.Utc).AddTicks(9118),
+                            DepartmentID = 2,
+                            Email = "hr@example.com",
+                            EmailConfirmed = false,
+                            EmployeeLevelID = 2,
+                            FirstName = "HR",
+                            LastName = "User",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "HR@EXAMPLE.COM",
+                            NormalizedUserName = "HRUSER",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHtByTwJ12xYu0KQd1DlotmOiIoz7pc5Ksi6HdVx4sC/BRTUdHNnoZfBjhmKptqMNw==",
+                            PhoneNumberConfirmed = false,
+                            PositionID = 2,
+                            SecurityStamp = "46a20243-5bf8-4460-8bd7-9810ff7ea773",
+                            TwoFactorEnabled = false,
+                            UpdatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 383, DateTimeKind.Utc).AddTicks(9124),
+                            UserName = "hruser"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "881aea32-cc1c-4584-afab-0f82ebafac99",
+                            ContractTypeID = 2,
+                            CreatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 454, DateTimeKind.Utc).AddTicks(7735),
+                            DepartmentID = 3,
+                            Email = "employee@example.com",
+                            EmailConfirmed = false,
+                            EmployeeLevelID = 1,
+                            FirstName = "Employee",
+                            LastName = "User",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "EMPLOYEE@EXAMPLE.COM",
+                            NormalizedUserName = "EMPLOYEE",
+                            PasswordHash = "AQAAAAIAAYagAAAAENTTcYD8+0a9dvkRtwKXNSBwxx+YJwa2Cc79iCDQkkFASm3CI2oQVXar/xvJTRivZQ==",
+                            PhoneNumberConfirmed = false,
+                            PositionID = 3,
+                            SecurityStamp = "f2b5a968-7112-4992-81a4-3a4d8e318d85",
+                            TwoFactorEnabled = false,
+                            UpdatedAt = new DateTime(2025, 6, 1, 8, 42, 0, 454, DateTimeKind.Utc).AddTicks(7740),
+                            UserName = "employee"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
@@ -563,6 +821,23 @@ namespace HRManagement.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            UserId = 3,
+                            RoleId = 3
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>

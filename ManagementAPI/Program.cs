@@ -1,37 +1,33 @@
-using HRManagement.Data.Data;
-using Microsoft.EntityFrameworkCore;
+using ManagementAPI.Extensions;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Builder;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Configure services
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-// Database configuration
-var connectionString = builder.Configuration.GetConnectionString("MyCnn");
-builder.Services.AddDbContext<HRManagementDbContext>(options =>
-    options.UseSqlServer(connectionString));
-
-
-
-
-
+builder.Services.AddSwaggerServices();
+builder.Services.AddControllersServices();
+builder.Services.AddDatabaseServices(builder.Configuration);
+builder.Services.AddIdentityServices();
+builder.Services.AddAuthenticationServices(builder.Configuration);
+builder.Services.AddDependencyInjectionServices();
+builder.Services.AddCorsServices(builder.Configuration, builder.Environment);
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddRazorPages();
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
 
 app.UseHttpsRedirection();
-
+app.UseStaticFiles();
+app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
-
+app.MapRazorPages();
 app.MapControllers();
-
+app.UseCorsPolicy(builder.Environment);
+app.UseSwaggerServices(builder.Environment);
 app.Run();

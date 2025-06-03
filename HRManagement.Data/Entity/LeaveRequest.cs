@@ -1,39 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿namespace HRManagement.Data.Entity;
 
-namespace HRManagement.Data.Entity
+public class LeaveRequest
 {
-    public class LeaveRequest
-    {
-        [Key]
-        public int LeaveRequestID { get; set; }
-
-        public int EmployeeID { get; set; }
-
-        [ForeignKey("EmployeeID")]
-        public Employee Employee { get; set; }
-
-        [StringLength(50)]
-        public string LeaveType { get; set; }
-
-        [Required]
-        public DateTime StartDate { get; set; }
-
-        [Required]
-        public DateTime EndDate { get; set; }
-
-        [StringLength(255)]
-        public string Reason { get; set; }
-
-        [StringLength(20)]
-        public string Status { get; set; } = "Pending";
-
-        public int? ApproverID { get; set; }
-
-        [ForeignKey("ApproverID")]
-        public Employee Approver { get; set; }
-
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public DateTime UpdatedAt { get; set; } = DateTime.Now;
-    }
+    public int LeaveRequestID { get; set; }
+    public int UserID { get; set; }
+    public User User { get; set; }
+    public string LeaveType { get; set; }
+    public DateTime StartDate { get; set; }
+    public DateTime EndDate { get; set; }
+    public string Reason { get; set; }
+    public string Status { get; set; } //Default: Pending ty config
+    public int? ApproverID { get; set; }
+    public User Approver { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
 }

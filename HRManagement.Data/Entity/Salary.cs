@@ -5,31 +5,18 @@ namespace HRManagement.Data.Entity
 {
     public class Salary
     {
-        [Key]
         public int SalaryID { get; set; }
-
-        public int EmployeeID { get; set; }
-
-        [ForeignKey("EmployeeID")]
-        public Employee Employee { get; set; }
-
-        [Required]
+        public int UserID { get; set; }
+        public User User { get; set; }
         public decimal BaseSalary { get; set; }
-
-        public decimal Allowance { get; set; } = 0;
-        public decimal Bonus { get; set; } = 0;
-        public decimal Deduction { get; set; } = 0;
-        public decimal Tax { get; set; } = 0;
-
-        [Required]
+        public decimal Allowances { get; set; } 
+        public decimal Bonus { get; set; } 
+        public decimal Deduction { get; set; } 
+        public decimal Tax { get; set; } 
         public decimal NetSalary { get; set; }
-
-        [Required]
         public DateTime SalaryPeriod { get; set; }
-
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public DateTime UpdatedAt { get; set; } = DateTime.Now;
-
+        public DateTime CreatedAt { get; set; } 
+        public DateTime UpdatedAt { get; set; } 
         public ICollection<Payslip> Payslips { get; set; }
     }
 }

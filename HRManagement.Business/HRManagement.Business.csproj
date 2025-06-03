@@ -7,10 +7,24 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTO\" />
-    <Folder Include="Helper\" />
-    <Folder Include="Validators\" />
-    <Folder Include="Services\" />
+    <Compile Remove="DTO\**" />
+    <Compile Remove="Helper\**" />
+    <Compile Remove="Validators\**" />
+    <EmbeddedResource Remove="DTO\**" />
+    <EmbeddedResource Remove="Helper\**" />
+    <EmbeddedResource Remove="Validators\**" />
+    <None Remove="DTO\**" />
+    <None Remove="Helper\**" />
+    <None Remove="Validators\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HRManagement.Data\HRManagement.Data.csproj" />
   </ItemGroup>
 
 </Project>

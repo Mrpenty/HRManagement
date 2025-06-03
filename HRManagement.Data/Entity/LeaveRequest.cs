@@ -12,6 +12,8 @@ public class LeaveRequest
     public string Status { get; set; } //Default: Pending ty config
     public int? ApproverID { get; set; }
     public User Approver { get; set; }
+    public string? ApproverNote { get; set; }
+
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 }

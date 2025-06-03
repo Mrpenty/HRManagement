@@ -6,8 +6,12 @@ using static HRManagement.Data.Data.SeedRoles;
 
 namespace HRManagement.Data.Data
 {
-    public class HRManagementDbContext(DbContextOptions<HRManagementDbContext> options) : IdentityDbContext<User, IdentityRole<int>, int>(options)
+    public class HRManagementDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
+        public HRManagementDbContext(DbContextOptions<HRManagementDbContext> options)
+        : base(options)
+        {
+        }
         public DbSet<User> User { get; set; }
         public DbSet<ContractType> ContractTypes { get; set; }
         public DbSet<EmployeeLevel> EmployeeLevels { get; set; }

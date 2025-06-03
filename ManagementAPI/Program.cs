@@ -1,11 +1,18 @@
 using HRManagement.Business.Services.HR;
+
+using HRManagement.Data.Data;
 using ManagementAPI.Extensions;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+
 using Microsoft.AspNetCore.Builder;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddDbContext<HRManagementDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MyCnn")));
 
 // Configure services
 builder.Services.AddEndpointsApiExplorer();
@@ -18,7 +25,14 @@ builder.Services.AddDependencyInjectionServices();
 builder.Services.AddCorsServices(builder.Configuration, builder.Environment);
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddScoped<LeaveRequestService>();
+
+
+
+
 builder.Services.AddRazorPages();
+
 var app = builder.Build();
 
 

@@ -20,6 +20,10 @@ public class DepartmentConfiguration : IEntityTypeConfiguration<Department>
             .IsRequired()
             .HasDefaultValueSql("GETDATE()")
             .ValueGeneratedOnAdd();
+        builder.Property(d => d.Status)
+            .IsRequired()
+            .HasMaxLength(20)
+            .HasDefaultValue("Inactive");
         builder.Property(d => d.UpdatedAt)
             .IsRequired()
             .HasDefaultValueSql("GETDATE()")

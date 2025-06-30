@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HRManagement.Business.Dtos.Auth;
+using HRManagement.Business.dtos.Auth;
 
 
 namespace HRManagement.Business.Repositories

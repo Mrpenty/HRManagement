@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using HRManagement.Business.dtos.department;
 using HRManagement.Business.Repositories;
 using HRManagement.Data.Entity;
@@ -27,7 +27,8 @@ namespace ManagementAPI.Controllers
             try
             {
                 var departments = await _departmentRepository.GetAsync();
-                return Ok(_mapper.Map<IEnumerable<Department>>(departments));
+                return Ok(_mapper.Map<IEnumerable<DepartmentGet>>(departments));
+                
             }
             catch (Exception ex)
             {
@@ -71,7 +72,7 @@ namespace ManagementAPI.Controllers
                 }
 
                 var department = _mapper.Map<Department>(dpDto);
-
+                department.Status = "Inactive"; // Đặt mặc định trạng thái
                 await _departmentRepository.AddAsync(department);
 
                 return CreatedAtAction(nameof(GetByIdAsync), new { id = department.DepartmentID }, _mapper.Map<DepartmentGet>(department));
@@ -99,9 +100,8 @@ namespace ManagementAPI.Controllers
                 {
                     return NotFound();
                 }
-
                 _mapper.Map(dpDto, department);
-
+                
                 await _departmentRepository.UpdateAsync(department);
 
                 return NoContent();

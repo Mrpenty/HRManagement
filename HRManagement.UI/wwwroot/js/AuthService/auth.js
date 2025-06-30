@@ -39,8 +39,9 @@ function handleLogin() {
                             const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
                             if (role === 'Employee') {
                                 window.location.href = '/Employees/Dashboard';
-                            } else {
-                                window.location.href = '/';
+                            }
+                            if (role === 'Hr') {
+                                window.location.href = '/Hr/Dashboard';
                             }
                         }
                     } else {

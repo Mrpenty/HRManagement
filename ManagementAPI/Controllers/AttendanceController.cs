@@ -19,6 +19,20 @@ public class AttendanceController : ControllerBase
         _attdendanceRepository = attdendanceRepository;
         _mapper = mapper;
     }
+    [HttpGet("daily")]
+    public async Task<IActionResult> GetDailyAttendanceAsync([FromQuery] DateTime date)
+    {
+        try
+        {
+            var result = await _attdendanceRepository.GetDailyAttendanceStatusAsync(date);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error in GetDailyAttendance");
+            return StatusCode(500, "Internal server error");
+        }
+    }
 
     [HttpGet]
     public async Task<IActionResult> GetAllAsync()

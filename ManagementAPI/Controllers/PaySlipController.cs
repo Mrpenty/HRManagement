@@ -1,5 +1,5 @@
 using AutoMapper;
-using HRManagement.Business.dtos.leaveRequest;
+using HRManagement.Business.dtos.Payslip;
 using HRManagement.Business.Repositories;
 using HRManagement.Data.Entity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,15 +8,15 @@ namespace ManagementAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class LeaveRequestController : ControllerBase
+public class PaySlipController : ControllerBase
 {
-    private readonly ILogger<LeaveRequestController> _logger;
-    private readonly ILeaveRequestRepository _leaveRequestRepository;
+    private readonly ILogger<PaySlipController> _logger;
+    private readonly IPaySlipRepository _paySlipRepository;
     private readonly IMapper _mapper;
-    public LeaveRequestController(ILogger<LeaveRequestController> logger, ILeaveRequestRepository leaveRequestRepository, IMapper mapper)
+    public PaySlipController(ILogger<PaySlipController> logger, IPaySlipRepository paySlipRepository, IMapper mapper)
     {
         _logger = logger;
-        _leaveRequestRepository = leaveRequestRepository;
+        _paySlipRepository = paySlipRepository;
         _mapper = mapper;
     }
     [HttpGet]
@@ -24,8 +24,8 @@ public class LeaveRequestController : ControllerBase
     {
         try
         {
-            var leaveRequests = await _leaveRequestRepository.GetAsync();
-            return Ok(_mapper.Map<IEnumerable<LeaveRequest>>(leaveRequests));
+            var paySlips = await _paySlipRepository.GetAsync();
+            return Ok(_mapper.Map<IEnumerable<Payslip>>(paySlips));
         }
         catch (Exception ex)
         {
@@ -40,12 +40,12 @@ public class LeaveRequestController : ControllerBase
     {
         try
         {
-            var leaveRequest = await _leaveRequestRepository.GetByIdAsync(id);
-            if (leaveRequest == null)
+            var paySlip = await _paySlipRepository.GetByIdAsync(id);
+            if (paySlip == null)
             {
                 return NotFound();
             }
-            return Ok(_mapper.Map<LeaveRequestGet>(leaveRequest));
+            return Ok(_mapper.Map<PaySlipGet>(paySlip));
         }
         catch (Exception ex)
         {
@@ -55,15 +55,15 @@ public class LeaveRequestController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateAsync([FromBody] LeaveRequestCreate lrDto)
+    public async Task<IActionResult> CreateAsync([FromBody] PaySlipCreate psDto)
     {
         try
         {
-            var leaveRequest = _mapper.Map<LeaveRequest>(lrDto);
+            var paySlip = _mapper.Map<Payslip>(psDto);
 
-            await _leaveRequestRepository.AddAsync(leaveRequest);
+            await _paySlipRepository.AddAsync(paySlip);
 
-            return CreatedAtAction(nameof(GetByIdAsync), new { id = leaveRequest.LeaveRequestID }, _mapper.Map<LeaveRequestGet>(leaveRequest));
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = paySlip.PayslipID }, _mapper.Map<PaySlipGet>(paySlip));
         }
         catch (Exception ex)
         {
@@ -73,7 +73,7 @@ public class LeaveRequestController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
-    public async Task<IActionResult> UpdateAsync(int id, [FromBody] LeaveRequestCreate lrDto)
+    public async Task<IActionResult> UpdateAsync(int id, [FromBody] PaySlipCreate psDto)
     {
         try
         {
@@ -82,16 +82,16 @@ public class LeaveRequestController : ControllerBase
                 return BadRequest(ModelState);
             }
 
-            var leaveRequest = await _leaveRequestRepository.GetByIdAsync(id);
+            var paySlip = await _paySlipRepository.GetByIdAsync(id);
 
-            if (leaveRequest == null)
+            if (paySlip == null)
             {
                 return NotFound();
             }
 
-            _mapper.Map(lrDto, leaveRequest);
+            _mapper.Map(psDto, paySlip);
 
-            await _leaveRequestRepository.UpdateAsync(leaveRequest);
+            await _paySlipRepository.UpdateAsync(paySlip);
 
             return NoContent();
         }
@@ -107,14 +107,14 @@ public class LeaveRequestController : ControllerBase
     {
         try
         {
-            var leaveRequest = await _leaveRequestRepository.GetByIdAsync(id);
+            var Payslip = await _paySlipRepository.GetByIdAsync(id);
 
-            if (leaveRequest == null)
+            if (Payslip == null)
             {
                 return NotFound();
             }
 
-            await _leaveRequestRepository.DeleteAsync(id);
+            await _paySlipRepository.DeleteAsync(id);
             
             return NoContent();
         }

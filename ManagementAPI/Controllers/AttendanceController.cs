@@ -1,5 +1,5 @@
 using AutoMapper;
-using HRManagement.Business.dtos.leaveRequest;
+using HRManagement.Business.dtos.attendance;
 using HRManagement.Business.Repositories;
 using HRManagement.Data.Entity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,24 +8,25 @@ namespace ManagementAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class LeaveRequestController : ControllerBase
+public class AttendanceController : ControllerBase
 {
-    private readonly ILogger<LeaveRequestController> _logger;
-    private readonly ILeaveRequestRepository _leaveRequestRepository;
+    private readonly ILogger<AttendanceController> _logger;
+    private readonly IAttdendanceRepository _attdendanceRepository;
     private readonly IMapper _mapper;
-    public LeaveRequestController(ILogger<LeaveRequestController> logger, ILeaveRequestRepository leaveRequestRepository, IMapper mapper)
+    public AttendanceController(ILogger<AttendanceController> logger, IAttdendanceRepository attdendanceRepository, IMapper mapper)
     {
         _logger = logger;
-        _leaveRequestRepository = leaveRequestRepository;
+        _attdendanceRepository = attdendanceRepository;
         _mapper = mapper;
     }
+
     [HttpGet]
     public async Task<IActionResult> GetAllAsync()
     {
         try
         {
-            var leaveRequests = await _leaveRequestRepository.GetAsync();
-            return Ok(_mapper.Map<IEnumerable<LeaveRequest>>(leaveRequests));
+            var attdendances = await _attdendanceRepository.GetAsync();
+            return Ok(_mapper.Map<IEnumerable<Attendance>>(attdendances));
         }
         catch (Exception ex)
         {
@@ -40,12 +41,12 @@ public class LeaveRequestController : ControllerBase
     {
         try
         {
-            var leaveRequest = await _leaveRequestRepository.GetByIdAsync(id);
-            if (leaveRequest == null)
+            var attdendance = await _attdendanceRepository.GetByIdAsync(id);
+            if (attdendance == null)
             {
                 return NotFound();
             }
-            return Ok(_mapper.Map<LeaveRequestGet>(leaveRequest));
+            return Ok(_mapper.Map<AttendanceGet>(attdendance));
         }
         catch (Exception ex)
         {
@@ -55,15 +56,15 @@ public class LeaveRequestController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateAsync([FromBody] LeaveRequestCreate lrDto)
+    public async Task<IActionResult> CreateAsync([FromBody] AttendanceCreate atDto)
     {
         try
         {
-            var leaveRequest = _mapper.Map<LeaveRequest>(lrDto);
+            var attdendance = _mapper.Map<Attendance>(atDto);
 
-            await _leaveRequestRepository.AddAsync(leaveRequest);
+            await _attdendanceRepository.AddAsync(attdendance);
 
-            return CreatedAtAction(nameof(GetByIdAsync), new { id = leaveRequest.LeaveRequestID }, _mapper.Map<LeaveRequestGet>(leaveRequest));
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = attdendance.AttendanceID }, _mapper.Map<AttendanceGet>(attdendance));
         }
         catch (Exception ex)
         {
@@ -73,7 +74,7 @@ public class LeaveRequestController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
-    public async Task<IActionResult> UpdateAsync(int id, [FromBody] LeaveRequestCreate lrDto)
+    public async Task<IActionResult> UpdateAsync(int id, [FromBody] AttendanceCreate atDto)
     {
         try
         {
@@ -82,16 +83,16 @@ public class LeaveRequestController : ControllerBase
                 return BadRequest(ModelState);
             }
 
-            var leaveRequest = await _leaveRequestRepository.GetByIdAsync(id);
+            var attdendance = await _attdendanceRepository.GetByIdAsync(id);
 
-            if (leaveRequest == null)
+            if (attdendance == null)
             {
                 return NotFound();
             }
 
-            _mapper.Map(lrDto, leaveRequest);
+            _mapper.Map(atDto, attdendance);
 
-            await _leaveRequestRepository.UpdateAsync(leaveRequest);
+            await _attdendanceRepository.UpdateAsync(attdendance);
 
             return NoContent();
         }
@@ -101,21 +102,20 @@ public class LeaveRequestController : ControllerBase
             return StatusCode(500, "Internal server error");
         }
     }
-    
+
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteAsync(int id)
     {
         try
         {
-            var leaveRequest = await _leaveRequestRepository.GetByIdAsync(id);
+            var department = await _attdendanceRepository.GetByIdAsync(id);
 
-            if (leaveRequest == null)
+            if (department == null)
             {
                 return NotFound();
             }
 
-            await _leaveRequestRepository.DeleteAsync(id);
-            
+            await _attdendanceRepository.DeleteAsync(id);
             return NoContent();
         }
         catch (Exception ex)

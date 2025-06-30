@@ -1,5 +1,5 @@
 using AutoMapper;
-using HRManagement.Business.dtos.leaveRequest;
+using HRManagement.Business.dtos.position;
 using HRManagement.Business.Repositories;
 using HRManagement.Data.Entity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,15 +8,15 @@ namespace ManagementAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class LeaveRequestController : ControllerBase
+public class PositionController : ControllerBase
 {
-    private readonly ILogger<LeaveRequestController> _logger;
-    private readonly ILeaveRequestRepository _leaveRequestRepository;
+    private readonly ILogger<PositionController> _logger;
+    private readonly IPositionRepository _positionRepository;
     private readonly IMapper _mapper;
-    public LeaveRequestController(ILogger<LeaveRequestController> logger, ILeaveRequestRepository leaveRequestRepository, IMapper mapper)
+    public PositionController(ILogger<PositionController> logger, IPositionRepository positionRepository, IMapper mapper)
     {
         _logger = logger;
-        _leaveRequestRepository = leaveRequestRepository;
+        _positionRepository = positionRepository;
         _mapper = mapper;
     }
     [HttpGet]
@@ -24,8 +24,8 @@ public class LeaveRequestController : ControllerBase
     {
         try
         {
-            var leaveRequests = await _leaveRequestRepository.GetAsync();
-            return Ok(_mapper.Map<IEnumerable<LeaveRequest>>(leaveRequests));
+            var positions = await _positionRepository.GetAsync();
+            return Ok(_mapper.Map<IEnumerable<Position>>(positions));
         }
         catch (Exception ex)
         {
@@ -40,12 +40,12 @@ public class LeaveRequestController : ControllerBase
     {
         try
         {
-            var leaveRequest = await _leaveRequestRepository.GetByIdAsync(id);
-            if (leaveRequest == null)
+            var position = await _positionRepository.GetByIdAsync(id);
+            if (position == null)
             {
                 return NotFound();
             }
-            return Ok(_mapper.Map<LeaveRequestGet>(leaveRequest));
+            return Ok(_mapper.Map<PositionGet>(position));
         }
         catch (Exception ex)
         {
@@ -55,15 +55,15 @@ public class LeaveRequestController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateAsync([FromBody] LeaveRequestCreate lrDto)
+    public async Task<IActionResult> CreateAsync([FromBody] PositionCreate ctDto)
     {
         try
         {
-            var leaveRequest = _mapper.Map<LeaveRequest>(lrDto);
+            var position = _mapper.Map<Position>(ctDto);
 
-            await _leaveRequestRepository.AddAsync(leaveRequest);
+            await _positionRepository.AddAsync(position);
 
-            return CreatedAtAction(nameof(GetByIdAsync), new { id = leaveRequest.LeaveRequestID }, _mapper.Map<LeaveRequestGet>(leaveRequest));
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = position.PositionID }, _mapper.Map<PositionGet>(position));
         }
         catch (Exception ex)
         {
@@ -73,7 +73,7 @@ public class LeaveRequestController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
-    public async Task<IActionResult> UpdateAsync(int id, [FromBody] LeaveRequestCreate lrDto)
+    public async Task<IActionResult> UpdateAsync(int id, [FromBody] PositionCreate ctDto)
     {
         try
         {
@@ -82,16 +82,16 @@ public class LeaveRequestController : ControllerBase
                 return BadRequest(ModelState);
             }
 
-            var leaveRequest = await _leaveRequestRepository.GetByIdAsync(id);
+            var position = await _positionRepository.GetByIdAsync(id);
 
-            if (leaveRequest == null)
+            if (position == null)
             {
                 return NotFound();
             }
 
-            _mapper.Map(lrDto, leaveRequest);
+            _mapper.Map(ctDto, position);
 
-            await _leaveRequestRepository.UpdateAsync(leaveRequest);
+            await _positionRepository.UpdateAsync(position);
 
             return NoContent();
         }
@@ -107,14 +107,14 @@ public class LeaveRequestController : ControllerBase
     {
         try
         {
-            var leaveRequest = await _leaveRequestRepository.GetByIdAsync(id);
+            var position = await _positionRepository.GetByIdAsync(id);
 
-            if (leaveRequest == null)
+            if (position == null)
             {
                 return NotFound();
             }
 
-            await _leaveRequestRepository.DeleteAsync(id);
+            await _positionRepository.DeleteAsync(id);
             
             return NoContent();
         }

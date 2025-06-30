@@ -1,6 +1,5 @@
-﻿using HRManagement.Business.Dtos.Auth;
+﻿using HRManagement.Business.dtos.Auth;
 using HRManagement.Business.Repositories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HRManagement.API.Controllers
@@ -9,9 +8,9 @@ namespace HRManagement.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthService _authService;
+        private readonly IAuthRepository _authService;
         private readonly ILogger<AuthController> _logger;
-        public AuthController(IAuthService authService, ILogger<AuthController> logger)
+        public AuthController(IAuthRepository authService, ILogger<AuthController> logger)
         {
             _authService = authService;
             _logger = logger;

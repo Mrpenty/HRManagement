@@ -1,60 +1,138 @@
-﻿using HRManagement.Business.Dtos.Department;
-using HRManagement.Business.Services.HR;
+using AutoMapper;
+using HRManagement.Business.dtos.department;
+using HRManagement.Business.Repositories;
+using HRManagement.Data.Entity;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-namespace HRManagement.API.Controllers
+
+namespace ManagementAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize(Roles = "HR")]
     public class DepartmentController : ControllerBase
     {
-        private readonly IDepartmentService _departmentService;
-
-        public DepartmentController(IDepartmentService departmentService)
+        private readonly ILogger<DepartmentController> _logger;
+        private readonly IDepartmentRepository _departmentRepository;
+        private readonly IMapper _mapper;
+        public DepartmentController(ILogger<DepartmentController> logger, IDepartmentRepository departmentRepository, IMapper mapper)
         {
-            _departmentService = departmentService;
+            _logger = logger;
+            _departmentRepository = departmentRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DepartmentDto>>> GetDepartments()
+        public async Task<IActionResult> GetAllAsync()
         {
-            var departments = await _departmentService.GetAllDepartmentsAsync();
-            return Ok(departments);
+            try
+            {
+                var departments = await _departmentRepository.GetAsync();
+                return Ok(_mapper.Map<IEnumerable<Department>>(departments));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<DepartmentDto>> GetDepartmentById(int id)
+        [HttpGet("{id:int}")]
+        [ActionName(nameof(GetByIdAsync))]
+        public async Task<IActionResult> GetByIdAsync(int id)
         {
-            var department = await _departmentService.GetDepartmentByIdAsync(id);
-            if (department == null) return NotFound();
-            return Ok(department);
+            try
+            {
+                var department = await _departmentRepository.GetByIdAsync(id);
+                if (department == null)
+                {
+                    return NotFound();
+                }
+                return Ok(_mapper.Map<DepartmentGet>(department));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPost]
-        public async Task<ActionResult<DepartmentDto>> CreateDepartment(CreateDepartmentDto dto)
+        public async Task<IActionResult> CreateAsync([FromBody] DepartmentCreate dpDto)
         {
-            var created = await _departmentService.CreateDepartmentAsync(dto);
-            return CreatedAtAction(nameof(GetDepartmentById), new { id = created.DepartmentID }, created);
+            try
+            {
+                var existing = await _departmentRepository.GetByNameAsync(dpDto.DepartmentName);
+
+                Console.WriteLine(existing);
+
+                if (existing != null)
+                {
+                    return Conflict($"Department '{dpDto.DepartmentName}' already exists.");
+                }
+
+                var department = _mapper.Map<Department>(dpDto);
+
+                await _departmentRepository.AddAsync(department);
+
+                return CreatedAtAction(nameof(GetByIdAsync), new { id = department.DepartmentID }, _mapper.Map<DepartmentGet>(department));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateDepartment(int id, UpdateDepartmentDto dto)
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> UpdateAsync(int id, [FromBody] DepartmentCreate dpDto)
         {
-            var success = await _departmentService.UpdateDepartmentAsync(id, dto);
-            if (!success) return NotFound();
-            return NoContent();
-        }
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDepartment(int id)
+                var department = await _departmentRepository.GetByIdAsync(id);
+
+                if (department == null)
+                {
+                    return NotFound();
+                }
+
+                _mapper.Map(dpDto, department);
+
+                await _departmentRepository.UpdateAsync(department);
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+        
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteAsync(int id)
         {
-            var success = await _departmentService.DeleteDepartmentAsync(id);
-            if (!success) return NotFound("Không tìm thấy hoặc phòng ban đang có nhân viên.");
-            return NoContent();
+            try
+            {
+                var department = await _departmentRepository.GetByIdAsync(id);
+
+                if (department == null)
+                {
+                    return NotFound();
+                }
+
+                await _departmentRepository.DeleteAsync(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred");
+                return StatusCode(500, "Internal server error");
+            }
         }
     }
-
 }

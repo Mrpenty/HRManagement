@@ -1,4 +1,4 @@
-namespace HRManagement.Business.Dtos.Auth;
+namespace ManagementAPI.dtos.Auth;
 
 public class TokenDTO
 {

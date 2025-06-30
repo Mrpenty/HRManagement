@@ -15,6 +15,9 @@ public static class DependencyInjectionExtensions
         services.AddScoped<IEmployeeLevelRepository, EmployeeLevelRepository>();
         services.AddScoped<IContractTypeRepository, ContractTypeRepository>();
         services.AddScoped<IPositionRepository, PositionRepository>();
+        services.AddScoped<ILeaveRequestRepository, LeaveRequestRepository>();
+        services.AddScoped<IPaySlipRepository, PaySlipRepository>();
+        services.AddScoped<ISalaryRepository, SalaryRepository>();
         
         return services;
     }    

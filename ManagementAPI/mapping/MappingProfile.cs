@@ -3,7 +3,9 @@ using HRManagement.Business.dtos.attendance;
 using HRManagement.Business.dtos.contractType;
 using HRManagement.Business.dtos.department;
 using HRManagement.Business.dtos.employeeLevel;
+using HRManagement.Business.dtos.leaveRequest;
 using HRManagement.Business.dtos.position;
+using HRManagement.Business.dtos.salary;
 using HRManagement.Business.dtos.user;
 using HRManagement.Data.Entity;
 
@@ -26,5 +28,9 @@ public class MappingProfile : Profile
         CreateMap<EmployeeLevel, EmployeeLevelCreate>().ReverseMap();
         CreateMap<Position, PositionGet>().ReverseMap();
         CreateMap<Position, PositionCreate>().ReverseMap();
+        CreateMap<LeaveRequest, LeaveRequestGet>().ReverseMap();
+        CreateMap<LeaveRequest, LeaveRequestCreate>().ReverseMap();
+        CreateMap<Salary, SalaryGet>().ReverseMap();
+        CreateMap<Salary, SalaryCreate>().ReverseMap();
     }
 }

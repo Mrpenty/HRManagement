@@ -42,11 +42,9 @@
             <div class="sidebar-logo">
                 <!-- Logo Header -->
                 <div class="logo-header" data-background-color="dark">
-                    <a asp-page="/Index" class="logo">
-                        <img src="~/img/kaiadmin/logo_light.svg"
-                             alt="navbar brand"
-                             class="navbar-brand"
-                             height="20" />
+                    <a asp-page="/Employees/Dashboard" class="text-white" style="font-size: 1.15rem; font-weight: 600;">
+                        <i class="fas fa-home"></i>
+                        <span style="font-size: 1.1rem;">Employee Dashboard</span>
                     </a>
                     <div class="nav-toggle">
                         <button class="btn btn-toggle toggle-sidebar">
@@ -66,9 +64,9 @@
                 <div class="sidebar-content">
                     <ul class="nav nav-secondary">
                         <li class="nav-item active">
-                             <a asp-page="/Index">
+                             <a asp-page="/Employees/Dashboard">
                                 <i class="fas fa-home"></i>
-                                <p>Dashboard</p>
+                                <p> Dashboard</p>
                             </a>
                         </li>
                         <li class="nav-section">
@@ -78,18 +76,18 @@
                             <h4 class="text-section">Management</h4>
                         </li>
                          <li class="nav-item">
-                            <a asp-page="/Employees/Dashboard">
+                            <a asp-page="/">
                                 <i class="fas fa-users"></i>
-                                <p>Employees</p>
+                                <p>Attendance Tracking </p>
+                            </a>
+                        </li>
+                         <li class="nav-item">
+                            <a asp-page="/">
+                                <i class="fas fa-users"></i>
+                                <p>Application for leave</p>
                             </a>
                         </li>
 
- @*                        <li class="nav-item">
-                            <a asp-page="/Departments/Dashboard">
-                                <i class="fas fa-users"></i>
-                                <p>Department</p>
-                            </a>
-                        </li> *@
                     </ul>
                 </div>
             </div>
@@ -130,45 +128,21 @@
                         <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
                             @if (User.Identity != null && User.Identity.IsAuthenticated)
                             {
-                                <li class="nav-item topbar-user dropdown hidden-caret">
-                                    <a class="dropdown-toggle profile-pic"
-                                       data-bs-toggle="dropdown"
-                                       href="#"
-                                       aria-expanded="false">
-                                        <div class="avatar-sm">
-                                            <img src="~/img/profile.jpg"
-                                                 alt="..."
-                                                 class="avatar-img rounded-circle" />
-                                        </div>
-                                        <span class="profile-username">
-                                            <span class="op-7">Hi,</span>
-                                            <span class="fw-bold">@User.Identity.Name</span>
-                                        </span>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-user animated fadeIn">
-                                        <div class="dropdown-user-scroll scrollbar-outer">
-                                            <li>
-                                                <div class="user-box">
-                                                    <div class="avatar-lg">
-                                                        <img src="~/img/profile.jpg"
-                                                             alt="image profile"
-                                                             class="avatar-img rounded" />
-                                                    </div>
-                                                    <div class="u-text">
-                                                        <h4>@User.Identity.Name</h4>
-                                                        <p class="text-muted">@User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value</p>
-                                                        <a href="#" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="#">My Profile</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" asp-page="/Auth/Logout">Logout</a>
-                                            </li>
-                                        </div>
-                                    </ul>
+                                <li class="nav-item d-flex align-items-center">
+                                    <div class="d-flex flex-column align-items-end me-2">
+                                        <span class="fw-bold">Xin chào, @User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value</span>
+                                        <small class="text-muted" style="font-size: 0.85em;">
+                                            @{
+                                                var roleClaim = User.FindFirst("http://schemas.microsoft.com/ws/2008/06/identity/claims/role");
+                                                if (roleClaim != null)
+                                                {
+                                                    @roleClaim.Value
+                                                }
+                                            }
+                                        </small>
+                                    </div>
+                                    <img src="~/img/profile.jpg" alt="..." class="avatar-img rounded-circle me-2" style="width:32px;height:32px;" />
+                                    <a class="btn btn-outline-danger btn-sm" asp-page="/Auth/Logout" style="margin-left:8px;">Logout</a>
                                 </li>
                             }
                             else

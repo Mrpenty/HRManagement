@@ -32,12 +32,24 @@ function handleLogin() {
 
                     const decodedToken = parseJwt(response.token);
                     if (decodedToken) {
-                        const returnUrl = new URLSearchParams(window.location.search).get('ReturnUrl');
-                        if (returnUrl) {
-                            window.location.href = returnUrl;
+                        // Always redirect by role, ignore ReturnUrl
+                        let role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+                        if (Array.isArray(role)) {
+                            if (role.includes('Admin')) {
+                                window.location.href = '/Admin/Dashboard';
+                            } else if (role.includes('HR')) {
+                                window.location.href = '/HR/Dashboard';
+                            } else if (role.includes('Employee')) {
+                                window.location.href = '/Employees/Dashboard';
+                            } else {
+                                window.location.href = '/';
+                            }
                         } else {
-                            const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
-                            if (role === 'Employee') {
+                            if (role === 'Admin') {
+                                window.location.href = '/Admin/Dashboard';
+                            } else if (role === 'HR') {
+                                window.location.href = '/HR/Dashboard';
+                            } else if (role === 'Employee') {
                                 window.location.href = '/Employees/Dashboard';
                             }
                             if (role === 'Hr') {

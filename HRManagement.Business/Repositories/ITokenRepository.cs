@@ -1,4 +1,4 @@
-using HRManagement.Business.Dtos.Auth;
+using HRManagement.Business.dtos.Auth;
 using HRManagement.Data.Entity;
 using Microsoft.AspNetCore.Http;
 

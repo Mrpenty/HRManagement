@@ -1,4 +1,4 @@
-namespace ManagementAPI.dtos.attendance;
+namespace HRManagement.Business.dtos.attendance;
 
 public class AttendanceCreate
 {

@@ -1,8 +1,9 @@
 using AutoMapper;
+using HRManagement.Business.dtos.attendance;
+using HRManagement.Business.dtos.department;
+using HRManagement.Business.dtos.user;
 using HRManagement.Data.Entity;
-using ManagementAPI.dtos.attendance;
-using ManagementAPI.dtos.department;
-using ManagementAPI.dtos.user;
+
 
 namespace ManagementAPI.mapping;
 

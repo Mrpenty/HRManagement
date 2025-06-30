@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ManagementAPI.dtos.Auth;
+namespace HRManagement.Business.dtos.Auth;
 
 public class RegisterDTO
 {

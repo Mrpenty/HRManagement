@@ -1,6 +1,5 @@
-﻿using HRManagement.Business.Dtos.Auth;
+﻿using HRManagement.Business.dtos.Auth;
 using HRManagement.Business.Repositories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HRManagement.API.Controllers

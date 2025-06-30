@@ -21,8 +21,13 @@ public class LeaveRequestConfiguration : IEntityTypeConfiguration<LeaveRequest>
         builder.Property(lr => lr.EndDate)
             .IsRequired()
             .HasColumnType("date");
+        builder.Property(lr => lr.LeaveType)
+            .IsRequired()
+            .HasMaxLength(100);
         builder.Property(lr => lr.Reason)
             .IsRequired()
+            .HasMaxLength(500);
+        builder.Property(lr => lr.ApproverNote)
             .HasMaxLength(500);
         builder.Property(lr => lr.Status)
             .HasDefaultValue("Pending")

@@ -29,6 +29,6 @@
     <ProjectReference Include="..\HRManagement.Data\HRManagement.Data.csproj" />
   </ItemGroup>
 <ItemGroup>
-    <Folder Include="Pages\Auth\" /> 
+    <Folder Include="wwwroot\" /> 
   </ItemGroup>
 </Project>

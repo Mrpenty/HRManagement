@@ -1,18 +1,22 @@
-﻿namespace HRManagement.Data.Entity;
+using System.ComponentModel.DataAnnotations;
 
-public class LeaveRequest
+namespace HRManagement.Business.dtos.leaveRequest;
+
+public class LeaveRequestCreate
 {
-    public int LeaveRequestID { get; set; }
+    [Required]
     public int UserID { get; set; }
     public int? ApproverID { get; set; }
+    [Required]
+    [MaxLength(500)]
     public string LeaveType { get; set; }
+    [Required]
     public DateTime StartDate { get; set; }
+    [Required]
     public DateTime EndDate { get; set; }
+    [MaxLength(500)]
     public string Reason { get; set; }
+    [Required]
     public string Status { get; set; }
     public string? ApproverNote { get; set; }
-    public User User { get; set; }
-    public User Approver { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
 }

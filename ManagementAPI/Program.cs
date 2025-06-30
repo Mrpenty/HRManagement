@@ -2,8 +2,6 @@ using HRManagement.Data.Data;
 using ManagementAPI.Extensions;
 using Microsoft.EntityFrameworkCore;
 
-
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<HRManagementDbContext>(options =>
@@ -23,8 +21,6 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
-
-
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

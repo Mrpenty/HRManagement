@@ -1,10 +1,9 @@
-﻿namespace HRManagement.Data.Entity;
+namespace HRManagement.Business.dtos.salary;
 
-public class Salary
+public class SalaryGet
 {
     public int SalaryID { get; set; }
     public int UserID { get; set; }
-    public User User { get; set; }
     public decimal BaseSalary { get; set; }
     public decimal Allowances { get; set; } 
     public decimal Bonus { get; set; } 
@@ -13,6 +12,5 @@ public class Salary
     public decimal NetSalary { get; set; }
     public DateTime SalaryPeriod { get; set; }
     public DateTime CreatedAt { get; set; } 
-    public DateTime UpdatedAt { get; set; } 
-    public ICollection<Payslip> Payslips { get; set; }
+    public DateTime UpdatedAt { get; set; }
 }

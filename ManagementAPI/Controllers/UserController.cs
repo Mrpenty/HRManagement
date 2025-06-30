@@ -1,6 +1,6 @@
 using AutoMapper;
+using HRManagement.Business.dtos.user;
 using HRManagement.Business.Repositories;
-using ManagementAPI.dtos.user;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ManagementAPI.Controllers;

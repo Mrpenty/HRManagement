@@ -1,4 +1,4 @@
-namespace ManagementAPI.dtos.user;
+namespace HRManagement.Business.dtos.user;
 
 public class UserGet
 {

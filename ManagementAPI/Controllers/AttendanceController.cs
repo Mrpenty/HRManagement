@@ -1,7 +1,7 @@
 using AutoMapper;
+using HRManagement.Business.dtos.attendance;
 using HRManagement.Business.Repositories;
 using HRManagement.Data.Entity;
-using ManagementAPI.dtos.attendance;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ManagementAPI.Controllers;

@@ -1,7 +1,7 @@
 using AutoMapper;
+using HRManagement.Business.dtos.department;
 using HRManagement.Business.Repositories;
 using HRManagement.Data.Entity;
-using ManagementAPI.dtos.department;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

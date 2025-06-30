@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ManagementAPI.dtos.department;
+namespace HRManagement.Business.dtos.department;
 
 public class DepartmentCreate
 {

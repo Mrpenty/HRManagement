@@ -1,0 +1,201 @@
+@* HR Layout - identical to Employee Layout *@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>@ViewData["Title"] - HRManagement.UI</title>
+    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+          name="viewport" />
+    <link rel="icon"
+          href="~/img/kaiadmin/favicon.ico"
+          type="image/x-icon" />
+    <script src="~/js/plugin/webfont/webfont.min.js"></script>
+    <script>
+        WebFont.load({
+            google: { families: ["Public Sans:300,400,500,600,700"] },
+            custom: {
+                families: [
+                    "Font Awesome 5 Solid",
+                    "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands",
+                    "simple-line-icons",
+                ],
+                urls: ["~/css/fonts.min.css"],
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            },
+        });
+    </script>
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/plugins.min.css" />
+    <link rel="stylesheet" href="~/css/kaiadmin.min.css" />
+    <link rel="stylesheet" href="~/css/demo.css" />
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <div class="sidebar" data-background-color="dark">
+            <div class="sidebar-logo">
+                <div class="logo-header" data-background-color="dark">
+                    <a asp-page="/Index" class="logo">
+                       <p> Hr Dashboard </p>
+                    </a>
+                    <div class="nav-toggle">
+                        <button class="btn btn-toggle toggle-sidebar">
+                            <i class="gg-menu-right"></i>
+                        </button>
+                        <button class="btn btn-toggle sidenav-toggler">
+                            <i class="gg-menu-left"></i>
+                        </button>
+                    </div>
+                    <button class="topbar-toggler more">
+                        <i class="gg-more-vertical-alt"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="sidebar-wrapper scrollbar scrollbar-inner">
+                <div class="sidebar-content">
+                    <ul class="nav nav-secondary">
+                        <li class="nav-item active">
+                             <a asp-page="/Index">
+                                <i class="fas fa-home"></i>
+                                <p> Dashboard</p>
+                            </a>
+                        </li>
+                        <li class="nav-section">
+                            <span class="sidebar-mini-icon">
+                                <i class="fa fa-ellipsis-h"></i>
+                            </span>
+                            <h4 class="text-section">Management</h4>
+                        </li>
+                         <li class="nav-item">
+                            <a asp-page="/">
+                                <i class="fas fa-users"></i>
+                                <p>Employee Management </p>
+                            </a>
+                        </li>
+                         <li class="nav-item">
+                            <a asp-page="/">
+                                <i class="fas fa-users"></i>
+                                <p>Department Management </p>
+                            </a>
+                        </li>
+                         <li class="nav-item">
+                            <a asp-page="/">
+                                <i class="fas fa-users"></i>
+                                <p>Attendance Tracking  Management </p>
+                            </a>
+                        </li>
+                         <li class="nav-item">
+                            <a asp-page="/">
+                                <i class="fas fa-users"></i>
+                                <p>Leave Application Management </p>
+                            </a>
+                        </li>
+                         <li class="nav-item">
+                            <a asp-page="/">
+                                <i class="fas fa-users"></i>
+                                <p>PayRoll Management </p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Sidebar -->
+        <div class="main-panel">
+            <div class="main-header">
+                <div class="main-header-logo">
+                    <div class="logo-header" data-background-color="dark">
+                        <a asp-page="/Index" class="logo">
+                            <img src="~/img/kaiadmin/logo_light.svg"
+                                 alt="navbar brand"
+                                 class="navbar-brand"
+                                 height="20" />
+                        </a>
+                        <div class="nav-toggle">
+                            <button class="btn btn-toggle toggle-sidebar">
+                                <i class="gg-menu-right"></i>
+                            </button>
+                            <button class="btn btn-toggle sidenav-toggler">
+                                <i class="gg-menu-left"></i>
+                            </button>
+                        </div>
+                        <button class="topbar-toggler more">
+                            <i class="gg-more-vertical-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
+                    <div class="container-fluid">
+                        <nav class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex">
+                        </nav>
+                        <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
+                            @if (User.Identity != null && User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item d-flex align-items-center">
+                                    <div class="d-flex flex-column align-items-end me-2">
+                                        <a href="/HR/Profile" class="fw-bold text-decoration-none" style="color: inherit;">
+                                            Xin chào, @User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value
+                                        </a>
+                                        <small class="text-muted" style="font-size: 0.85em;">
+                                            @{
+                                                var roleClaim = User.FindFirst("http://schemas.microsoft.com/ws/2008/06/identity/claims/role");
+                                                if (roleClaim != null)
+                                                {
+                                                    @roleClaim.Value
+                                                }
+                                            }
+                                        </small>
+                                    </div>
+                                    <img src="~/img/profile.jpg" alt="..." class="avatar-img rounded-circle me-2" style="width:32px;height:32px;" />
+                                    <a class="btn btn-outline-danger btn-sm" asp-page="/Auth/Logout" style="margin-left:8px;">Logout</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a asp-page="/Auth/Login" class="nav-link text-white fw-bold">Login</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-page="/Auth/Register" class="nav-link text-white fw-bold">Register</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+            <div class="container">
+                @RenderBody()
+            </div>
+            <footer class="footer">
+                <div class="container-fluid d-flex justify-content-between">
+                    <div class="copyright">
+                        2025, made with <i class="fa fa-heart heart text-danger"></i> by Your Team
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="~/js/core/jquery-3.7.1.min.js"></script>
+    <script src="~/js/core/popper.min.js"></script>
+    <script src="~/js/core/bootstrap.min.js"></script>
+    <script src="~/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="~/js/plugin/chart.js/chart.min.js"></script>
+    <script src="~/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+    <script src="~/js/plugin/chart-circle/circles.min.js"></script>
+    <script src="~/js/plugin/datatables/datatables.min.js"></script>
+    <script src="~/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+    <script src="~/js/plugin/jsvectormap/jsvectormap.min.js"></script>
+    <script src="~/js/plugin/jsvectormap/world.js"></script>
+    <script src="~/js/plugin/sweetalert/sweetalert.min.js"></script>
+    <script src="~/js/kaiadmin.min.js"></script>
+    <script src="~/js/setting-demo.js"></script>
+    <script src="~/js/demo.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html> 

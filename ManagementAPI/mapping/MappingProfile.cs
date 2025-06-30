@@ -1,6 +1,9 @@
 using AutoMapper;
 using HRManagement.Business.dtos.attendance;
+using HRManagement.Business.dtos.contractType;
 using HRManagement.Business.dtos.department;
+using HRManagement.Business.dtos.employeeLevel;
+using HRManagement.Business.dtos.position;
 using HRManagement.Business.dtos.user;
 using HRManagement.Data.Entity;
 
@@ -17,5 +20,11 @@ public class MappingProfile : Profile
         CreateMap<User, UserUpdate>().ReverseMap();
         CreateMap<Attendance, AttendanceGet>().ReverseMap();
         CreateMap<Attendance, AttendanceCreate>().ReverseMap();
+        CreateMap<ContractType, ContractTypeGet>().ReverseMap();
+        CreateMap<ContractType, ContractTypeCreate>().ReverseMap();
+        CreateMap<EmployeeLevel, EmployeeLevelGet>().ReverseMap();
+        CreateMap<EmployeeLevel, EmployeeLevelCreate>().ReverseMap();
+        CreateMap<Position, PositionGet>().ReverseMap();
+        CreateMap<Position, PositionCreate>().ReverseMap();
     }
 }

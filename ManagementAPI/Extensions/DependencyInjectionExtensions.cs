@@ -12,7 +12,10 @@ public static class DependencyInjectionExtensions
         services.AddScoped<IDepartmentRepository, DepartmentRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IAttdendanceRepository, AttdendanceRepository>();
-
+        services.AddScoped<IEmployeeLevelRepository, EmployeeLevelRepository>();
+        services.AddScoped<IContractTypeRepository, ContractTypeRepository>();
+        services.AddScoped<IPositionRepository, PositionRepository>();
+        
         return services;
     }    
 }

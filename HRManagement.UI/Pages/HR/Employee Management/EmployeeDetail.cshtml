@@ -1,0 +1,62 @@
+@page "/HR/EmployeeManagement/EmployeeDetail"
+@model HRManagement.UI.Pages.HR.Employee_Management.EmployeeDetailModel
+@{
+    ViewData["Title"] = "Chi tiết nhân viên";
+    Layout = "_HRLayout";
+}
+<div class="container mt-4">
+    <h2>Chi tiết nhân viên</h2>
+    <form id="employeeDetailForm">
+        <input type="hidden" id="empId" value="@Model.EmployeeId" />
+        <div class="mb-3">
+            <label for="empName" class="form-label">Họ tên</label>
+            <input type="text" class="form-control" id="empName" />
+        </div>
+        <div class="mb-3">
+            <label for="empEmail" class="form-label">Email</label>
+            <input type="email" class="form-control" id="empEmail" />
+        </div>
+        <div class="mb-3">
+            <label for="empDob" class="form-label">Ngày sinh</label>
+            <input type="date" class="form-control" id="empDob" />
+        </div>
+
+        <button type="button" class="btn btn-primary" id="saveEmployeeBtn">Lưu</button>
+    </form>
+</div>
+@section Scripts {
+<script>
+$(document).ready(function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+    if (id) {
+        $.get(`https://localhost:7201/api/User/${id}`, function(user) {
+            $('#empId').val(user.id);
+            $('#empName').val(`${user.firstName ?? ''} ${user.lastName ?? ''}`);
+            $('#empEmail').val(user.email ?? '');
+            $('#empDob').val(user.dateOfBirth ? new Date(user.dateOfBirth).toISOString().split('T')[0] : '');
+        });
+    }
+    $('#saveEmployeeBtn').click(function() {
+        const [firstName, ...lastNameArr] = $('#empName').val().split(' ');
+        const lastName = lastNameArr.join(' ');
+        const data = {
+            firstName,
+            lastName,
+            email: $('#empEmail').val(),
+            dateOfBirth: $('#empDob').val()
+        };
+        $.ajax({
+            url: `https://localhost:7201/api/User/${id}`,
+            method: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function() {
+                alert('Cập nhật thành công!');
+                window.location.href = '/HR/EmployeeManagement';
+            }
+        });
+    });
+});
+</script>
+} 

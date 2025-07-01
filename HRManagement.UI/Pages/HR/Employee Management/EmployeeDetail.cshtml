@@ -20,6 +20,24 @@
             <label for="empDob" class="form-label">Ngày sinh</label>
             <input type="date" class="form-control" id="empDob" />
         </div>
+        <div class="mb-3">
+            <label for="empPhone" class="form-label">Số điện thoại</label>
+            <input type="number" class="form-control" id="empPhone" />
+        </div>
+        <div class="mb-3">
+            <label for="empPosition" class="form-label">Vị trí</label>
+            <input type="text" class="form-control" id="empPosition" />
+        </div>
+        <div class="mb-3">
+            <label for="empDepartment" class="form-label">Vị trí</label>
+            <input type="text" class="form-control" id="empDepartment" />
+        </div>
+        <div class="mb-3">
+            <label for="empContract" class="form-label">Hợp đông</label>
+            <input type="text" class="form-control" id="empContract" />
+        </div>
+
+
 
         <button type="button" class="btn btn-primary" id="saveEmployeeBtn">Lưu</button>
     </form>
@@ -35,6 +53,9 @@ $(document).ready(function () {
             $('#empName').val(`${user.firstName ?? ''} ${user.lastName ?? ''}`);
             $('#empEmail').val(user.email ?? '');
             $('#empDob').val(user.dateOfBirth ? new Date(user.dateOfBirth).toISOString().split('T')[0] : '');
+            $('#empPhone').val(user.email ?? '');
+            $('#empDepartment').val(user.email ?? '');
+            $('#empContract').val(user.email ?? '');
         });
     }
     $('#saveEmployeeBtn').click(function() {

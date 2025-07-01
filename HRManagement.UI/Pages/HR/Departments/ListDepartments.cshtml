@@ -1,0 +1,45 @@
+﻿@page
+@model ListDepartmentsModel
+@{
+    ViewData["Title"] = "Departments Dashboard";
+}
+
+<h2 class="text-center mt-3">Departments Dashboard</h2>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+else if (Model.Departments != null && Model.Departments.Any())
+{
+    <table class="table table-bordered table-hover mt-4">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Department Name</th>
+                <th>Created At</th>
+                <th>Updated At</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var dept in Model.Departments)
+            {
+                <tr>
+                    <td>@dept.DepartmentID</td>
+                    <td>@dept.DepartmentName</td>
+                    <td>@dept.CreatedAt.ToString("yyyy-MM-dd")</td>
+                    <td>@dept.UpdatedAt.ToString("yyyy-MM-dd")</td>
+                    <td>@dept.Status</td>
+                    <td><a asp-page="UpdateDepartments" asp-route-id="@dept.DepartmentID" class="btn btn-sm btn-warning">Edit</a></td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No departments found.</p>
+}

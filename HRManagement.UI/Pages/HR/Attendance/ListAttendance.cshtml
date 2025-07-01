@@ -1,0 +1,62 @@
+﻿@page
+@model HRManagement.UI.Pages.HR.Attendance.ListAttendanceModel
+
+@{
+    ViewData["Title"] = "Attendance Daily Status";
+}
+
+<h2>Attendance Daily Status</h2>
+
+<form method="get" class="form-inline mb-3">
+    <label for="FilterDate" class="mr-2">Filter by Date:</label>
+    <input type="date" id="FilterDate" name="FilterDate" class="form-control mr-2" value="@Model.FilterDate.ToString("yyyy-MM-dd")" />
+    <button type="submit" class="btn btn-primary">Filter</button>
+</form>
+
+@if (Model.AttendanceList.Any())
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Full Name</th>
+                <th>Check In</th>
+                <th>Check Out</th>
+                <th>Status</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.AttendanceList)
+            {
+                <tr>
+                    <td>@item.UserID</td>
+                    <td>@item.FullName</td>
+                    <td>@(item.CheckInTime?.ToString("HH:mm") ?? "—")</td>
+                    <td>@(item.CheckOutTime?.ToString("HH:mm") ?? "—")</td>
+                    <td>
+                        <span class="badge badge-@GetBadgeClass(item.Status)">
+                            @item.Status
+                        </span>
+                    </td>
+                    <td>@item.AttendanceDate.ToString("yyyy-MM-dd")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Không có dữ liệu chấm công cho ngày này.</p>
+}
+
+@functions {
+    private string GetBadgeClass(string status) => status switch
+    {
+        "OnTime" => "success",
+        "Late" => "warning",
+        "OnLeave" => "info",
+        "HasNotCheck" => "secondary",
+        _ => "dark"
+    };
+}

@@ -9,5 +9,8 @@
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.1" />
 
 	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\HRManagement.Business\HRManagement.Business.csproj" />
+	</ItemGroup>
 
 </Project>

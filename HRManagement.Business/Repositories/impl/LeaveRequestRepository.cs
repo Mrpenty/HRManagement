@@ -1,13 +1,18 @@
+using HRManagement.Data.Data;
 using HRManagement.Data.Entity;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace HRManagement.Business.Repositories.impl;
 
 public class LeaveRequestRepository : ILeaveRequestRepository
 {
     private readonly IRepositoryAsync<LeaveRequest> _leaveRequestRepository;
-    public LeaveRequestRepository(IRepositoryAsync<LeaveRequest> leaveRequestRepository)
+    private readonly HRManagementDbContext _context;
+    public LeaveRequestRepository(IRepositoryAsync<LeaveRequest> leaveRequestRepository, HRManagementDbContext context)
     {
         _leaveRequestRepository = leaveRequestRepository;
+        _context = context;
     }
     public async Task AddAsync(LeaveRequest entity)
     {
@@ -32,5 +37,14 @@ public class LeaveRequestRepository : ILeaveRequestRepository
     public async Task UpdateAsync(LeaveRequest entity)
     {
         await _leaveRequestRepository.UpdateAsync(entity);
+    }
+    public async Task<List<LeaveRequest>> GetMyLeavesInMonthAsync(int userId, int month, int year)
+    {
+        return await _context.LeaveRequests
+            .Where(lr => lr.UserID == userId
+                         && lr.Status == "Approved"
+                         && lr.StartDate.Month == month
+                         && lr.StartDate.Year == year)
+            .ToListAsync();
     }
 }

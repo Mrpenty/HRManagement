@@ -1,4 +1,4 @@
-using HRManagement.Business.dtos.attendance;
+﻿using HRManagement.Business.dtos.attendance;
 using HRManagement.Data.Data;
 using HRManagement.Data.Entity;
 using Microsoft.EntityFrameworkCore;
@@ -85,5 +85,15 @@ public class AttdendanceRepository : IAttdendanceRepository
 
         return result;
     }
+
+    //Trí làm: Lấy UserId chấm công để view danh sách số ngày Employee đang đăng nhập đã chấm công
+    public async Task<IEnumerable<Attendance>> GetByUserIdAsync(int userId)
+    {
+        return await _context.Attendances
+            .Where(a => a.UserID == userId)
+            .OrderByDescending(a => a.AttendanceDate)
+            .ToListAsync();
+    }
+
 
 }

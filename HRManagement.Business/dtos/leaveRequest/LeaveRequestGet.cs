@@ -13,4 +13,6 @@ public class LeaveRequestGet
     public string? ApproverNote { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
+
+    public string? UserName { get; set; }
 }

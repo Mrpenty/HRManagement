@@ -1,0 +1,35 @@
+﻿@page
+@model HRManagement.UI.Pages.HR.LeaveVerification.ListLeaveModel
+@{
+    ViewData["Title"] = "Leave Request Verification";
+}
+
+<h2>Pending Leave Requests</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Leave Type</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Reason</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var request in Model.PendingRequests)
+        {
+            <tr>
+                <td>@request.UserName</td>
+                <td>@request.LeaveType</td>
+                <td>@request.StartDate.ToShortDateString()</td>
+                <td>@request.EndDate.ToShortDateString()</td>
+                <td>@request.Reason</td>
+                <td>
+                    <a class="btn btn-primary" asp-page="LeaveDetail" asp-route-id="@request.LeaveRequestID">Review</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

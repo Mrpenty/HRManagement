@@ -20,6 +20,7 @@ public static class DependencyInjectionExtensions
         services.AddScoped<ISalaryRepository, SalaryRepository>();
         services.AddScoped<IAuthRepository, AuthRepository>();
 
+
         return services;
     }    
 }

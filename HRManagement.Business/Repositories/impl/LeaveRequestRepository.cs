@@ -1,13 +1,17 @@
+﻿using HRManagement.Data.Data;
 using HRManagement.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace HRManagement.Business.Repositories.impl;
 
 public class LeaveRequestRepository : ILeaveRequestRepository
 {
     private readonly IRepositoryAsync<LeaveRequest> _leaveRequestRepository;
-    public LeaveRequestRepository(IRepositoryAsync<LeaveRequest> leaveRequestRepository)
+    private readonly HRManagementDbContext _context;
+    public LeaveRequestRepository(IRepositoryAsync<LeaveRequest> leaveRequestRepository, HRManagementDbContext context)
     {
         _leaveRequestRepository = leaveRequestRepository;
+        _context = context;
     }
     public async Task AddAsync(LeaveRequest entity)
     {
@@ -32,5 +36,11 @@ public class LeaveRequestRepository : ILeaveRequestRepository
     public async Task UpdateAsync(LeaveRequest entity)
     {
         await _leaveRequestRepository.UpdateAsync(entity);
+    }
+    public async Task<IEnumerable<LeaveRequest>> GetAllWithUserAsync()
+    {
+        return await _context.LeaveRequests
+            .Include(lr => lr.User)
+            .ToListAsync();
     }
 }

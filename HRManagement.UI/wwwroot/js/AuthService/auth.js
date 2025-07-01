@@ -51,8 +51,9 @@ function handleLogin() {
                                 window.location.href = '/HR/Dashboard';
                             } else if (role === 'Employee') {
                                 window.location.href = '/Employees/Dashboard';
-                            } else {
-                                window.location.href = '/';
+                            }
+                            if (role === 'Hr') {
+                                window.location.href = '/Hr/Dashboard';
                             }
                         }
                     } else {

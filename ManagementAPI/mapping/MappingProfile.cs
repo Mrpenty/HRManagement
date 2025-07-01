@@ -22,6 +22,7 @@ public class MappingProfile : Profile
         CreateMap<User, UserUpdate>().ReverseMap();
         CreateMap<Attendance, AttendanceGet>().ReverseMap();
         CreateMap<Attendance, AttendanceCreate>().ReverseMap();
+        CreateMap<Attendance, AttendanceDailyStatus>().ReverseMap();
         CreateMap<ContractType, ContractTypeGet>().ReverseMap();
         CreateMap<ContractType, ContractTypeCreate>().ReverseMap();
         CreateMap<EmployeeLevel, EmployeeLevelGet>().ReverseMap();

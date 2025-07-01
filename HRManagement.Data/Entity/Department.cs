@@ -6,5 +6,6 @@ public class Department
     public string DepartmentName { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
+    public string Status { get; set; } = "Inactive"; // "Inactive", "Active", "Rejected"
     public ICollection<User> Users { get; set; }
 }

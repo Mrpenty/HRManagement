@@ -42,9 +42,11 @@
             <div class="sidebar-logo">
                 <!-- Logo Header -->
                 <div class="logo-header" data-background-color="dark">
-                    <a asp-page="/Employees/Dashboard" class="text-white" style="font-size: 1.15rem; font-weight: 600;">
-                        <i class="fas fa-home"></i>
-                        <span style="font-size: 1.1rem;">Employee Dashboard</span>
+                    <a asp-page="/Index" class="logo">
+                        <img src="~/img/kaiadmin/logo_light.svg"
+                             alt="navbar brand"
+                             class="navbar-brand"
+                             height="20" />
                     </a>
                     <div class="nav-toggle">
                         <button class="btn btn-toggle toggle-sidebar">
@@ -64,30 +66,29 @@
                 <div class="sidebar-content">
                     <ul class="nav nav-secondary">
                         <li class="nav-item active">
-                             <a asp-page="/Employees/Dashboard">
+                             <a asp-page="/Index">
                                 <i class="fas fa-home"></i>
-                                <p> Dashboard</p>
+                                <p>Dashboard</p>
                             </a>
                         </li>
                         <li class="nav-section">
                             <span class="sidebar-mini-icon">
                                 <i class="fa fa-ellipsis-h"></i>
                             </span>
-                            <h4 class="text-section">Management</h4>
+                            <h4 class="text-section">HR</h4>
                         </li>
-                         <li class="nav-item">
-                            <a asp-page="/">
+                        <li class="nav-item">
+                            <a asp-page="/HR/DashboardDepartment">
                                 <i class="fas fa-users"></i>
-                                <p>Attendance Tracking </p>
+                                <p>Department</p>
                             </a>
                         </li>
-                         <li class="nav-item">
-                            <a asp-page="/">
+                        <li class="nav-item">
+                            <a asp-page="/HR/DashboardAttendance">
                                 <i class="fas fa-users"></i>
-                                <p>Application for leave</p>
+                                <p>Attendance</p>
                             </a>
                         </li>
-
                     </ul>
                 </div>
             </div>
@@ -128,21 +129,45 @@
                         <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
                             @if (User.Identity != null && User.Identity.IsAuthenticated)
                             {
-                                <li class="nav-item d-flex align-items-center">
-                                    <div class="d-flex flex-column align-items-end me-2">
-                                        <span class="fw-bold">Xin chào, @User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value</span>
-                                        <small class="text-muted" style="font-size: 0.85em;">
-                                            @{
-                                                var roleClaim = User.FindFirst("http://schemas.microsoft.com/ws/2008/06/identity/claims/role");
-                                                if (roleClaim != null)
-                                                {
-                                                    @roleClaim.Value
-                                                }
-                                            }
-                                        </small>
-                                    </div>
-                                    <img src="~/img/profile.jpg" alt="..." class="avatar-img rounded-circle me-2" style="width:32px;height:32px;" />
-                                    <a class="btn btn-outline-danger btn-sm" asp-page="/Auth/Logout" style="margin-left:8px;">Logout</a>
+                                <li class="nav-item topbar-user dropdown hidden-caret">
+                                    <a class="dropdown-toggle profile-pic"
+                                       data-bs-toggle="dropdown"
+                                       href="#"
+                                       aria-expanded="false">
+                                        <div class="avatar-sm">
+                                            <img src="~/img/profile.jpg"
+                                                 alt="..."
+                                                 class="avatar-img rounded-circle" />
+                                        </div>
+                                        <span class="profile-username">
+                                            <span class="op-7">Hi,</span>
+                                            <span class="fw-bold">@User.Identity.Name</span>
+                                        </span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-user animated fadeIn">
+                                        <div class="dropdown-user-scroll scrollbar-outer">
+                                            <li>
+                                                <div class="user-box">
+                                                    <div class="avatar-lg">
+                                                        <img src="~/img/profile.jpg"
+                                                             alt="image profile"
+                                                             class="avatar-img rounded" />
+                                                    </div>
+                                                    <div class="u-text">
+                                                        <h4>@User.Identity.Name</h4>
+                                                        <p class="text-muted">@User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value</p>
+                                                        <a href="#" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="#">My Profile</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" asp-page="/Auth/Logout">Logout</a>
+                                            </li>
+                                        </div>
+                                    </ul>
                                 </li>
                             }
                             else
@@ -177,8 +202,6 @@
     <script src="~/js/core/jquery-3.7.1.min.js"></script>
     <script src="~/js/core/popper.min.js"></script>
     <script src="~/js/core/bootstrap.min.js"></script>
-    <script src="../assets/js/plugin/datatables/datatables.min.js"></script>
-
 
     <!-- jQuery Scrollbar -->
     <script src="~/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
@@ -237,63 +260,6 @@
         lineWidth: "2",
         lineColor: "#ffa534",
         fillColor: "rgba(255, 165, 52, .14)",
-      });
-    </script>
-    <script>
-      $(document).ready(function () {
-        $("#basic-datatables").DataTable({});
-
-        $("#multi-filter-select").DataTable({
-          pageLength: 5,
-          initComplete: function () {
-            this.api()
-              .columns()
-              .every(function () {
-                var column = this;
-                var select = $(
-                  '<select class="form-select"><option value=""></option></select>'
-                )
-                  .appendTo($(column.footer()).empty())
-                  .on("change", function () {
-                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
-
-                    column
-                      .search(val ? "^" + val + "$" : "", true, false)
-                      .draw();
-                  });
-
-                column
-                  .data()
-                  .unique()
-                  .sort()
-                  .each(function (d, j) {
-                    select.append(
-                      '<option value="' + d + '">' + d + "</option>"
-                    );
-                  });
-              });
-          },
-        });
-
-        // Add Row
-        $("#add-row").DataTable({
-          pageLength: 5,
-        });
-
-        var action =
-          '<td> <div class="form-button-action"> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
-
-        $("#addRowButton").click(function () {
-          $("#add-row")
-            .dataTable()
-            .fnAddData([
-              $("#addName").val(),
-              $("#addPosition").val(),
-              $("#addOffice").val(),
-              action,
-            ]);
-          $("#addRowModal").modal("hide");
-        });
       });
     </script>
 

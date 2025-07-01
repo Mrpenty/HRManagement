@@ -1,3 +1,6 @@
+using HRManagement.Business.dtos.attendance;
+using Microsoft.EntityFrameworkCore;
+
 namespace HRManagement.Business.Repositories;
 
 public interface IRepositoryAsync<T> where T : class

@@ -124,7 +124,8 @@ public class TokenRepository : ITokenRepository
                 new(JwtRegisteredClaimNames.Sub, user.Id.ToString()), 
                 new(JwtRegisteredClaimNames.Email, user.Email ?? string.Empty),
                 new(JwtRegisteredClaimNames.Name, user.UserName ?? string.Empty),
-                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim("UserID", user.Id.ToString())
             };
 
             var roles = await _userManager.GetRolesAsync(user);

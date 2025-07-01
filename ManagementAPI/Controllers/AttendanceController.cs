@@ -1,6 +1,7 @@
-using AutoMapper;
+﻿using AutoMapper;
 using HRManagement.Business.dtos.attendance;
 using HRManagement.Business.Repositories;
+using HRManagement.Business.Repositories.impl;
 using HRManagement.Data.Entity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -135,6 +136,36 @@ public class AttendanceController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "An error occurred");
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    //Trí làm: Controller View danh sách số ngày đã chấm công của người đang đăng nhập
+    [HttpGet("my-attendance")]
+    public async Task<IActionResult> GetMyAttendanceAsync()
+    {
+        try
+        {
+            // Lấy UserID từ claim JWT
+            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "UserID");
+            if (userIdClaim == null) return Unauthorized();
+            int userId = int.Parse(userIdClaim.Value);
+
+            var attendances = await _attdendanceRepository.GetByUserIdAsync(userId);
+
+            return Ok(attendances.Select(a => new
+            {
+                a.AttendanceID,
+                a.AttendanceDate,
+                a.CheckInTime,
+                a.CheckOutTime,
+                a.WorkHours,
+                a.OvertimeHours
+            }));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error when getting attendance");
             return StatusCode(500, "Internal server error");
         }
     }

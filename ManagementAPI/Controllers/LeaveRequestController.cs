@@ -1,8 +1,10 @@
-using AutoMapper;
+﻿using AutoMapper;
 using HRManagement.Business.dtos.leaveRequest;
 using HRManagement.Business.Repositories;
 using HRManagement.Data.Entity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ManagementAPI.Controllers;
 
@@ -138,6 +140,47 @@ public class LeaveRequestController : ControllerBase
         {
             _logger.LogError(ex, "An error occurred");
             return StatusCode(500, "Internal server error");
+        }
+    }
+
+    [HttpGet("my-leaves")]
+    [Authorize(Roles = "Employee")]
+    public async Task<IActionResult> GetMyLeaves()
+    {
+        try
+        {
+            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier || c.Type == "sub");
+            if (userIdClaim == null) return Unauthorized();
+
+            int userId = int.Parse(userIdClaim.Value);
+
+            var now = DateTime.Now;
+            Console.WriteLine($"[DEBUG] Now: {now}");
+            var leaves = await _leaveRequestRepository.GetMyLeavesInMonthAsync(userId, now.Month, now.Year);
+            Console.WriteLine($"[DEBUG] UserID: {userId}");
+            Console.WriteLine($"[DEBUG] Found {leaves.Count} leaves");
+            foreach (var lr in leaves)
+            {
+                Console.WriteLine($" - ID: {lr.LeaveRequestID}, Start: {lr.StartDate}, End: {lr.EndDate}, Status: {lr.Status}");
+            }
+            var result = leaves.Select(lr => new LeaveViewDto
+            {
+                LeaveRequestID = lr.LeaveRequestID,
+                StartDate = lr.StartDate,
+                EndDate = lr.EndDate,
+                LeaveType = lr.LeaveType,
+                Status = lr.Status
+            }).ToList();
+            foreach (var r in result)
+            {
+                Console.WriteLine($" - DTO ID: {r.LeaveRequestID}, Start: {r.StartDate}, End: {r.EndDate}, Status: {r.Status}");
+            }
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting my leaves");
+            return StatusCode(500, "Internal Server Error");
         }
     }
 }

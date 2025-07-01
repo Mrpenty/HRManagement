@@ -52,10 +52,12 @@ public partial class SeedRoles
                     SecurityStamp = Guid.NewGuid().ToString(),
                     FirstName = "Admin",
                     LastName = "User",
+                    isVertify = true,
                     DepartmentID = 1,
                     EmployeeLevelID = 3,
                     ContractTypeID = 1,
                     PositionID = 1,
+                    status = "Active",
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 },
@@ -70,10 +72,12 @@ public partial class SeedRoles
                     SecurityStamp = Guid.NewGuid().ToString(),
                     FirstName = "HR",
                     LastName = "User",
+                    isVertify = true,
                     DepartmentID = 2,
                     EmployeeLevelID = 2,
                     ContractTypeID = 1,
                     PositionID = 2,
+                    status = "Active",
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 },
@@ -88,10 +92,12 @@ public partial class SeedRoles
                     SecurityStamp = Guid.NewGuid().ToString(),
                     FirstName = "Employee",
                     LastName = "User",
+                    isVertify = true,
                     DepartmentID = 3,
                     EmployeeLevelID = 1,
                     ContractTypeID = 2,
                     PositionID = 3,
+                    status = "Active",
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 }

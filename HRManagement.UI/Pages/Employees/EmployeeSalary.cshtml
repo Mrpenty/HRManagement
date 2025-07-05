@@ -1,0 +1,73 @@
+﻿@page
+@model HRManagement.UI.Pages.Employees.EmployeeSalaryModel
+@{
+    ViewData["Title"] = "My Salary";
+    Layout = "_EmployeeLayout";
+}
+
+<div class="container my-5">
+    <h2 class="mb-4 fw-bold">💰 My Salary - @Model.Salary?.SalaryPeriod</h2>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+
+    @if (Model.Salary != null)
+    {
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0 bg-primary text-white">
+                    <div class="card-body text-center">
+                        <h5>Base Salary</h5>
+                        <p class="h3">@Model.Salary.BaseSalary.ToString("C")</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0 bg-success text-white">
+                    <div class="card-body text-center">
+                        <h5>Allowances</h5>
+                        <p class="h3">@Model.Salary.Allowances.ToString("C")</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0 bg-warning text-dark">
+                    <div class="card-body text-center">
+                        <h5>Bonus</h5>
+                        <p class="h3">@Model.Salary.Bonus.ToString("C")</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0 bg-danger text-white">
+                    <div class="card-body text-center">
+                        <h5>Deductions</h5>
+                        <p class="h3">@Model.Salary.Deduction.ToString("C")</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0 bg-secondary text-white">
+                    <div class="card-body text-center">
+                        <h5>Tax</h5>
+                        <p class="h3">@Model.Salary.Tax.ToString("C")</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0 bg-dark text-white">
+                    <div class="card-body text-center">
+                        <h5>Net Salary</h5>
+                        <p class="h3">@Model.Salary.NetSalary.ToString("C")</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">No salary data available for this month.</div>
+    }
+</div>

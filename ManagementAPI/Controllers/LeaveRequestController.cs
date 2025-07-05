@@ -30,6 +30,22 @@ public class LeaveRequestController : ControllerBase
     }
 
     [Authorize(Roles = "HR")]
+    [HttpGet("All-With-User")]
+    public async Task<IActionResult> GetAllWithUserAsync()
+    {
+        try
+        {
+            var leaveRequests = await _leaveRequestRepository.GetAllWithUserAsync();
+            var result = _mapper.Map<IEnumerable<LeaveRequestGet>>(leaveRequests);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred");
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
     [HttpGet]
     public async Task<IActionResult> GetAllAsync()
     {

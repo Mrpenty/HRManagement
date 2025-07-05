@@ -5,12 +5,25 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Pages\HR\Departments\DashBoard.cshtml" />
+  </ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.1" />
 
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\HRManagement.Business\HRManagement.Business.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <UpToDateCheckInput Remove="Pages\HR\Departments\DashBoard.cshtml" />
+	</ItemGroup>
+	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="Pages\HR\Departments\DashBoard.cshtml" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Include="Pages\HR\DashBoard.cshtml" />
 	</ItemGroup>
 
 </Project>

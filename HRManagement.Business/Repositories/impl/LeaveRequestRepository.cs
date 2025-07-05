@@ -1,6 +1,7 @@
 ﻿using HRManagement.Data.Data;
 using HRManagement.Data.Entity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace HRManagement.Business.Repositories.impl;
@@ -50,7 +51,6 @@ public class LeaveRequestRepository : ILeaveRequestRepository
                          && lr.StartDate.Year == year)
             .ToListAsync();
     }
-
     //Trí làm: Lấy các đơn xin nghỉ năm nay
     public async Task<List<LeaveRequest>> GetMyLeavesInYearAsync(int userId, int year)
     {
@@ -58,4 +58,10 @@ public class LeaveRequestRepository : ILeaveRequestRepository
             .Where(lr => lr.UserID == userId
             && lr.StartDate.Year == year).ToListAsync();
     }
+    public async Task<IEnumerable<LeaveRequest>> GetAllWithUserAsync()
+    {
+        return await _context.LeaveRequests
+            .Include(lr => lr.User)
+            .ToListAsync();
+    } 
 }

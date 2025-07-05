@@ -8,4 +8,10 @@ public class LeaveRequestGet
     public string LeaveType { get; set; } = "";
     public string Reason { get; set; } = "";
     public string Status { get; set; } = "";
+    public string? ApproverNote { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
+
+    public string? UserName { get; set; }
 }
+

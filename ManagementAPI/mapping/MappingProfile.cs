@@ -29,7 +29,8 @@ public class MappingProfile : Profile
         CreateMap<EmployeeLevel, EmployeeLevelCreate>().ReverseMap();
         CreateMap<Position, PositionGet>().ReverseMap();
         CreateMap<Position, PositionCreate>().ReverseMap();
-        CreateMap<LeaveRequest, LeaveRequestGet>().ReverseMap();
+        CreateMap<LeaveRequest, LeaveRequestGet>()
+    .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.FirstName + " " + src.User.LastName));
         CreateMap<LeaveRequest, LeaveRequestCreate>().ReverseMap();
         CreateMap<Salary, SalaryGet>().ReverseMap();
         CreateMap<Salary, SalaryCreate>().ReverseMap();

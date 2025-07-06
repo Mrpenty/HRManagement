@@ -21,6 +21,13 @@ namespace HRManagement.Data.Data
         public DbSet<Payslip> Payslips { get; set; }
         public DbSet<Attendance> Attendances { get; set; }
         public DbSet<LeaveRequest> LeaveRequests { get; set; }
+        public DbSet<DeductionReason> DeductionReasons { get; set; }
+        public DbSet<Holiday> Holidays { get; set; }
+        public DbSet<Deduction> Deductions { get; set; }
+        public DbSet<SalaryBonus> SalaryBonuses { get; set; }
+        public DbSet<PerformanceReview> PerformanceReviews { get; set; }
+        public DbSet<SalaryPeriod> SalaryPeriods { get; set; }
+        public DbSet<LeaveBalance> LeaveBalances { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -31,7 +31,7 @@ public partial class SeedRoles
                 new ContractType { ContractTypeID = 3, ContractTypeName = "Freelance" }
             );
 
-            // Seed Positions
+             //Seed Positions
             modelBuilder.Entity<Position>().HasData(
                 new Position { PositionID = 1, PositionName = "Software Engineer" },
                 new Position { PositionID = 2, PositionName = "HR Specialist" },
@@ -52,12 +52,12 @@ public partial class SeedRoles
                     SecurityStamp = Guid.NewGuid().ToString(),
                     FirstName = "Admin",
                     LastName = "User",
-                    isVertify = true,
+                    IsVerified = true,
                     DepartmentID = 1,
                     EmployeeLevelID = 3,
                     ContractTypeID = 1,
                     PositionID = 1,
-                    status = "Active",
+                    Status = "Active",
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 },
@@ -72,12 +72,12 @@ public partial class SeedRoles
                     SecurityStamp = Guid.NewGuid().ToString(),
                     FirstName = "HR",
                     LastName = "User",
-                    isVertify = true,
+                    IsVerified = true,
                     DepartmentID = 2,
                     EmployeeLevelID = 2,
                     ContractTypeID = 1,
                     PositionID = 2,
-                    status = "Active",
+                    Status = "Active",
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 },
@@ -92,12 +92,12 @@ public partial class SeedRoles
                     SecurityStamp = Guid.NewGuid().ToString(),
                     FirstName = "Employee",
                     LastName = "User",
-                    isVertify = true,
+                    IsVerified = true,
                     DepartmentID = 3,
                     EmployeeLevelID = 1,
                     ContractTypeID = 2,
                     PositionID = 3,
-                    status = "Active",
+                    Status = "Active",
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 }
@@ -122,6 +122,7 @@ public partial class SeedRoles
                     WorkHours = 8.0m,
                     OvertimeHours = 0.0m,
                     AttendanceDate = DateTime.Parse("2025-06-01"),
+                    Status = "On time",
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 },
@@ -135,6 +136,7 @@ public partial class SeedRoles
                     WorkHours = 8.0m,
                     OvertimeHours = 1.0m,
                     AttendanceDate = DateTime.Parse("2025-06-01"),
+                    Status = "Late",
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 }
@@ -152,7 +154,6 @@ public partial class SeedRoles
                     Deduction = 300.00m,
                     Tax = 400.00m,
                     NetSalary = 5000.00m + 500.00m + 200.00m - 300.00m - 400.00m,
-                    SalaryPeriod = DateTime.Parse("2025-06-01"),
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 },
@@ -166,7 +167,6 @@ public partial class SeedRoles
                     Deduction = 200.00m,
                     Tax = 300.00m,
                     NetSalary = 4000.00m + 400.00m + 150.00m - 200.00m - 300.00m,
-                    SalaryPeriod = DateTime.Parse("2025-06-01"),
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 }
@@ -179,7 +179,6 @@ public partial class SeedRoles
                     PayslipID = 1,
                     UserID = 1,
                     SalaryID = 1,
-                    IssueDate = DateTime.Parse("2025-06-01"),
                     FilePath = "/payslips/user1_june2025.pdf",
                     Status = "Generated",
                     CreatedAt = DateTime.UtcNow,
@@ -190,7 +189,6 @@ public partial class SeedRoles
                     PayslipID = 2,
                     UserID = 2,
                     SalaryID = 2,
-                    IssueDate = DateTime.Parse("2025-06-01"),
                     FilePath = "/payslips/user2_june2025.pdf",
                     Status = "Generated",
                     CreatedAt = DateTime.UtcNow,
@@ -217,13 +215,198 @@ public partial class SeedRoles
                 {
                     LeaveRequestID = 2,
                     UserID = 2,
-                    LeaveType = "Sick Leave",
-
+                    LeaveType = "Annual Leave",
                     ApproverID = 1,
                     StartDate = DateTime.Parse("2025-06-04"),
                     EndDate = DateTime.Parse("2025-06-05"),
                     Reason = "Vacation",
                     Status = "Approved",
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                }
+            );
+
+            // Seed DeductionReasons
+            modelBuilder.Entity<DeductionReason>().HasData(
+                new DeductionReason { DeductionReasonID = 1, ReasonName = "Late Arrival", Description = "Đi muộn", Amount = 50.00m },
+                new DeductionReason { DeductionReasonID = 2, ReasonName = "Early Departure", Description = "Về sớm", Amount = 50.00m },
+                new DeductionReason { DeductionReasonID = 3, ReasonName = "Absence", Description = "Vắng mặt", Amount = 200.00m },
+                new DeductionReason { DeductionReasonID = 4, ReasonName = "Insurance", Description = "Bảo hiểm", Amount = 100.00m },
+                new DeductionReason { DeductionReasonID = 5, ReasonName = "Tax", Description = "Thuế", Amount = 0.00m }
+            );
+
+            // Seed Holidays
+            modelBuilder.Entity<Holiday>().HasData(
+                new Holiday { HolidayID = 1, HolidayName = "New Year's Day", HolidayDate = DateTime.Parse("2025-01-01") },
+                new Holiday { HolidayID = 2, HolidayName = "Independence Day", HolidayDate = DateTime.Parse("2025-09-02") },
+                new Holiday { HolidayID = 3, HolidayName = "Christmas Day", HolidayDate = DateTime.Parse("2025-12-25") },
+                new Holiday { HolidayID = 4, HolidayName = "Labor Day", HolidayDate = DateTime.Parse("2025-05-01") },
+                new Holiday { HolidayID = 5, HolidayName = "Tet Holiday", HolidayDate = DateTime.Parse("2025-01-28") }
+            );
+
+            // Seed Deductions
+            modelBuilder.Entity<Deduction>().HasData(
+                new Deduction
+                {
+                    DeductionID = 1,
+                    UserID = 1,
+                    DeductionReasonID = 1,
+                    Amount = 50.00m,
+                    DeductionDate = DateTime.Parse("2025-06-01"),
+                    Description = "Late arrival on Monday",
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                },
+                new Deduction
+                {
+                    DeductionID = 2,
+                    UserID = 2,
+                    DeductionReasonID = 4,
+                    Amount = 100.00m,
+                    DeductionDate = DateTime.Parse("2025-06-01"),
+                    Description = "Monthly insurance deduction",
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                }
+            );
+
+            // Seed SalaryBonuses
+            modelBuilder.Entity<SalaryBonus>().HasData(
+                new SalaryBonus
+                {
+                    SalaryBonusID = 1,
+                    UserID = 1,
+                    BonusType = "Performance Bonus",
+                    Amount = 500.00m,
+                    BonusDate = DateTime.Parse("2025-06-01"),
+                    Description = "Excellent performance in Q1",
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                },
+                new SalaryBonus
+                {
+                    SalaryBonusID = 2,
+                    UserID = 2,
+                    BonusType = "Project Bonus",
+                    Amount = 300.00m,
+                    BonusDate = DateTime.Parse("2025-06-01"),
+                    Description = "Successfully completed HR system project",
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                }
+            );
+
+          //   Seed PerformanceReviews
+            modelBuilder.Entity<PerformanceReview>().HasData(
+                new PerformanceReview
+                {
+                    PerformanceReviewID = 1,
+                    UserID = 1,
+                    ReviewerID = 2,
+                    ReviewDate = DateTime.Parse("2025-06-01"),
+                    Rating = 4.5m,
+                    Comments = "Excellent performance, strong technical skills",
+                    Status = "Completed",
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                },
+                new PerformanceReview
+                {
+                    PerformanceReviewID = 2,
+                    UserID = 2,
+                    ReviewerID = 1,
+                    ReviewDate = DateTime.Parse("2025-06-01"),
+                    Rating = 4.0m,
+                    Comments = "Good performance, needs improvement in communication",
+                    Status = "Completed",
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                }
+            );
+
+            // Seed SalaryPeriods
+            modelBuilder.Entity<SalaryPeriod>().HasData(
+                new SalaryPeriod { SalaryPeriodID = 1, PeriodName = "January 2025", StartDate = DateTime.Parse("2025-01-01"), EndDate = DateTime.Parse("2025-01-31") },
+                new SalaryPeriod { SalaryPeriodID = 2, PeriodName = "February 2025", StartDate = DateTime.Parse("2025-02-01"), EndDate = DateTime.Parse("2025-02-28") },
+                new SalaryPeriod { SalaryPeriodID = 3, PeriodName = "March 2025", StartDate = DateTime.Parse("2025-03-01"), EndDate = DateTime.Parse("2025-03-31") },
+                new SalaryPeriod { SalaryPeriodID = 4, PeriodName = "April 2025", StartDate = DateTime.Parse("2025-04-01"), EndDate = DateTime.Parse("2025-04-30") },
+                new SalaryPeriod { SalaryPeriodID = 5, PeriodName = "May 2025", StartDate = DateTime.Parse("2025-05-01"), EndDate = DateTime.Parse("2025-05-31") },
+                new SalaryPeriod { SalaryPeriodID = 6, PeriodName = "June 2025", StartDate = DateTime.Parse("2025-06-01"), EndDate = DateTime.Parse("2025-06-30") }
+            );
+
+
+
+           //  Seed LeaveBalances
+            modelBuilder.Entity<LeaveBalance>().HasData(
+                new LeaveBalance
+                {
+                    LeaveBalanceID = 1,
+                    UserID = 1,
+                    LeaveType = "Annual Leave",
+                    TotalDays = 12,
+                    UsedDays = 3,
+                    RemainingDays = 9,
+                    Year = 2025,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                },
+                new LeaveBalance
+                {
+                    LeaveBalanceID = 2,
+                    UserID = 1,
+                    LeaveType = "Sick Leave",
+                    TotalDays = 10,
+                    UsedDays = 1,
+                    RemainingDays = 9,
+                    Year = 2025,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                },
+                new LeaveBalance
+                {
+                    LeaveBalanceID = 3,
+                    UserID = 2,
+                    LeaveType = "Annual Leave",
+                    TotalDays = 12,
+                    UsedDays = 5,
+                    RemainingDays = 7,
+                    Year = 2025,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                },
+                new LeaveBalance
+                {
+                    LeaveBalanceID = 4,
+                    UserID = 2,
+                    LeaveType = "Sick Leave",
+                    TotalDays = 10,
+                    UsedDays = 2,
+                    RemainingDays = 8,
+                    Year = 2025,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                },
+                new LeaveBalance
+                {
+                    LeaveBalanceID = 5,
+                    UserID = 3,
+                    LeaveType = "Annual Leave",
+                    TotalDays = 12,
+                    UsedDays = 0,
+                    RemainingDays = 12,
+                    Year = 2025,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow
+                },
+                new LeaveBalance
+                {
+                    LeaveBalanceID = 6,
+                    UserID = 3,
+                    LeaveType = "Sick Leave",
+                    TotalDays = 10,
+                    UsedDays = 0,
+                    RemainingDays = 10,
+                    Year = 2025,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 }

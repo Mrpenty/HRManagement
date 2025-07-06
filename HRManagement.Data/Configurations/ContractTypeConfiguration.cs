@@ -11,11 +11,8 @@ public class ContractTypeConfiguration : IEntityTypeConfiguration<ContractType>
         builder.ToTable("ContractTypes");
         builder.HasKey(ct => ct.ContractTypeID);
         builder.Property(ct => ct.ContractTypeID)
-            .ValueGeneratedOnAdd()
-            .IsRequired();
-        builder.Property(ct => ct.ContractTypeName)
-            .IsRequired()
-            .HasMaxLength(100);
+            .ValueGeneratedOnAdd();
+ 
         builder.HasMany(ct => ct.Users)
             .WithOne(u => u.ContractType)
             .HasForeignKey(u => u.ContractTypeID)

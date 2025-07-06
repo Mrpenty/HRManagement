@@ -16,6 +16,12 @@ public class EmployeeLevelConfiguration : IEntityTypeConfiguration<EmployeeLevel
         builder.Property(el => el.EmployeeLevelName)
             .IsRequired()
             .HasMaxLength(100);
+        builder.Property(el => el.MinSalary)
+            .HasPrecision(18, 2);
+        builder.Property(el => el.MaxSalary)
+            .HasPrecision(18, 2);
+        builder.Property(el => el.SalaryMultiplier)
+            .HasPrecision(5, 2);
         builder.HasMany(el => el.Users)
             .WithOne(u => u.EmployeeLevel)
             .HasForeignKey(u => u.EmployeeLevelID)

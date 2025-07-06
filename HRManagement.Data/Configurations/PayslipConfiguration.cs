@@ -17,7 +17,7 @@ public class PayslipConfiguration : IEntityTypeConfiguration<Payslip>
             .IsRequired();
         builder.Property(p => p.SalaryID)
             .IsRequired();
-        builder.Property(p => p.IssueDate)
+        builder.Property(p => p.Period)
             .IsRequired()
             .HasColumnType("date");
         builder.Property(p => p.FilePath)
@@ -27,6 +27,22 @@ public class PayslipConfiguration : IEntityTypeConfiguration<Payslip>
             .HasDefaultValue("Generated")
             .IsRequired()
             .HasMaxLength(20);
+        builder.Property(p => p.ActualWorkHours)
+            .HasPrecision(5, 2);
+        builder.Property(p => p.BasicSalary)
+            .HasPrecision(18, 2);
+        builder.Property(p => p.GrossSalary)
+            .HasPrecision(18, 2);
+        builder.Property(p => p.NetSalary)
+            .HasPrecision(18, 2);
+        builder.Property(p => p.OvertimeHours)
+            .HasPrecision(5, 2);
+        builder.Property(p => p.TotalAllowances)
+            .HasPrecision(18, 2);
+        builder.Property(p => p.TotalBonus)
+            .HasPrecision(18, 2);
+        builder.Property(p => p.TotalDeductions)
+            .HasPrecision(18, 2);
         builder.Property(p => p.CreatedAt)
             .IsRequired()
             .HasDefaultValueSql("GETDATE()")

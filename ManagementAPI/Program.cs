@@ -23,7 +23,7 @@ builder.Services.AddRazorPages();
 var app = builder.Build();
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+//app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();

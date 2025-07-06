@@ -66,5 +66,25 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .WithOne(lr => lr.User)
             .HasForeignKey(lr => lr.UserID)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(u => u.Manager)
+            .WithMany()
+            .HasForeignKey(u => u.ManagedByUserId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasMany(u => u.ApprovedLeaveRequests)
+            .WithOne(lr => lr.Approver)
+            .HasForeignKey(lr => lr.ApproverID)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasMany(u => u.PerformanceReviews)
+            .WithOne(pr => pr.User)
+            .HasForeignKey(pr => pr.UserID)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(u => u.ReviewedPerformanceReviews)
+            .WithOne(pr => pr.Reviewer)
+            .HasForeignKey(pr => pr.ReviewerID)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

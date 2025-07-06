@@ -24,6 +24,8 @@ public class LeaveRequestConfiguration : IEntityTypeConfiguration<LeaveRequest>
         builder.Property(lr => lr.LeaveType)
             .IsRequired()
             .HasMaxLength(100);
+        builder.Property(lr => lr.RequestedDays)
+            .HasPrecision(5, 1);
         builder.Property(lr => lr.Reason)
             .IsRequired()
             .HasMaxLength(500);

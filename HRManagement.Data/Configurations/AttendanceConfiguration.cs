@@ -20,13 +20,13 @@ public class AttendanceConfiguration : IEntityTypeConfiguration<Attendance>
         builder.Property(a => a.CheckOutTime)
             .IsRequired(false);
         builder.Property(a => a.Location)
-            .IsRequired(false)
+            
             .HasMaxLength(200);
         builder.Property(a => a.WorkHours)
             .IsRequired(false)
             .HasPrecision(18, 2);
         builder.Property(a => a.OvertimeHours)
-            .IsRequired()
+            
             .HasPrecision(18, 2);
         builder.Property(a => a.AttendanceDate)
             .IsRequired()

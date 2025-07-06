@@ -16,6 +16,12 @@ public class PositionConfiguration : IEntityTypeConfiguration<Position>
         builder.Property(p => p.PositionName)
             .IsRequired()
             .HasMaxLength(100);
+        builder.Property(p => p.BaseSalary)
+            .HasPrecision(18, 2);
+        builder.Property(p => p.MinSalary)
+            .HasPrecision(18, 2);
+        builder.Property(p => p.MaxSalary)
+            .HasPrecision(18, 2);
         builder.HasMany(p => p.Users)
             .WithOne(u => u.Position)
             .HasForeignKey(u => u.PositionID)

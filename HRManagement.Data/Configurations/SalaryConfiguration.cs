@@ -19,23 +19,45 @@ public class SalaryConfiguration : IEntityTypeConfiguration<Salary>
             .IsRequired()
             .HasPrecision(18, 2);
         builder.Property(s => s.Allowances)
-            .IsRequired()
             .HasPrecision(18, 2);
         builder.Property(s => s.Bonus)
-            .IsRequired()
             .HasPrecision(18, 2);
         builder.Property(s => s.Deduction)
-            .IsRequired()
             .HasPrecision(18, 2);
         builder.Property(s => s.Tax)
-            .IsRequired()
             .HasPrecision(18, 2);
         builder.Property(s => s.NetSalary)
-            .IsRequired()
             .HasPrecision(18, 2);
-        builder.Property(s => s.SalaryPeriod)
-            .IsRequired()
-            .HasColumnType("date");
+        builder.Property(s => s.PositionAllowance)
+            .HasPrecision(18, 2);
+        builder.Property(s => s.ResponsibilityAllowance)
+            .HasPrecision(18, 2);
+        builder.Property(s => s.SeniorityAllowance)
+            .HasPrecision(18, 2);
+        builder.Property(s => s.TransportAllowance)
+            .HasPrecision(18, 2);
+        builder.Property(s => s.MealAllowance)
+            .HasPrecision(18, 2);
+        builder.Property(s => s.HousingAllowance)
+            .HasPrecision(18, 2);
+        builder.Property(s => s.SocialInsurance)
+            .HasPrecision(18, 2);
+        builder.Property(s => s.HealthInsurance)
+            .HasPrecision(18, 2);
+        builder.Property(s => s.UnemploymentInsurance)
+            .HasPrecision(18, 2);
+        builder.Property(s => s.GrossSalary)
+            .HasPrecision(18, 2);
+        builder.Property(s => s.SalaryPeriodID)
+            .IsRequired();
+        builder.Property(s => s.EffectiveDate)
+            .IsRequired();
+        builder.Property(s => s.Status)
+            .HasMaxLength(20)
+            .HasDefaultValue("Draft");
+        builder.Property(s => s.ApprovedBy);
+        builder.Property(s => s.ApprovalNote)
+            .HasMaxLength(500);
         builder.Property(s => s.CreatedAt)
             .IsRequired()
             .HasDefaultValueSql("GETDATE()")
@@ -48,5 +70,15 @@ public class SalaryConfiguration : IEntityTypeConfiguration<Salary>
             .WithMany(u => u.Salaries)
             .HasForeignKey(s => s.UserID)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(s => s.SalaryPeriod)
+            .WithMany(sp => sp.Salaries)
+            .HasForeignKey(s => s.SalaryPeriodID)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(s => s.Approver)
+            .WithMany()
+            .HasForeignKey(s => s.ApprovedBy)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

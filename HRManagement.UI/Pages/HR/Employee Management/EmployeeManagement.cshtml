@@ -107,6 +107,7 @@ $(document).ready(function () {
             $('#empEmail').val(user.email ?? '');
             $('#empDob').val(user.dateOfBirth ? new Date(user.dateOfBirth).toISOString().split('T')[0] : '');
             $('#employeeDetailModal').modal('show');
+
         }
     });
 

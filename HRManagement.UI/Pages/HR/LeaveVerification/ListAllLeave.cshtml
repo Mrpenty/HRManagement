@@ -1,0 +1,33 @@
+﻿@page
+@model HRManagement.UI.Pages.HR.LeaveVerification.ListAllLeaveModel
+@{
+    ViewData["Title"] = "All Leave Requests";
+}
+
+<h2>All Leave Requests</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Leave Type</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Reason</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var request in Model.AllLeaveRequests)
+        {
+            <tr>
+                <td>@request.UserName</td>
+                <td>@request.LeaveType</td>
+                <td>@request.StartDate.ToShortDateString()</td>
+                <td>@request.EndDate.ToShortDateString()</td>
+                <td>@request.Reason</td>
+                <td>@request.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -9,4 +9,5 @@ public interface IAttdendanceRepository : IRepositoryAsync<Attendance>
 
     Task<IEnumerable<Attendance>> GetByUserIdAsync(int userId);
 
+    IQueryable<Attendance> Attendances { get; }
 }

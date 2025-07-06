@@ -79,7 +79,8 @@ public class AttdendanceRepository : IAttdendanceRepository
                 CheckInTime = attendance?.CheckInTime,
                 CheckOutTime = attendance?.CheckOutTime,
                 Status = status,
-                AttendanceDate = date.Date
+                AttendanceDate = date.Date,
+                Location = "Office"
             });
         }
 
@@ -95,5 +96,5 @@ public class AttdendanceRepository : IAttdendanceRepository
             .ToListAsync();
     }
 
-
+    public IQueryable<Attendance> Attendances => _context.Attendances.AsNoTracking();
 }

@@ -18,8 +18,6 @@
        
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        
-        // Navigation Properties
         public User User { get; set; }
         public User? Approver { get; set; }
         public ICollection<SalaryBonus> SalaryBonuses { get; set; }

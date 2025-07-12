@@ -12,9 +12,9 @@ public partial class SeedRoles
         {
             // Seed Departments
             modelBuilder.Entity<Department>().HasData(
-                new Department { DepartmentID = 1, DepartmentName = "IT", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
-                new Department { DepartmentID = 2, DepartmentName = "HR", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
-                new Department { DepartmentID = 3, DepartmentName = "Finance", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow }
+                new Department { DepartmentID = 1, DepartmentName = "IT", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, Description="Phòng ban này là công nghệ thông tin" },
+                new Department { DepartmentID = 2, DepartmentName = "HR", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, Description="Phòng ban này để quản lý nhân sự" },
+                new Department { DepartmentID = 3, DepartmentName = "Finance", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow, Description="Phòng ban này để quản lý lương" }
             );
 
             // Seed EmployeeLevels

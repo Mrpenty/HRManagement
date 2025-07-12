@@ -41,7 +41,8 @@ namespace HRManagement.UI.Pages.HR.Departments
             {
                 DepartmentName = Department.DepartmentName,
                 UpdateTime = DateTime.Now,
-                Status = "Inactive"  // Gán mặc định
+                Status = Department.Status,
+                Description = Department.Description
             };
 
             string apiUrl = $"https://localhost:7201/api/Department/{Department.DepartmentID}";

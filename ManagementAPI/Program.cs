@@ -1,5 +1,6 @@
 using HRManagement.Data.Data;
 using ManagementAPI.Extensions;
+using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,12 @@ builder.Services.AddAutoMapperServices();
 builder.Services.AddCorsServices(builder.Configuration, builder.Environment);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddRazorPages();
+
+//Trí làm: Thêm Odata 
+builder.Services.AddControllers()
+    .AddOData(options =>
+        options.Select().Filter().OrderBy().Expand().Count().SetMaxTop(100)
+    );
 
 var app = builder.Build();
 

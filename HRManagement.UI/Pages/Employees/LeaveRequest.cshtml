@@ -1,0 +1,96 @@
+﻿@page
+@model HRManagement.UI.Pages.Employees.LeaveRequestModel
+@{
+    ViewData["Title"] = "Leave Request";
+    Layout = "_EmployeeLayout";
+}
+
+<div class="container my-4">
+    <h2 class="mt-5">My Leave Requests</h2>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+    <div class="alert alert-info">
+        <strong>Annual Leave Quota:</strong> 12 days<br />
+        <strong>Used:</strong> @Model.TotalUsedDays days<br />
+        <strong>Remaining:</strong> @Model.RemainingDays days
+    </div>
+
+    <form method="get" class="row g-3 mb-4">
+        <div class="col-md-3">
+            <label class="form-label">From:</label>
+            <input type="date" name="FromDate" class="form-control" value="@Model.FromDate" />
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">To:</label>
+            <input type="date" name="ToDate" class="form-control" value="@Model.ToDate" />
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Status:</label>
+            <select name="Status" class="form-select">
+                <option value="">All</option>
+                <option value="Pending" selected="@(Model.Status == "Pending")">Pending</option>
+                <option value="Approved" selected="@(Model.Status == "Approved")">Approved</option>
+                <option value="Rejected" selected="@(Model.Status == "Rejected")">Rejected</option>
+            </select>
+        </div>
+        <div class="col-md-3 align-self-end">
+            <button type="submit" class="btn btn-primary me-2">
+                <i class="bi bi-funnel-fill"></i> Filter
+            </button>
+            <a href="/Employees/LeaveRequest" class="btn btn-secondary">
+                <i class="bi bi-x-circle"></i> Clear
+            </a>
+        </div>
+    </form>
+
+    <div class="mb-3">
+        <a href="/Employees/CreateLeaveRequest" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Create Leave Request
+        </a>
+    </div>
+
+    @if (Model.LeaveList.Any())
+    {
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var leave in Model.LeaveList)
+                {
+                    <tr>
+                        <td>@leave.StartDate.ToShortDateString()</td>
+                        <td>@leave.EndDate.ToShortDateString()</td>
+                        <td>@leave.LeaveType</td>
+                        <td>@leave.Status</td>
+                        <td>
+                            <a href="/Employees/LeaveRequestDetail?id=@leave.LeaveRequestID" class="btn btn-sm btn-info">
+                                <i class="bi bi-eye"></i> Details
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info">No leave requests found.</div>
+    }
+</div>

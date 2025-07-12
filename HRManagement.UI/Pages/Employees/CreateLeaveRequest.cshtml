@@ -1,0 +1,43 @@
+﻿@page
+@model HRManagement.UI.Pages.Employees.CreateLeaveRequestModel
+@{
+    ViewData["Title"] = "Create Leave Request";
+    Layout = "_EmployeeLayout";
+}
+
+<div class="container my-4">
+    <h2>Create Leave Request</h2>
+
+    <form method="post">
+        <div class="mb-3">
+            <label asp-for="Leave.LeaveType" class="form-label">Leave Type</label>
+            <input asp-for="Leave.LeaveType" class="form-control" />
+            <span asp-validation-for="Leave.LeaveType" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Leave.StartDate" class="form-label">Start Date</label>
+            <input asp-for="Leave.StartDate" class="form-control" type="date" />
+            <span asp-validation-for="Leave.StartDate" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Leave.EndDate" class="form-label">End Date</label>
+            <input asp-for="Leave.EndDate" class="form-control" type="date" />
+            <span asp-validation-for="Leave.EndDate" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Leave.Reason" class="form-label">Reason</label>
+            <textarea asp-for="Leave.Reason" class="form-control"></textarea>
+            <span asp-validation-for="Leave.Reason" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success">Submit</button>
+        <a asp-page="/Employees/Dashboard" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

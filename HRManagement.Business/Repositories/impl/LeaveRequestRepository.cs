@@ -40,19 +40,28 @@ public class LeaveRequestRepository : ILeaveRequestRepository
         await _leaveRequestRepository.UpdateAsync(entity);
     }
 
+    //Trí làm: Lấy các đơn xin nghỉ tháng này
+    public async Task<List<LeaveRequest>> GetMyLeavesInMonthAsync(int userId, int month, int year)
+    {
+        var allowedStatuses = new[] { "Approved", "Pending" };
+        return await _context.LeaveRequests
+            .Where(lr => lr.UserID == userId
+                         && allowedStatuses.Contains(lr.Status)
+                         && lr.StartDate.Month == month
+                         && lr.StartDate.Year == year)
+            .ToListAsync();
+    }
+    //Trí làm: Lấy các đơn xin nghỉ năm nay
+    public async Task<List<LeaveRequest>> GetMyLeavesInYearAsync(int userId, int year)
+    {
+        return await _context.LeaveRequests
+            .Where(lr => lr.UserID == userId
+            && lr.StartDate.Year == year).ToListAsync();
+    }
     public async Task<IEnumerable<LeaveRequest>> GetAllWithUserAsync()
     {
         return await _context.LeaveRequests
             .Include(lr => lr.User)
             .ToListAsync();
-    }
-    public async Task<List<LeaveRequest>> GetMyLeavesInMonthAsync(int userId, int month, int year)
-    {
-        return await _context.LeaveRequests
-            .Where(lr => lr.UserID == userId
-                         && lr.Status == "Approved"
-                         && lr.StartDate.Month == month
-                         && lr.StartDate.Year == year)
-            .ToListAsync();
-    }
+    } 
 }

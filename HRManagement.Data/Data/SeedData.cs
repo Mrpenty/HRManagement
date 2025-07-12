@@ -116,12 +116,13 @@ public partial class SeedRoles
                 {
                     AttendanceID = 1,
                     UserID = 1,
-                    CheckInTime = DateTime.Parse("2025-06-01 08:00:00"),
-                    CheckOutTime = DateTime.Parse("2025-06-01 17:00:00"),
+                    CheckInTime = DateTime.Parse("2025-06-30 08:00:00"),
+                    CheckOutTime = DateTime.Parse("2025-06-30 16:00:00"),
                     Location = "Office",
                     WorkHours = 8.0m,
                     OvertimeHours = 0.0m,
-                    AttendanceDate = DateTime.Parse("2025-06-01"),
+                    AttendanceDate = DateTime.Parse("2025-06-30"),
+                    Status = "OnTime",
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 },
@@ -129,16 +130,18 @@ public partial class SeedRoles
                 {
                     AttendanceID = 2,
                     UserID = 2,
-                    CheckInTime = DateTime.Parse("2025-06-01 09:00:00"),
-                    CheckOutTime = DateTime.Parse("2025-06-01 18:00:00"),
+                    CheckInTime = DateTime.Parse("2025-07-01 09:00:00"),
+                    CheckOutTime = DateTime.Parse("2025-07-01 18:00:00"),
                     Location = "Office",
                     WorkHours = 8.0m,
                     OvertimeHours = 1.0m,
-                    AttendanceDate = DateTime.Parse("2025-06-01"),
+                    AttendanceDate = DateTime.Parse("2025-07-01"),
+                    Status = "Late",
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 }
             );
+
 
             // Seed Salaries
             modelBuilder.Entity<Salary>().HasData(

@@ -38,7 +38,7 @@ namespace ManagementAPI.Controllers
             {
                 var departments = await _departmentRepository.GetAsync();
                 return Ok(_mapper.Map<IEnumerable<DepartmentGet>>(departments));
-                
+
             }
             catch (Exception ex)
             {
@@ -111,7 +111,7 @@ namespace ManagementAPI.Controllers
                     return NotFound();
                 }
                 _mapper.Map(dpDto, department);
-                
+
                 await _departmentRepository.UpdateAsync(department);
 
                 return NoContent();
@@ -122,7 +122,7 @@ namespace ManagementAPI.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
-        
+
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {

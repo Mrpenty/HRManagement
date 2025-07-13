@@ -1,0 +1,68 @@
+﻿@page "{id?}"
+@model HRManagement.UI.Pages.HR.Account.UpdateAccountModel
+
+@{
+    ViewData["Title"] = "Cập nhật nhân viên";
+}
+
+<h2>Cập nhật nhân viên</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="Employee.Id" />
+    <div class="form-group">
+        <label asp-for="Employee.FirstName"></label>
+        <input asp-for="Employee.FirstName" class="form-control" readonly/>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Employee.LastName"></label>
+        <input asp-for="Employee.LastName" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Employee.Email"></label>
+        <input asp-for="Employee.Email" class="form-control" readonly />
+    </div>
+    <div class="form-group">
+        <label asp-for="Employee.PhoneNumber"></label>
+        <input asp-for="Employee.PhoneNumber" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Employee.Status"></label>
+        <input asp-for="Employee.Status" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Employee.IsVerified"></label>
+        <input asp-for="Employee.IsVerified" type="checkbox" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Employee.HireDate"></label>
+        <input asp-for="Employee.HireDate" type="date" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Employee.DepartmentName"></label>
+        <input asp-for="Employee.DepartmentName" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Employee.PositionName"></label>
+        <input asp-for="Employee.PositionName" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Employee.ContractTypeName"></label>
+        <input asp-for="Employee.ContractTypeName" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Employee.EmployeeLevelName"></label>
+        <input asp-for="Employee.EmployeeLevelName" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-success">Lưu thay đổi</button> 
+    <a asp-page="/HR/Account/ListAccount" class="btn btn-secondary">Quay lại</a>
+</form>

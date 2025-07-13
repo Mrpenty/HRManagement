@@ -1,0 +1,62 @@
+﻿@page "{id?}"
+@model HRManagement.UI.Pages.HR.Account.DetailAccountModel
+
+@{
+    ViewData["Title"] = "Chi tiết nhân viên";
+}
+
+<h2>Chi tiết nhân viên</h2>
+
+@if (Model.Employee != null)
+{
+    <div class="card">
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Họ và tên</dt>
+                <dd class="col-sm-9">@Model.Employee.FullName</dd>
+
+                <dt class="col-sm-3">Email</dt>
+                <dd class="col-sm-9">@Model.Employee.Email</dd>
+
+                <dt class="col-sm-3">Số điện thoại</dt>
+                <dd class="col-sm-9">@Model.Employee.PhoneNumber</dd>
+
+                <dt class="col-sm-3">Trạng thái</dt>
+                <dd class="col-sm-9">@Model.Employee.Status</dd>
+
+                <dt class="col-sm-3">Đã xác thực</dt>
+                <dd class="col-sm-9">
+                    @if (Model.Employee.IsVerified)
+                    {
+                        <span class="badge badge-success">Có</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">Không</span>
+                    }
+                </dd>
+
+                <dt class="col-sm-3">Ngày vào làm</dt>
+                <dd class="col-sm-9">@Model.Employee.HireDate?.ToString("yyyy-MM-dd")</dd>
+
+                <dt class="col-sm-3">Phòng ban</dt>
+                <dd class="col-sm-9">@Model.Employee.DepartmentName</dd>
+
+                <dt class="col-sm-3">Chức vụ</dt>
+                <dd class="col-sm-9">@Model.Employee.PositionName</dd>
+
+                <dt class="col-sm-3">Loại hợp đồng</dt>
+                <dd class="col-sm-9">@Model.Employee.ContractTypeName</dd>
+
+                <dt class="col-sm-3">Cấp bậc</dt>
+                <dd class="col-sm-9">@Model.Employee.EmployeeLevelName</dd>
+            </dl>
+
+            <a asp-page="/HR/Account/ListAccount" class="btn btn-secondary">Quay lại</a>
+        </div>
+    </div>
+}
+else
+{
+    <p class="text-danger">Không tìm thấy nhân viên.</p>
+}

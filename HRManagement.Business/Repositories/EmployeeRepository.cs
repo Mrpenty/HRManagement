@@ -17,7 +17,15 @@ namespace HRManagement.Business.Repositories
         {
             _context = context;
         }
-
+        //public async Task<User> GetAllEmployeesAsync()
+        //{
+        //    return await _context.Users
+        //        .Include(u => u.Department)
+        //        .Include(u => u.EmployeeLevel)
+        //        .Include(u => u.ContractType)
+        //        .Include(u => u.Position)
+        //        .FirstOrDefaultAsync();
+        //}
         public async Task<User> GetEmployeeByIdAsync(int id)
         {
             return await _context.Users

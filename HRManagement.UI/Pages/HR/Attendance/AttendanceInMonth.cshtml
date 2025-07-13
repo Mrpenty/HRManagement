@@ -1,0 +1,109 @@
+﻿@page "{userId:int}"
+@model HRManagement.UI.Pages.HR.Attendance.AttendanceInMonthModel
+@{
+    ViewData["Title"] = "Attendance Detail";
+}
+
+<h2>Chi tiết chấm công - @Model.AttendanceSummary?.FullName (Tháng @Model.Month/@Model.Year)</h2>
+
+<div class="mb-4">
+    <form method="get" class="form-inline">
+        <input type="hidden" name="userId" value="@Model.UserId" />
+        <label class="mr-2">Chọn tháng:</label>
+        <select name="month" class="form-control mr-2">
+            @for (int i = 1; i <= 12; i++)
+            {
+                <option value="@i" selected="@(i == Model.Month ? "selected" : null)">Tháng @i</option>
+            }
+        </select>
+
+        <select name="year" class="form-control mr-2">
+            @for (int y = DateTime.Now.Year - 2; y <= DateTime.Now.Year + 1; y++)
+            {
+                <option value="@y" selected="@(y == Model.Year ? "selected" : null)">@y</option>
+            }
+        </select>
+
+        <button type="submit" class="btn btn-primary">Lọc</button>
+    </form>
+</div>
+
+@if (Model.AttendanceSummary != null)
+{
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Ngày</th>
+                <th>Check In</th>
+                <th>Check Out</th>
+                <th>Trạng thái</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var day in Model.AttendanceSummary.DailyRecords)
+            {
+                <tr>
+                    <td>@day.Date.ToString("yyyy-MM-dd")</td>
+                    <td>@(string.IsNullOrEmpty(day.CheckInTime) ? "—" : day.CheckInTime)</td>
+                    <td>@(string.IsNullOrEmpty(day.CheckOutTime) ? "—" : day.CheckOutTime)</td>
+                    <td><span class="badge badge-@GetBadgeClass(day.Status)">@day.Status</span></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h4>Tổng kết</h4>
+    <ul>
+        <ul>
+            <li><strong>Ngày đi làm:</strong> @Model.OnTimeCount</li>
+            <li><strong>Số lần đi muộn:</strong> @Model.LateDays</li>
+            <li><strong>Ngày nghỉ phép:</strong> @Model.LeaveDays</li>
+            <li><strong>Chưa điểm danh:</strong> @Model.HasNotCheckCount</li>
+        </ul>
+    </ul>
+
+    <div style="max-width: 500px; margin: 0 auto;">
+        <canvas id="attendanceChart"></canvas>
+    </div>
+
+    @section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('attendanceChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['OnTime', 'Late', 'OnLeave', 'HasNotCheck'],
+                datasets: [{
+                    data: [@Model.OnTimeCount, @Model.LateDays, @Model.LeaveDays, @Model.HasNotCheckCount]
+                    backgroundColor: ['#28a745', '#ffc107', '#17a2b8', '#6c757d']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true, // giữ tỉ lệ
+                plugins: {
+                    legend: { position: 'top' },
+                    title: { display: true, text: 'Thống kê trạng thái chấm công' }
+                }
+            }
+        });
+
+    </script>
+    }
+}
+else
+{
+    <p class="text-danger">Không tìm thấy dữ liệu chấm công cho nhân viên này trong tháng đã chọn.</p>
+}
+
+@functions {
+    private string GetBadgeClass(string status) => status switch
+    {
+        "OnTime" => "success",
+        "Late" => "warning",
+        "OnLeave" => "info",
+        "HasNotCheck" => "secondary",
+        _ => "dark"
+    };
+}

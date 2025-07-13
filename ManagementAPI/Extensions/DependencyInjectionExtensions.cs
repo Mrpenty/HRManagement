@@ -20,9 +20,7 @@ public static class DependencyInjectionExtensions
         services.AddScoped<IPaySlipRepository, PaySlipRepository>();
         services.AddScoped<ISalaryRepository, SalaryRepository>();
         services.AddScoped<IAuthRepository, AuthRepository>();
-        // Registering services
         services.AddScoped<IEmployeeService, EmployeeService>();
-
 
 
         return services;

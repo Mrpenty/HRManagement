@@ -40,6 +40,65 @@ public class AttdendanceRepository : IAttdendanceRepository
     {
         await _attendanceRepository.UpdateAsync(entity);
     }
+    //Khánh làm: Lấy danh sách chấm công của từng nhân viên theo tháng
+    public async Task<AttendanceMonthlySummaryDto> GetMonthlyAttendanceHistoryAsync(int userId, int year, int month)
+    {
+        var user = await _context.Users.FindAsync(userId);
+        if (user == null) return null;
+
+        var daysInMonth = DateTime.DaysInMonth(year, month);
+        var summary = new AttendanceMonthlySummaryDto { FullName = $"{user.FirstName} {user.LastName}" };
+
+        for (int day = 1; day <= daysInMonth; day++)
+        {
+            var date = new DateTime(year, month, day);
+
+            var attendance = await _context.Attendances
+                .FirstOrDefaultAsync(a => a.UserID == userId && a.AttendanceDate.Date == date.Date);
+
+            var leave = await _context.LeaveRequests
+                .FirstOrDefaultAsync(l => l.UserID == userId &&
+                    l.Status == "Approved" &&
+                    l.StartDate.Date <= date.Date &&
+                    l.EndDate.Date >= date.Date);
+
+            var status = "HasNotCheck";
+            string checkIn = "—", checkOut = "—";
+
+            if (leave != null)
+            {
+                status = "OnLeave";
+                summary.TotalLeaveDays++;
+            }
+            else if (attendance != null)
+            {
+                checkIn = attendance.CheckInTime?.ToString("HH:mm") ?? "—";
+                checkOut = attendance.CheckOutTime?.ToString("HH:mm") ?? "—";
+
+                if (attendance.CheckInTime.HasValue && attendance.CheckInTime.Value.TimeOfDay > new TimeSpan(8, 30, 0))
+                {
+                    status = "Late";
+                    summary.TotalLateDays++;
+                }
+                else
+                {
+                    status = "OnTime";
+                }
+
+                summary.TotalWorkDays++;
+            }
+
+            summary.DailyRecords.Add(new AttendanceHistoryDto
+            {
+                Date = date,
+                CheckInTime = checkIn,
+                CheckOutTime = checkOut,
+                Status = status
+            });
+        }
+
+        return summary;
+    }
 
     public async Task<List<AttendanceDailyStatus>> GetDailyAttendanceStatusAsync(DateTime date)
     {

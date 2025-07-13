@@ -24,6 +24,7 @@
                 <th>Check Out</th>
                 <th>Status</th>
                 <th>Date</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -40,7 +41,18 @@
                         </span>
                     </td>
                     <td>@item.AttendanceDate.ToString("yyyy-MM-dd")</td>
+                    <td>
+                        <a asp-page="/HR/Attendance/AttendanceInMonth"
+                           asp-route-userId="@item.UserID"
+                           asp-route-month="@(item.AttendanceDate.ToString("yyyy-MM"))"
+                           class="btn btn-sm btn-primary">
+                            Detail in month
+                        </a>
+                    </td>
+
+
                 </tr>
+                
             }
         </tbody>
     </table>

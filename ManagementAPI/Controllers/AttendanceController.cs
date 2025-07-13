@@ -37,7 +37,18 @@ public class AttendanceController : ControllerBase
         if (userIdClaim == null) throw new UnauthorizedAccessException();
         return int.Parse(userIdClaim.Value);
     }
+    //Khánh làm: Lấy danh sách chấm công của nhân viên theo tháng
+    [HttpGet("MonthlyHistory")]
+    public async Task<IActionResult> GetMonthlyHistory(int userId, int year, int month)
+    {
+        var result = await _attdendanceRepository.GetMonthlyAttendanceHistoryAsync(userId, year, month);
+        if (result == null)
+            return NotFound("Employee not found");
 
+        return Ok(result);
+    }
+
+    //Khánh làm: Lấy danh sách chấm công của tất cả nhân viên
     [HttpGet("daily")]
     public async Task<IActionResult> GetDailyAttendanceAsync([FromQuery] DateTime date)
     {

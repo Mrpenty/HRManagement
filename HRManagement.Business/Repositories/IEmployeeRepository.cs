@@ -9,6 +9,7 @@ namespace HRManagement.Business.Repositories
 {
     public  interface IEmployeeRepository
     {
+        //Task<User> GetAllEmployeesAsync();
         Task<User> GetEmployeeByIdAsync(int id);
         Task UpdateEmployeeAsync(User user);
 

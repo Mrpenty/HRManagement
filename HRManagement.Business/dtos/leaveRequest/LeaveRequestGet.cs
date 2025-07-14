@@ -3,6 +3,7 @@ namespace HRManagement.Business.dtos.leaveRequest;
 public class LeaveRequestGet
 {
     public int LeaveRequestID { get; set; }
+    public int UserID { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     public string LeaveType { get; set; } = "";

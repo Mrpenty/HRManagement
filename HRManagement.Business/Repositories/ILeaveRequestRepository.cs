@@ -8,8 +8,5 @@ public interface ILeaveRequestRepository : IRepositoryAsync<LeaveRequest>
     Task<List<LeaveRequest>> GetMyLeavesInMonthAsync(int userId, int month, int year);
 
     Task<List<LeaveRequest>> GetMyLeavesInYearAsync(int userId, int year);
-}
-public interface ILeaveRequestRepository : IRepositoryAsync<LeaveRequest>
-{
     Task<IEnumerable<LeaveRequest>> GetAllWithUserAsync();
 }

@@ -26,7 +26,7 @@ public class ListLeaveModel : PageModel
             .Select(lr => new LeaveRequestGet
             {
                 LeaveRequestID = lr.LeaveRequestID,
-                UserID = lr.UserID,
+               // UserID = lr.UserID,
                 LeaveType = lr.LeaveType,
                 StartDate = lr.StartDate,
                 EndDate = lr.EndDate,

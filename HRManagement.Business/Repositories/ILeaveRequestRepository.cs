@@ -9,4 +9,5 @@ public interface ILeaveRequestRepository : IRepositoryAsync<LeaveRequest>
 
     Task<List<LeaveRequest>> GetMyLeavesInYearAsync(int userId, int year);
     Task<IEnumerable<LeaveRequest>> GetAllWithUserAsync();
+
 }

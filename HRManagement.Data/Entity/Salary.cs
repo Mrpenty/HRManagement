@@ -15,4 +15,5 @@ public class Salary
     public DateTime CreatedAt { get; set; } 
     public DateTime UpdatedAt { get; set; } 
     public ICollection<Payslip> Payslips { get; set; }
+    public ICollection<SalaryAdjustment> SalaryAdjustments { get; set; }
 }

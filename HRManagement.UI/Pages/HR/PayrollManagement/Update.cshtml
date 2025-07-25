@@ -1,0 +1,42 @@
+@page "/HR/PayrollManagement/Update"
+@model HRManagement.UI.Pages.HR.PayrollManagement.UpdateModel
+@{
+    ViewData["Title"] = "Update Payroll";
+    Layout = "_HRLayout";
+}
+<div class="container mt-4">
+    <h2>Update Payroll</h2>
+    <form method="post">
+        <input type="hidden" asp-for="Salary.SalaryID" />
+        <div class="mb-3">
+            <label class="form-label">Base Salary</label>
+            <input asp-for="Salary.BaseSalary" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Allowances</label>
+            <input asp-for="Salary.Allowances" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Bonus</label>
+            <input asp-for="Salary.Bonus" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Deduction</label>
+            <input asp-for="Salary.Deduction" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Tax</label>
+            <input asp-for="Salary.Tax" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Net Salary</label>
+            <input asp-for="Salary.NetSalary" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Salary Period</label>
+            <input asp-for="Salary.SalaryPeriod" type="month" class="form-control" value="@Model.Salary.SalaryPeriod.ToString("yyyy-MM")" />
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="/HR/PayrollManagement/Detail?id=@Model.Salary.SalaryID" class="btn btn-secondary ms-2">Back to Detail</a>
+    </form>
+</div> 

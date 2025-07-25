@@ -1,5 +1,7 @@
+using HRManagement.Business.dtos.Employees;
 using HRManagement.Business.Dtos.Employees;
 using HRManagement.Data.Data;
+using HRManagement.Data.Entity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -36,6 +38,45 @@ namespace HRManagement.Business.Services.Employee
                 WorkDays = workDays,
                 LeaveDays = leaveDays
             };
+        }
+
+        public async Task<int> CreateEmployeeWithSalaryAsync(EmployeeWithSalaryCreateDto dto)
+        {
+            using var transaction = await _dbContext.Database.BeginTransactionAsync();
+            try
+            {
+                var employee = new User
+                {
+                    FirstName = dto.FirstName,
+                    LastName = dto.LastName,
+                    Email = dto.Email,
+                    DateOfBirth = dto.DateOfBirth,
+                    DepartmentID = dto.DepartmentID,
+                    PositionID = dto.PositionID,
+                    EmployeeLevelID = dto.EmployeeLevelID,
+                    ContractTypeID = dto.ContractTypeID,
+                };
+                _dbContext.User.Add(employee);
+                await _dbContext.SaveChangesAsync();
+
+                var salary = new Salary
+                {
+                    UserID = employee.Id,
+                    BaseSalary = dto.BaseSalary,
+                    Allowances = dto.Allowances,
+                    SalaryPeriod = dto.SalaryPeriod
+                };
+                _dbContext.Salaries.Add(salary);
+                await _dbContext.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+                return employee.Id;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
     }
 } 

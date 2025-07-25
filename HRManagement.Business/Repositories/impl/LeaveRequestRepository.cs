@@ -66,5 +66,4 @@ public class LeaveRequestRepository : ILeaveRequestRepository
                                       .Include(lr => lr.User)
                                       .Include(lr => lr.Approver);
     }
-
 }

@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
 using HRManagement.Business.dtos.department;
+using HRManagement.Business.dtos.page;
 using HRManagement.Business.Repositories;
 using HRManagement.Data.Data;
 using HRManagement.Data.Entity;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using Microsoft.EntityFrameworkCore;
 
 namespace ManagementAPI.Controllers
 {
@@ -25,20 +24,17 @@ namespace ManagementAPI.Controllers
             _mapper = mapper;
             _context = context;
         }
-        [HttpGet("odata")]
-        [EnableQuery]
-        public IActionResult Get()
-        {
-            return Ok(_context.Departments.AsQueryable());
-        }
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync()
+        [EnableQuery]
+        public IActionResult GetAllAsync()
         {
             try
             {
-                var departments = await _departmentRepository.GetAsync();
-                return Ok(_mapper.Map<IEnumerable<DepartmentGet>>(departments));
+                var query = _departmentRepository.GetQueryable();
 
+                var dpDto = _mapper.ProjectTo<DepartmentGet>(query);
+
+                return Ok(dpDto);
             }
             catch (Exception ex)
             {

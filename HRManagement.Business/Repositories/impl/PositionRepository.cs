@@ -1,3 +1,4 @@
+using HRManagement.Business.dtos.page;
 using HRManagement.Data.Entity;
 
 namespace HRManagement.Business.Repositories.impl;
@@ -28,6 +29,11 @@ public class PositionRepository : IPositionRepository
     public async Task<Position> GetByIdAsync(int id)
     {
         return await _positionRepository.GetByIdAsync(id);
+    }
+
+    public IQueryable<Position> GetQueryable()
+    {
+        return _positionRepository.GetQueryable();
     }
 
     public async Task UpdateAsync(Position entity)

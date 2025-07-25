@@ -9,7 +9,5 @@ public interface ITokenRepository
     Task<TokenDTO> CreateJWTTokenAsync(User user, bool populateExp);
     Task<TokenDTO> RefreshJWTTokenAsync(TokenDTO tokenDTO);
     void SetTokenCookie(TokenDTO tokenDTO, HttpContext context);
-    void DeleteTokenCookie(HttpContext context);    
-
-
+    void DeleteTokenCookie(HttpContext context);
 }

@@ -1,4 +1,5 @@
 using AutoMapper;
+using HRManagement.Business.dtos.page;
 using HRManagement.Business.dtos.position;
 using HRManagement.Business.Repositories;
 using HRManagement.Data.Entity;
@@ -20,12 +21,14 @@ public class PositionController : ControllerBase
         _mapper = mapper;
     }
     [HttpGet]
-    public async Task<IActionResult> GetAllAsync()
+    public IActionResult GetAllAsync()
     {
         try
         {
-            var positions = await _positionRepository.GetAsync();
-            return Ok(_mapper.Map<IEnumerable<Position>>(positions));
+            var query = _positionRepository.GetQueryable();
+            var positionDto = _mapper.ProjectTo<PositionGet>(query);
+
+            return Ok(positionDto);
         }
         catch (Exception ex)
         {

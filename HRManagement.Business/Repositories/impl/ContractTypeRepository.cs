@@ -1,3 +1,4 @@
+using HRManagement.Business.dtos.page;
 using HRManagement.Data.Entity;
 
 namespace HRManagement.Business.Repositories.impl;
@@ -29,6 +30,12 @@ public class ContractTypeRepository : IContractTypeRepository
     {
         return await _contractTypeRepository.GetByIdAsync(id);
     }
+
+    public IQueryable<ContractType> GetQueryable()
+    {
+        return _contractTypeRepository.GetQueryable();
+    }
+
 
     public async Task UpdateAsync(ContractType entity)
     {

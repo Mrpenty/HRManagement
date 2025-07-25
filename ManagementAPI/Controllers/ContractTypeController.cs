@@ -1,5 +1,6 @@
 using AutoMapper;
 using HRManagement.Business.dtos.contractType;
+using HRManagement.Business.dtos.page;
 using HRManagement.Business.Repositories;
 using HRManagement.Data.Entity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,7 @@ public class ContractTypeController : ControllerBase
         _mapper = mapper;
     }
     [HttpGet]
-    public async Task<IActionResult> GetAllAsync()
+    public async Task<IActionResult> GetAllAsync([FromQuery] int pageNumber , [FromQuery] int pageSize)
     {
         try
         {

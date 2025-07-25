@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HRManagement.Business.dtos.page;
 using HRManagement.Business.dtos.salary;
 using HRManagement.Business.Repositories;
 using HRManagement.Data.Data;
@@ -26,15 +27,9 @@ public class SalaryController : ControllerBase
         _context = context;
     }
 
-    private int GetCurrentUserId()
-    {
-        var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier || c.Type == "sub");
-        if (userIdClaim == null) throw new UnauthorizedAccessException();
-        return int.Parse(userIdClaim.Value);
-    }
-
     [HttpGet]
-    public async Task<IActionResult> GetAllAsync()
+    [Authorize]
+    public async Task<IActionResult> GetAllAsync([FromQuery] int pageNumber, [FromQuery] int pageSize)
     {
         try
         {
@@ -69,6 +64,7 @@ public class SalaryController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> CreateAsync([FromBody] SalaryCreate salaryDto)
     {
         try
@@ -87,6 +83,7 @@ public class SalaryController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
+    [Authorize]
     public async Task<IActionResult> UpdateAsync(int id, [FromBody] SalaryCreate salaryDto)
     {
         try
@@ -140,16 +137,15 @@ public class SalaryController : ControllerBase
     }
 
     //Trí làm: Employee xem lương của mình
-    [HttpGet("my-salary")]
-    [Authorize(Roles = "Employee")]
-    public async Task<IActionResult> GetMySalaryAsync()
+    [HttpGet("{id:int}/my-salary")]
+    [Authorize]
+    public async Task<IActionResult> GetMySalaryAsync(int id)
     {
-        int userId = GetCurrentUserId();
         int month = DateTime.Today.Month;
         int year = DateTime.Today.Year;
 
         var salary = await _context.Salaries
-            .Where(s => s.UserID == userId && s.SalaryPeriod.Month == month && s.SalaryPeriod.Year == year)
+            .Where(s => s.UserID == id && s.SalaryPeriod.Month == month && s.SalaryPeriod.Year == year)
             .FirstOrDefaultAsync();
 
         if (salary == null)

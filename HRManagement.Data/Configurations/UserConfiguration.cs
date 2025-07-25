@@ -1,4 +1,5 @@
 using HRManagement.Data.Entity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -31,7 +32,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(500);
         builder.Property(u => u.RefreshTokenExpiryTime)
             .IsRequired(false);
-        builder.Property(u => u.ProfilePicture) 
+        builder.Property(u => u.ProfilePicture)
             .IsRequired(false)
             .HasMaxLength(500);
         builder.HasOne(u => u.Department)

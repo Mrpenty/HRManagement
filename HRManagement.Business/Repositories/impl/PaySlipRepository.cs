@@ -1,3 +1,4 @@
+using HRManagement.Business.dtos.page;
 using HRManagement.Data.Entity;
 
 namespace HRManagement.Business.Repositories.impl;
@@ -30,6 +31,12 @@ public class PaySlipRepository : IPaySlipRepository
     {
         return await _paySlipRepository.GetByIdAsync(id);
     }
+
+    public IQueryable<Payslip> GetQueryable()
+    {
+        return _paySlipRepository.GetQueryable();   
+    }
+
 
     public async Task UpdateAsync(Payslip entity)
     {

@@ -29,13 +29,6 @@ public class AttendanceController : ControllerBase
         _context = context;
     }
 
-    private int GetCurrentUserId()
-    {
-        var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier || c.Type == "sub");
-        if (userIdClaim == null) throw new UnauthorizedAccessException();
-        return int.Parse(userIdClaim.Value);
-    }
-
     [HttpGet("daily")]
     public async Task<IActionResult> GetDailyAttendanceAsync([FromQuery] DateTime date)
     {
@@ -230,5 +223,14 @@ public class AttendanceController : ControllerBase
         await _context.SaveChangesAsync();
 
         return Ok(new { message = "Checked out!", time = att.CheckOutTime, status = att.Status });
+    }
+
+    [HttpGet("GetAttendanceByUserId/{userId:int}")]
+    [Authorize]
+    public async Task<IActionResult> GetAttendanceByUserId(int userId)
+    {
+        var attendance = await _context.Attendances.Where(x => x.UserID == userId).ToListAsync();
+
+        return Ok(attendance);
     }
 }

@@ -210,7 +210,7 @@ public class LeaveRequestController : ControllerBase
         }
     }
 
-    
+
     [HttpGet("{id:int}/remaining-days")]
     [Authorize]
     public async Task<IActionResult> GetRemainingDays(int id)
@@ -226,4 +226,12 @@ public class LeaveRequestController : ControllerBase
         return Ok(new { Used = totalUsed, Remaining = remaining });
     }
 
+    [HttpGet("GetLeaveRequestByUserId/{userId:int}")]
+    [Authorize]
+    public async Task<IActionResult> GetLeaveRequestByUserId(int userId)
+    {
+        var leaves = await _leaveRequestRepository.GetMyLeavesInYearAsync(userId, DateTime.Now.Year);
+
+        return Ok(leaves);
+    }
 }

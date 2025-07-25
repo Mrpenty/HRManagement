@@ -4,6 +4,7 @@ using HRManagement.Business.dtos.contractType;
 using HRManagement.Business.dtos.department;
 using HRManagement.Business.dtos.employeeLevel;
 using HRManagement.Business.dtos.leaveRequest;
+using HRManagement.Business.dtos.Payslip;
 using HRManagement.Business.dtos.position;
 using HRManagement.Business.dtos.salary;
 using HRManagement.Business.dtos.user;
@@ -30,9 +31,13 @@ public class MappingProfile : Profile
         CreateMap<Position, PositionGet>().ReverseMap();
         CreateMap<Position, PositionCreate>().ReverseMap();
         CreateMap<LeaveRequest, LeaveRequestGet>()
-    .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.FirstName + " " + src.User.LastName));
+            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.FirstName + " " + src.User.LastName));
         CreateMap<LeaveRequest, LeaveRequestCreate>().ReverseMap();
-        CreateMap<Salary, SalaryGet>().ReverseMap();
+        CreateMap<Salary, SalaryGet>()
+            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.FirstName + " " + src.User.LastName));
         CreateMap<Salary, SalaryCreate>().ReverseMap();
+        CreateMap<Payslip, PaySlipGet>()
+            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.FirstName + " " + src.User.LastName));
+        CreateMap<Payslip, PaySlipCreate>().ReverseMap();
     }
 }

@@ -212,7 +212,7 @@ public class LeaveRequestController : ControllerBase
 
     
     [HttpGet("{id:int}/remaining-days")]
-    [Authorize(Roles = "Employee")]
+    [Authorize]
     public async Task<IActionResult> GetRemainingDays(int id)
     {
         var leaves = await _leaveRequestRepository.GetMyLeavesInYearAsync(id, DateTime.Now.Year);

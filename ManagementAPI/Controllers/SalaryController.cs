@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
-using HRManagement.Business.dtos.page;
 using HRManagement.Business.dtos.salary;
 using HRManagement.Business.Repositories;
 using HRManagement.Data.Data;
 using HRManagement.Data.Entity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 namespace ManagementAPI.Controllers;
 
@@ -28,13 +27,16 @@ public class SalaryController : ControllerBase
     }
 
     [HttpGet]
+    [EnableQuery]
     [Authorize]
-    public async Task<IActionResult> GetAllAsync([FromQuery] int pageNumber, [FromQuery] int pageSize)
+    public IActionResult GetAllAsync()
     {
         try
         {
-            var salaries = await _salaryRepository.GetAsync();
-            return Ok(_mapper.Map<IEnumerable<Salary>>(salaries));
+            var query = _salaryRepository.GetQueryable();
+            var salaryDto = _mapper.ProjectTo<SalaryGet>(query);
+
+            return Ok(salaryDto);
         }
         catch (Exception ex)
         {
@@ -69,15 +71,25 @@ public class SalaryController : ControllerBase
     {
         try
         {
+            decimal taxRate = 0.1m;
+            decimal taxableIncome = salaryDto.BaseSalary + salaryDto.Allowances + salaryDto.Bonus;
+            decimal tax = taxableIncome * taxRate;
+
+            decimal netSalary = taxableIncome - tax - salaryDto.Deduction;
+
             var salary = _mapper.Map<Salary>(salaryDto);
+            salary.Tax = tax;
+            salary.NetSalary = netSalary;
 
             await _salaryRepository.AddAsync(salary);
 
-            return CreatedAtAction(nameof(GetByIdAsync), new { id = salary.SalaryID }, _mapper.Map<SalaryGet>(salary));
+            return CreatedAtAction(nameof(GetByIdAsync), 
+                new { id = salary.SalaryID }, 
+                _mapper.Map<SalaryGet>(salary));
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An error occurred");
+            _logger.LogError(ex, "An error occurred while creating salary");
             return StatusCode(500, "Internal server error");
         }
     }

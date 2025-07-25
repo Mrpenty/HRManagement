@@ -3,7 +3,9 @@ using HRManagement.Business.dtos.page;
 using HRManagement.Business.dtos.Payslip;
 using HRManagement.Business.Repositories;
 using HRManagement.Data.Entity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 
 namespace ManagementAPI.Controllers;
 
@@ -21,12 +23,16 @@ public class PaySlipController : ControllerBase
         _mapper = mapper;
     }
     [HttpGet]
-    public async Task<IActionResult> GetAllAsync([FromQuery] int pageNumber , [FromQuery] int pageSize)
+    [EnableQuery]
+    [Authorize]
+    public IActionResult GetAllAsync()
     {
         try
         {
-            var paySlips = await _paySlipRepository.GetAsync();
-            return Ok(_mapper.Map<IEnumerable<Payslip>>(paySlips));
+            var query = _paySlipRepository.GetQueryable();
+            var paySlipDto = _mapper.ProjectTo<PaySlipGet>(query);
+
+            return Ok(paySlipDto);
         }
         catch (Exception ex)
         {

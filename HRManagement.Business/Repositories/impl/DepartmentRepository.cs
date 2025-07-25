@@ -1,3 +1,4 @@
+using HRManagement.Business.dtos.page;
 using HRManagement.Data.Data;
 using HRManagement.Data.Entity;
 using Microsoft.EntityFrameworkCore;
@@ -42,4 +43,10 @@ public class DepartmentRepository : IDepartmentRepository
     {
         return await _context.Set<Department>().FirstOrDefaultAsync(d => d.DepartmentName == name);                 
     }
+
+    public IQueryable<Department> GetQueryable()
+    {
+        return _departmentRepository.GetQueryable();
+    }
+
 }

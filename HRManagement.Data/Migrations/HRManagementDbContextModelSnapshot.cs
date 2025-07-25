@@ -52,10 +52,6 @@ namespace HRManagement.Data.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2")
@@ -78,28 +74,26 @@ namespace HRManagement.Data.Migrations
                         new
                         {
                             AttendanceID = 1,
-                            AttendanceDate = new DateTime(2025, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CheckInTime = new DateTime(2025, 6, 30, 8, 0, 0, 0, DateTimeKind.Unspecified),
-                            CheckOutTime = new DateTime(2025, 6, 30, 16, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 255, DateTimeKind.Utc).AddTicks(3101),
+                            AttendanceDate = new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckInTime = new DateTime(2025, 6, 1, 8, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckOutTime = new DateTime(2025, 6, 1, 17, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2025, 7, 2, 7, 37, 16, 122, DateTimeKind.Utc).AddTicks(2149),
                             Location = "Office",
                             OvertimeHours = 0.0m,
-                            Status = "OnTime",
-                            UpdatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 255, DateTimeKind.Utc).AddTicks(3101),
+                            UpdatedAt = new DateTime(2025, 7, 2, 7, 37, 16, 122, DateTimeKind.Utc).AddTicks(2151),
                             UserID = 1,
                             WorkHours = 8.0m
                         },
                         new
                         {
                             AttendanceID = 2,
-                            AttendanceDate = new DateTime(2025, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CheckInTime = new DateTime(2025, 7, 1, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            CheckOutTime = new DateTime(2025, 7, 1, 18, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 255, DateTimeKind.Utc).AddTicks(3114),
+                            AttendanceDate = new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckInTime = new DateTime(2025, 6, 1, 9, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckOutTime = new DateTime(2025, 6, 1, 18, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2025, 7, 2, 7, 37, 16, 122, DateTimeKind.Utc).AddTicks(2264),
                             Location = "Office",
                             OvertimeHours = 1.0m,
-                            Status = "Late",
-                            UpdatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 255, DateTimeKind.Utc).AddTicks(3114),
+                            UpdatedAt = new DateTime(2025, 7, 2, 7, 37, 16, 122, DateTimeKind.Utc).AddTicks(2264),
                             UserID = 2,
                             WorkHours = 8.0m
                         });
@@ -183,26 +177,29 @@ namespace HRManagement.Data.Migrations
                         new
                         {
                             DepartmentID = 1,
-                            CreatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 84, DateTimeKind.Utc).AddTicks(2867),
+                            CreatedAt = new DateTime(2025, 7, 2, 7, 37, 15, 967, DateTimeKind.Utc).AddTicks(454),
                             DepartmentName = "IT",
+                            Description = "Phòng ban này là công nghệ thông tin",
                             Status = "Inactive",
-                            UpdatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 84, DateTimeKind.Utc).AddTicks(2869)
+                            UpdatedAt = new DateTime(2025, 7, 2, 7, 37, 15, 967, DateTimeKind.Utc).AddTicks(457)
                         },
                         new
                         {
                             DepartmentID = 2,
-                            CreatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 84, DateTimeKind.Utc).AddTicks(2870),
+                            CreatedAt = new DateTime(2025, 7, 2, 7, 37, 15, 967, DateTimeKind.Utc).AddTicks(459),
                             DepartmentName = "HR",
+                            Description = "Phòng ban này để quản lý nhân sự",
                             Status = "Inactive",
-                            UpdatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 84, DateTimeKind.Utc).AddTicks(2870)
+                            UpdatedAt = new DateTime(2025, 7, 2, 7, 37, 15, 967, DateTimeKind.Utc).AddTicks(459)
                         },
                         new
                         {
                             DepartmentID = 3,
-                            CreatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 84, DateTimeKind.Utc).AddTicks(2871),
+                            CreatedAt = new DateTime(2025, 7, 2, 7, 37, 15, 967, DateTimeKind.Utc).AddTicks(460),
                             DepartmentName = "Finance",
+                            Description = "Phòng ban này để quản lý lương",
                             Status = "Inactive",
-                            UpdatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 84, DateTimeKind.Utc).AddTicks(2872)
+                            UpdatedAt = new DateTime(2025, 7, 2, 7, 37, 15, 967, DateTimeKind.Utc).AddTicks(461)
                         });
                 });
 
@@ -305,26 +302,26 @@ namespace HRManagement.Data.Migrations
                         {
                             LeaveRequestID = 1,
                             ApproverID = 2,
-                            CreatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 255, DateTimeKind.Utc).AddTicks(3230),
+                            CreatedAt = new DateTime(2025, 7, 2, 7, 37, 16, 122, DateTimeKind.Utc).AddTicks(3426),
                             EndDate = new DateTime(2025, 6, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LeaveType = "Sick Leave",
                             Reason = "Sick leave",
                             StartDate = new DateTime(2025, 6, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "Pending",
-                            UpdatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 255, DateTimeKind.Utc).AddTicks(3230),
+                            UpdatedAt = new DateTime(2025, 7, 2, 7, 37, 16, 122, DateTimeKind.Utc).AddTicks(3428),
                             UserID = 1
                         },
                         new
                         {
                             LeaveRequestID = 2,
                             ApproverID = 1,
-                            CreatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 255, DateTimeKind.Utc).AddTicks(3236),
+                            CreatedAt = new DateTime(2025, 7, 2, 7, 37, 16, 122, DateTimeKind.Utc).AddTicks(3438),
                             EndDate = new DateTime(2025, 6, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LeaveType = "Sick Leave",
                             Reason = "Vacation",
                             StartDate = new DateTime(2025, 6, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = "Approved",
-                            UpdatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 255, DateTimeKind.Utc).AddTicks(3236),
+                            UpdatedAt = new DateTime(2025, 7, 2, 7, 37, 16, 122, DateTimeKind.Utc).AddTicks(3439),
                             UserID = 2
                         });
                 });
@@ -379,23 +376,23 @@ namespace HRManagement.Data.Migrations
                         new
                         {
                             PayslipID = 1,
-                            CreatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 255, DateTimeKind.Utc).AddTicks(3189),
+                            CreatedAt = new DateTime(2025, 7, 2, 7, 37, 16, 122, DateTimeKind.Utc).AddTicks(2624),
                             FilePath = "/payslips/user1_june2025.pdf",
                             IssueDate = new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             SalaryID = 1,
                             Status = "Generated",
-                            UpdatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 255, DateTimeKind.Utc).AddTicks(3190),
+                            UpdatedAt = new DateTime(2025, 7, 2, 7, 37, 16, 122, DateTimeKind.Utc).AddTicks(2625),
                             UserID = 1
                         },
                         new
                         {
                             PayslipID = 2,
-                            CreatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 255, DateTimeKind.Utc).AddTicks(3194),
+                            CreatedAt = new DateTime(2025, 7, 2, 7, 37, 16, 122, DateTimeKind.Utc).AddTicks(2629),
                             FilePath = "/payslips/user2_june2025.pdf",
                             IssueDate = new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             SalaryID = 2,
                             Status = "Generated",
-                            UpdatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 255, DateTimeKind.Utc).AddTicks(3194),
+                            UpdatedAt = new DateTime(2025, 7, 2, 7, 37, 16, 122, DateTimeKind.Utc).AddTicks(2629),
                             UserID = 2
                         });
                 });
@@ -496,12 +493,12 @@ namespace HRManagement.Data.Migrations
                             Allowances = 500.00m,
                             BaseSalary = 5000.00m,
                             Bonus = 200.00m,
-                            CreatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 255, DateTimeKind.Utc).AddTicks(3154),
+                            CreatedAt = new DateTime(2025, 7, 2, 7, 37, 16, 122, DateTimeKind.Utc).AddTicks(2352),
                             Deduction = 300.00m,
                             NetSalary = 5000.00m,
                             SalaryPeriod = new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Tax = 400.00m,
-                            UpdatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 255, DateTimeKind.Utc).AddTicks(3155),
+                            UpdatedAt = new DateTime(2025, 7, 2, 7, 37, 16, 122, DateTimeKind.Utc).AddTicks(2353),
                             UserID = 1
                         },
                         new
@@ -510,12 +507,12 @@ namespace HRManagement.Data.Migrations
                             Allowances = 400.00m,
                             BaseSalary = 4000.00m,
                             Bonus = 150.00m,
-                            CreatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 255, DateTimeKind.Utc).AddTicks(3159),
+                            CreatedAt = new DateTime(2025, 7, 2, 7, 37, 16, 122, DateTimeKind.Utc).AddTicks(2358),
                             Deduction = 200.00m,
                             NetSalary = 4050.00m,
                             SalaryPeriod = new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Tax = 300.00m,
-                            UpdatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 255, DateTimeKind.Utc).AddTicks(3160),
+                            UpdatedAt = new DateTime(2025, 7, 2, 7, 37, 16, 122, DateTimeKind.Utc).AddTicks(2358),
                             UserID = 2
                         });
                 });
@@ -656,9 +653,9 @@ namespace HRManagement.Data.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "df940d45-1008-4961-adec-0f91dd386cfd",
+                            ConcurrencyStamp = "2a27c52c-79a3-4075-a945-cc3839debb09",
                             ContractTypeID = 1,
-                            CreatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 141, DateTimeKind.Utc).AddTicks(751),
+                            CreatedAt = new DateTime(2025, 7, 2, 7, 37, 16, 18, DateTimeKind.Utc).AddTicks(4072),
                             DepartmentID = 1,
                             Email = "admin@example.com",
                             EmailConfirmed = false,
@@ -668,12 +665,12 @@ namespace HRManagement.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EXAMPLE.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOK+coHrrw15ted8Fy5xbMAXcR2cubkwUbxpL4Xd8hgzeDfsUL2Df7LRQDq4yKzKpQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEA7rbZVSyAqLH8fwmsgBAaKWg0zoYiJAtoL4k1Ax4DlBRjRgSJ8v7WQnaxt1eXLFjw==",
                             PhoneNumberConfirmed = false,
                             PositionID = 1,
-                            SecurityStamp = "99a715e1-9257-496f-9941-6e2f7310634c",
+                            SecurityStamp = "39b8eaf0-6d2e-4711-bc62-3d4ee1721c98",
                             TwoFactorEnabled = false,
-                            UpdatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 141, DateTimeKind.Utc).AddTicks(757),
+                            UpdatedAt = new DateTime(2025, 7, 2, 7, 37, 16, 18, DateTimeKind.Utc).AddTicks(4081),
                             UserName = "admin",
                             isVertify = true,
                             status = "Active"
@@ -682,9 +679,9 @@ namespace HRManagement.Data.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0a69b3f2-b756-4ad3-880b-45216c9a3e2a",
+                            ConcurrencyStamp = "1beb30d5-c874-4f53-90f3-3dd96455dd64",
                             ContractTypeID = 1,
-                            CreatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 197, DateTimeKind.Utc).AddTicks(7875),
+                            CreatedAt = new DateTime(2025, 7, 2, 7, 37, 16, 70, DateTimeKind.Utc).AddTicks(1172),
                             DepartmentID = 2,
                             Email = "hr@example.com",
                             EmailConfirmed = false,
@@ -694,12 +691,12 @@ namespace HRManagement.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "HR@EXAMPLE.COM",
                             NormalizedUserName = "HRUSER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFfmL2+fhyLgBst5iyZ9g6OkNXov7gBVclWbBI6Px5cxkXH2WuJVtvGQNjyQzOtdQA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHBt3GESXL7Tppn038nVW3/5qxl+qgpH9UCgV2EaSUnCXu0vnZYXDKa0odRp6YI/Mw==",
                             PhoneNumberConfirmed = false,
                             PositionID = 2,
-                            SecurityStamp = "0992e392-ea78-4004-8047-06d690b7a699",
+                            SecurityStamp = "0bf54b5c-cec7-480a-9200-d8586d68f857",
                             TwoFactorEnabled = false,
-                            UpdatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 197, DateTimeKind.Utc).AddTicks(7879),
+                            UpdatedAt = new DateTime(2025, 7, 2, 7, 37, 16, 70, DateTimeKind.Utc).AddTicks(1173),
                             UserName = "hruser",
                             isVertify = true,
                             status = "Active"
@@ -708,9 +705,9 @@ namespace HRManagement.Data.Migrations
                         {
                             Id = 3,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ac4b622c-ae13-46b6-b357-8584bdba05af",
+                            ConcurrencyStamp = "f94ba5c9-5b5d-4c5b-b6c7-6a718b0e1605",
                             ContractTypeID = 2,
-                            CreatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 255, DateTimeKind.Utc).AddTicks(2626),
+                            CreatedAt = new DateTime(2025, 7, 2, 7, 37, 16, 122, DateTimeKind.Utc).AddTicks(1113),
                             DepartmentID = 3,
                             Email = "employee@example.com",
                             EmailConfirmed = false,
@@ -720,12 +717,12 @@ namespace HRManagement.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "EMPLOYEE@EXAMPLE.COM",
                             NormalizedUserName = "EMPLOYEE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJqv9fEmU0DbondIMfZ6BdtLXQR4jDS4T4d3VY5x4P8zfje/mpHV8rUZK3+R1ZCa2Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELW/1ZO6s6rLkkkb1CTZIXWQ5ohRE65pxB+cUQZvOEiJVqKfVVX4z5nkmlX+jHuixA==",
                             PhoneNumberConfirmed = false,
                             PositionID = 3,
-                            SecurityStamp = "8edd8fb7-cdc4-4e74-89fa-63b5c5fcf941",
+                            SecurityStamp = "64e05de8-a9fe-44cc-bc6c-d765685a780c",
                             TwoFactorEnabled = false,
-                            UpdatedAt = new DateTime(2025, 7, 2, 3, 37, 54, 255, DateTimeKind.Utc).AddTicks(2632),
+                            UpdatedAt = new DateTime(2025, 7, 2, 7, 37, 16, 122, DateTimeKind.Utc).AddTicks(1122),
                             UserName = "employee",
                             isVertify = true,
                             status = "Active"

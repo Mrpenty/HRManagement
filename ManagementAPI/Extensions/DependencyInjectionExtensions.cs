@@ -1,6 +1,5 @@
 using HRManagement.Business.Repositories;
 using HRManagement.Business.Repositories.impl;
-using HRManagement.Business.Services.Employee;
 
 namespace ManagementAPI.Extensions;
 
@@ -20,10 +19,6 @@ public static class DependencyInjectionExtensions
         services.AddScoped<IPaySlipRepository, PaySlipRepository>();
         services.AddScoped<ISalaryRepository, SalaryRepository>();
         services.AddScoped<IAuthRepository, AuthRepository>();
-        // Registering services
-        services.AddScoped<IEmployeeService, EmployeeService>();
-
-
 
         return services;
     }    

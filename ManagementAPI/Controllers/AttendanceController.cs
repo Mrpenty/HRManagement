@@ -1,14 +1,12 @@
 ﻿using AutoMapper;
 using HRManagement.Business.dtos.attendance;
 using HRManagement.Business.Repositories;
-using HRManagement.Business.Repositories.impl;
 using HRManagement.Data.Data;
 using HRManagement.Data.Entity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Security.Claims;
 
 namespace ManagementAPI.Controllers;
@@ -53,55 +51,23 @@ public class AttendanceController : ControllerBase
         }
     }
 
-    //Trí làm: Trang Dashboard Role Employee
-    [HttpGet("my-dashboard")]
-    [Authorize(Roles = "Employee")]
-    public async Task<IActionResult> GetMyDashboardAsync()
+    [HttpGet]
+    [EnableQuery]
+    public IActionResult GetAllAsync()
     {
-        int userId = GetCurrentUserId();
-
-        var thisMonth = DateTime.Today.Month;
-        var thisYear = DateTime.Today.Year;
-
-        // Lấy tất cả chấm công tháng này
-        var logs = _attdendanceRepository.Attendances
-            .Where(a => a.UserID == userId
-                        && a.AttendanceDate.Year == thisYear
-                        && a.AttendanceDate.Month == thisMonth)
-            .ToList();
-
-        double totalHours = logs
-        .Where(l => l.CheckInTime != null && l.CheckOutTime != null)
-        .Sum(l => (l.CheckOutTime.Value - l.CheckInTime.Value).TotalHours);
-
-        int workDays = logs
-        .Select(l => l.AttendanceDate.Date)
-        .Distinct()
-        .Count();
-
-        double otHours = logs
-        .Where(l => l.CheckInTime != null && l.CheckOutTime != null)
-        .GroupBy(l => l.AttendanceDate.Date)
-        .Sum(g =>
+        try
         {
-            var dailyHours = g.Sum(l => (l.CheckOutTime.Value - l.CheckInTime.Value).TotalHours);
-            return Math.Max(dailyHours - 8, 0);
-        });
+            var query = _attdendanceRepository.GetQueryable();
 
-        var leaves = await _leaveRequestRepository.GetMyLeavesInYearAsync(userId, thisYear);
-        int daysLeave = leaves
-            .Where(x => x.Status == "Approved" || x.Status == "Pending")
-            .Sum(x => (x.EndDate - x.StartDate).Days + 1);
+            var attendanceDto = _mapper.ProjectTo<AttendanceGet>(query);
 
-        var dto = new MyDashboardDto
+            return Ok(attendanceDto);
+        }
+        catch (Exception ex)
         {
-            TotalWorkHours = totalHours,
-            WorkDays = workDays,
-            OTHours = otHours,
-            DaysLeave = daysLeave
-        };
-
-        return Ok(dto);
+            _logger.LogError(ex, "An error occurred");
+            return StatusCode(500, "Internal server error");
+        }
     }
 
 
@@ -196,38 +162,15 @@ public class AttendanceController : ControllerBase
         }
     }
 
-    //Trí làm: Controller View danh sách số ngày đã chấm công của người đang đăng nhập
-    [HttpGet("my-attendance")]
-    [EnableQuery]
-    [Authorize(Roles = "Employee")]
-    public IQueryable<AttendanceViewDto> GetMyAttendance()
-    {
-        int userId = GetCurrentUserId();
-
-        return _attdendanceRepository.Attendances
-            .Where(a => a.UserID == userId)
-            .Select(a => new AttendanceViewDto
-            {
-                AttendanceDate = a.AttendanceDate,
-                CheckInTime = a.CheckInTime,
-                CheckOutTime = a.CheckOutTime,
-                WorkHours = a.WorkHours,
-                OvertimeHours = a.OvertimeHours,
-                Status = a.Status,
-                Location = a.Location
-            });
-    }
-
     //Trí làm: Check-in có mặt
-    [HttpPost("check-in")]
-    [Authorize(Roles = "Employee")]
-    public async Task<IActionResult> CheckInAsync()
+    [HttpPost("{id:int}/check-in")]
+    [Authorize]
+    public async Task<IActionResult> CheckInAsync(int id)
     {
-        int userId = GetCurrentUserId();
         var today = DateTime.Today; // Local date, OK
 
         var record = await _context.Attendances
-            .FirstOrDefaultAsync(x => x.UserID == userId && x.AttendanceDate == today);
+            .FirstOrDefaultAsync(x => x.UserID == id && x.AttendanceDate == today);
 
         var nowUtc = DateTime.UtcNow;
         var nowLocal = nowUtc.ToLocalTime();
@@ -236,7 +179,7 @@ public class AttendanceController : ControllerBase
         {
             record = new Attendance
             {
-                UserID = userId,
+                UserID = id,
                 AttendanceDate = today,
                 CheckInTime = nowUtc,
                 Status = nowLocal.TimeOfDay <= new TimeSpan(8, 0, 0) ? "OnTime" : "Late",
@@ -259,18 +202,16 @@ public class AttendanceController : ControllerBase
     }
 
     //Trí làm: Check-out kèm tính Work Hour và OT
-    [HttpPost("check-out")]
-    [Authorize(Roles = "Employee")]
-    public async Task<IActionResult> CheckOutAsync()
+    [HttpPost("{id:int}/check-out")]
+    [Authorize]
+    public async Task<IActionResult> CheckOutAsync(int id)
     {
-        int userId = GetCurrentUserId();
         var today = DateTime.Today;
 
         var att = await _context.Attendances
-            .FirstOrDefaultAsync(a => a.UserID == userId && a.AttendanceDate == today);
+            .FirstOrDefaultAsync(a => a.UserID == id && a.AttendanceDate == today);
 
         if (att == null) return BadRequest("Bạn chưa check-in hôm nay.");
-        if (att.CheckOutTime != null) return BadRequest("Bạn đã check-out rồi.");
         if (!att.CheckInTime.HasValue) return BadRequest("Bạn chưa check-in hôm nay.");
 
         var nowUtc = DateTime.UtcNow;
@@ -290,6 +231,4 @@ public class AttendanceController : ControllerBase
 
         return Ok(new { message = "Checked out!", time = att.CheckOutTime, status = att.Status });
     }
-
-
 }

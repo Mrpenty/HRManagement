@@ -1,8 +1,10 @@
 using AutoMapper;
 using HRManagement.Business.dtos.employeeLevel;
+using HRManagement.Business.dtos.page;
 using HRManagement.Business.Repositories;
 using HRManagement.Data.Entity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 
 namespace ManagementAPI.Controllers;
 
@@ -20,9 +22,10 @@ public class EmployeeLevelController : ControllerBase
         _mapper = mapper;
     }
     [HttpGet]
-        public async Task<IActionResult> GetAllAsync()
-        {
-            try
+    [EnableQuery]
+    public async Task<IActionResult> GetAllAsync([FromQuery] int pageNumber, [FromQuery] int pageSize)
+    {
+        try
             {
                 var els = await _employeeLevelRepository.GetAsync();
                 return Ok(_mapper.Map<IEnumerable<EmployeeLevel>>(els));
@@ -32,96 +35,96 @@ public class EmployeeLevelController : ControllerBase
                 _logger.LogError(ex, "An error occurred");
                 return StatusCode(500, "Internal server error");
             }
-        }
+    }
 
-        [HttpGet("{id:int}")]
-        [ActionName(nameof(GetByIdAsync))]
-        public async Task<IActionResult> GetByIdAsync(int id)
+    [HttpGet("{id:int}")]
+    [ActionName(nameof(GetByIdAsync))]
+    public async Task<IActionResult> GetByIdAsync(int id)
+    {
+        try
         {
-            try
+            var el = await _employeeLevelRepository.GetByIdAsync(id);
+            if (el == null)
             {
-                var el = await _employeeLevelRepository.GetByIdAsync(id);
-                if (el == null)
-                {
-                    return NotFound();
-                }
-                return Ok(_mapper.Map<EmployeeLevelGet>(el));
+                return NotFound();
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred");
-                return StatusCode(500, "Internal server error");
-            }
+            return Ok(_mapper.Map<EmployeeLevelGet>(el));
         }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateAsync([FromBody] EmployeeLevelCreate ctDto)
+        catch (Exception ex)
         {
-            try
-            {
-                var el = _mapper.Map<EmployeeLevel>(ctDto);
-
-                await _employeeLevelRepository.AddAsync(el);
-
-                return CreatedAtAction(nameof(GetByIdAsync), new { id = el.EmployeeLevelID }, _mapper.Map<EmployeeLevelGet>(el));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred");
-                return StatusCode(500, "Internal server error");
-            }
+            _logger.LogError(ex, "An error occurred");
+            return StatusCode(500, "Internal server error");
         }
+    }
 
-        [HttpPut("{id:int}")]
-        public async Task<IActionResult> UpdateAsync(int id, [FromBody] EmployeeLevelCreate ctDto)
+    [HttpPost]
+    public async Task<IActionResult> CreateAsync([FromBody] EmployeeLevelCreate ctDto)
+    {
+        try
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
+            var el = _mapper.Map<EmployeeLevel>(ctDto);
 
-                var ct = await _employeeLevelRepository.GetByIdAsync(id);
+            await _employeeLevelRepository.AddAsync(el);
 
-                if (ct == null)
-                {
-                    return NotFound();
-                }
-
-                _mapper.Map(ctDto, ct);
-
-                await _employeeLevelRepository.UpdateAsync(ct);
-
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred");
-                return StatusCode(500, "Internal server error");
-            }
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = el.EmployeeLevelID }, _mapper.Map<EmployeeLevelGet>(el));
         }
-        
-        [HttpDelete("{id:int}")]
-        public async Task<IActionResult> DeleteAsync(int id)
+        catch (Exception ex)
         {
-            try
-            {
-                var ct = await _employeeLevelRepository.GetByIdAsync(id);
-
-                if (ct == null)
-                {
-                    return NotFound();
-                }
-
-                await _employeeLevelRepository.DeleteAsync(id);
-                
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred");
-                return StatusCode(500, "Internal server error");
-            }
+            _logger.LogError(ex, "An error occurred");
+            return StatusCode(500, "Internal server error");
         }
+    }
+
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> UpdateAsync(int id, [FromBody] EmployeeLevelCreate ctDto)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var ct = await _employeeLevelRepository.GetByIdAsync(id);
+
+            if (ct == null)
+            {
+                return NotFound();
+            }
+
+            _mapper.Map(ctDto, ct);
+
+            await _employeeLevelRepository.UpdateAsync(ct);
+
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred");
+            return StatusCode(500, "Internal server error");
+        }
+    }
+    
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> DeleteAsync(int id)
+    {
+        try
+        {
+            var ct = await _employeeLevelRepository.GetByIdAsync(id);
+
+            if (ct == null)
+            {
+                return NotFound();
+            }
+
+            await _employeeLevelRepository.DeleteAsync(id);
+            
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred");
+            return StatusCode(500, "Internal server error");
+        }
+    }
 }

@@ -6,7 +6,7 @@ public class UserGet
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public DateTime? DateOfBirth { get; set; }
-    public string email { get; set; }
+    public string Email { get; set; }
     public DateTime? HireDate { get; set; }
     public string? ProfilePicture { get; set; }
     public bool IsVertify { get; set; }
@@ -15,4 +15,5 @@ public class UserGet
     public int? EmployeeLevelID { get; set; }
     public int? ContractTypeID { get; set; }
     public int? PositionID { get; set; }
+    public IEnumerable<int> RoleIds { get; set; } = [];
 }

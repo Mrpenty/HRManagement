@@ -7,6 +7,7 @@ namespace HRManagement.Business.Repositories
     {
         Task<AuthMessDTO> LoginAsync(LoginDTO loginDTO);
         Task<AuthMessDTO> RegisterAsync(RegisterDTO registerDTO);
+        Task<AuthMessDTO> RefreshTokenAsync(TokenDTO tokenDTO);
         Task LogoutAsync();
     }
 }

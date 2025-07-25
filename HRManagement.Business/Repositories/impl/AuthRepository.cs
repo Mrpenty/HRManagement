@@ -34,15 +34,17 @@ namespace HRManagement.Business.Repositories.impl
             if (result.Succeeded)
             {
                 var tokenDto = await _tokenRepository.CreateJWTTokenAsync(user, true);
+                var roles = await _userManager.GetRolesAsync(user);
 
                 _tokenRepository.SetTokenCookie(tokenDto, _httpContextAccessor.HttpContext);
-                return new AuthMessDTO { IsAuthSuccessful = true, ErrorMessage = "Login successful", Token = tokenDto.AccessToken };
+                return new AuthMessDTO { IsAuthSuccessful = true, ErrorMessage = "Login successful",Id=user.Id ,Email=user.Email, Roles = roles, AccessToken = tokenDto.AccessToken, RefreshToken= tokenDto.RefreshToken };
             }
             else
             {
                 return new AuthMessDTO { IsAuthSuccessful = false, ErrorMessage = "Invalid login attempt." };
             }
         }
+
         public async Task<AuthMessDTO> RegisterAsync(RegisterDTO registerDTO)
         {
             var user = new User
@@ -63,7 +65,7 @@ namespace HRManagement.Business.Repositories.impl
                 return new AuthMessDTO { IsAuthSuccessful = false, ErrorMessage = string.Join(", ", createdUser.Errors.Select(e => e.Description)) };
             }
 
-            var roleResult = await _userManager.AddToRoleAsync(user, "HR");
+            var roleResult = await _userManager.AddToRoleAsync(user, "Employee");
 
             if (!roleResult.Succeeded)
             {
@@ -81,6 +83,29 @@ namespace HRManagement.Business.Repositories.impl
             await _signInManager.SignOutAsync();
         }
 
+        public async Task<AuthMessDTO> RefreshTokenAsync(TokenDTO tokenDTO)
+        {
+            try
+            {
+                var tokenResult = await _tokenRepository.RefreshJWTTokenAsync(tokenDTO);
 
+                _tokenRepository.SetTokenCookie(tokenResult, _httpContextAccessor.HttpContext);
+
+                return new AuthMessDTO
+                {
+                    IsAuthSuccessful = true,
+                    AccessToken = tokenResult.AccessToken,
+                    RefreshToken = tokenResult.RefreshToken,
+                };
+            }
+            catch (Exception)
+            {
+                return new AuthMessDTO
+                {
+                    IsAuthSuccessful = false,
+                    ErrorMessage = "failed"
+                };
+            }
+        }
     }
 }

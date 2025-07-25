@@ -72,5 +72,24 @@ namespace HRManagement.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing your request.");
             }
         }
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> RefreshAsync([FromBody] TokenDTO tokenDTO)
+        {
+            try
+            {
+                var response = await _authService.RefreshTokenAsync(tokenDTO);
+
+                if (!response.IsAuthSuccessful)
+                    return Unauthorized(response);
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while refreshing token.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing your request.");
+            }
+        }
     }
 }

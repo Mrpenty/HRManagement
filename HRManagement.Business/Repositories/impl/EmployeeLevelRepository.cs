@@ -1,3 +1,4 @@
+using HRManagement.Business.dtos.page;
 using HRManagement.Data.Entity;
 
 namespace HRManagement.Business.Repositories.impl;
@@ -29,6 +30,12 @@ public class EmployeeLevelRepository : IEmployeeLevelRepository
     {
         return await _employeeLevelRepository.GetByIdAsync(id);
     }
+
+    public IQueryable<EmployeeLevel> GetQueryable()
+    {
+        return _employeeLevelRepository.GetQueryable();
+    }
+
 
     public async Task UpdateAsync(EmployeeLevel entity)
     {

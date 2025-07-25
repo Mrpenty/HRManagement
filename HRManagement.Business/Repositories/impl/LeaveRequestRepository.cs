@@ -1,4 +1,5 @@
-﻿using HRManagement.Data.Data;
+﻿using HRManagement.Business.dtos.page;
+using HRManagement.Data.Data;
 using HRManagement.Data.Entity;
 using Microsoft.EntityFrameworkCore;
 
@@ -58,10 +59,12 @@ public class LeaveRequestRepository : ILeaveRequestRepository
             .Where(lr => lr.UserID == userId
             && lr.StartDate.Year == year).ToListAsync();
     }
-    public async Task<IEnumerable<LeaveRequest>> GetAllWithUserAsync()
+    
+    public IQueryable<LeaveRequest> GetQueryable()
     {
-        return await _context.LeaveRequests
-            .Include(lr => lr.User)
-            .ToListAsync();
-    } 
+        return _leaveRequestRepository.GetQueryable()
+                                      .Include(lr => lr.User)
+                                      .Include(lr => lr.Approver);
+    }
+
 }

@@ -1,4 +1,5 @@
 using AutoMapper;
+using HRManagement.Business.dtos.page;
 using HRManagement.Business.dtos.Payslip;
 using HRManagement.Business.Repositories;
 using HRManagement.Data.Entity;
@@ -20,7 +21,7 @@ public class PaySlipController : ControllerBase
         _mapper = mapper;
     }
     [HttpGet]
-    public async Task<IActionResult> GetAllAsync()
+    public async Task<IActionResult> GetAllAsync([FromQuery] int pageNumber , [FromQuery] int pageSize)
     {
         try
         {

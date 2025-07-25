@@ -21,12 +21,6 @@ builder.Services.AddCorsServices(builder.Configuration, builder.Environment);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddRazorPages();
 
-//Trí làm: Thêm Odata 
-builder.Services.AddControllers()
-    .AddOData(options =>
-        options.Select().Filter().OrderBy().Expand().Count().SetMaxTop(100)
-    );
-
 var app = builder.Build();
 
 app.UseHttpsRedirection();

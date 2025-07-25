@@ -1,3 +1,4 @@
+using HRManagement.Business.dtos.page;
 using HRManagement.Data.Entity;
 
 namespace HRManagement.Business.Repositories.impl;
@@ -29,6 +30,12 @@ public class SalaryRepository : ISalaryRepository
     {
         return await _salaryRepository.GetByIdAsync(id);
     }
+
+    public IQueryable<Salary> GetQueryable()
+    {
+        return _salaryRepository.GetQueryable();
+    }
+
 
     public async Task UpdateAsync(Salary entity)
     {

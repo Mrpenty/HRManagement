@@ -4,7 +4,7 @@ using HRManagement.Business.Repositories;
 using HRManagement.Data.Entity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
+using Microsoft.AspNetCore.OData.Query;
 
 namespace ManagementAPI.Controllers;
 
@@ -22,37 +22,18 @@ public class LeaveRequestController : ControllerBase
         _mapper = mapper;
     }
 
-    private int GetCurrentUserId()
-    {
-        var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier || c.Type == "sub");
-        if (userIdClaim == null) throw new UnauthorizedAccessException();
-        return int.Parse(userIdClaim.Value);
-    }
-
-    [Authorize(Roles = "HR")]
-    [HttpGet("All-With-User")]
-    public async Task<IActionResult> GetAllWithUserAsync()
-    {
-        try
-        {
-            var leaveRequests = await _leaveRequestRepository.GetAllWithUserAsync();
-            var result = _mapper.Map<IEnumerable<LeaveRequestGet>>(leaveRequests);
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "An error occurred");
-            return StatusCode(500, "Internal server error");
-        }
-    }
-
     [HttpGet]
-    public async Task<IActionResult> GetAllAsync()
+    [EnableQuery]
+    [Authorize]
+    public IActionResult GetAllAsync()
     {
         try
         {
-            var leaveRequests = await _leaveRequestRepository.GetAsync();
-            return Ok(_mapper.Map<IEnumerable<LeaveRequest>>(leaveRequests));
+            var query = _leaveRequestRepository.GetQueryable();
+
+            var lrDto = _mapper.ProjectTo<LeaveRequestGet>(query);
+
+            return Ok(lrDto);
         }
         catch (Exception ex)
         {
@@ -63,6 +44,7 @@ public class LeaveRequestController : ControllerBase
 
     [HttpGet("{id:int}")]
     [ActionName(nameof(GetByIdAsync))]
+    [Authorize]
     public async Task<IActionResult> GetByIdAsync(int id)
     {
         try
@@ -81,15 +63,12 @@ public class LeaveRequestController : ControllerBase
         }
     }
 
-    // Trí làm: Tạo đơn xin nghỉ phép    
-    [HttpPost]
-    [Authorize(Roles = "Employee")]
-    public async Task<IActionResult> CreateAsync([FromBody] LeaveRequestCreate lrDto)
+    [HttpPost("{id:int}")]
+    [Authorize]
+    public async Task<IActionResult> CreateAsync(int id, [FromBody] LeaveRequestCreate lrDto)
     {
         try
         {
-            int userId = GetCurrentUserId();
-
             if (lrDto.StartDate > lrDto.EndDate)
                 return BadRequest("Ngày bắt đầu không được sau ngày kết thúc.");
 
@@ -100,7 +79,7 @@ public class LeaveRequestController : ControllerBase
                 return BadRequest("Loại nghỉ phép không được để trống.");
 
             // ✅ Check quota 12 ngày
-            var leavesThisYear = await _leaveRequestRepository.GetMyLeavesInYearAsync(userId, DateTime.Today.Year);
+            var leavesThisYear = await _leaveRequestRepository.GetMyLeavesInYearAsync(id, DateTime.Today.Year);
             int totalUsed = leavesThisYear
                 .Where(lr => lr.Status == "Approved" || lr.Status == "Pending")
                 .Sum(lr => (lr.EndDate - lr.StartDate).Days + 1);
@@ -111,7 +90,7 @@ public class LeaveRequestController : ControllerBase
                 return BadRequest($"Bạn còn {12 - totalUsed} ngày phép. Không thể tạo đơn vượt quá.");
 
             var leaveRequest = _mapper.Map<LeaveRequest>(lrDto);
-            leaveRequest.UserID = userId;
+            leaveRequest.UserID = id;
             leaveRequest.Status = "Pending";
             leaveRequest.CreatedAt = DateTime.Now;
             leaveRequest.UpdatedAt = DateTime.Now;
@@ -129,7 +108,6 @@ public class LeaveRequestController : ControllerBase
     }
 
 
-    //Trí làm: Sửa đơn xin nghỉ phép
     [HttpPut("{id:int}")]
     [Authorize(Roles = "Employee")]
     public async Task<IActionResult> UpdateAsync(int id, [FromBody] LeaveRequestCreate lrDto)
@@ -148,13 +126,11 @@ public class LeaveRequestController : ControllerBase
                 return NotFound();
             }
 
-            // ✅ Chỉ cho update nếu đơn chưa được duyệt
             if (leaveRequest.Status != "Pending")
             {
                 return BadRequest("Only requests with status 'Pending' can be updated.");
             }
 
-            // ✅ Cập nhật trường cho phép
             leaveRequest.StartDate = lrDto.StartDate;
             leaveRequest.EndDate = lrDto.EndDate;
             leaveRequest.LeaveType = lrDto.LeaveType;
@@ -173,8 +149,45 @@ public class LeaveRequestController : ControllerBase
         }
     }
 
-    //Trí làm: Xóa đơn nghỉ phép
+    [HttpPut("{id:int}/approve")]
+    [Authorize(Roles = "HR")]
+    public async Task<IActionResult> UpdateStatus(int id)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var leaveRequest = await _leaveRequestRepository.GetByIdAsync(id);
+
+            if (leaveRequest == null)
+            {
+                return NotFound();
+            }
+
+            if (leaveRequest.Status == "Approved")
+            {
+                return BadRequest("Already Approved");
+            }
+
+
+            leaveRequest.Status = "Approved";
+
+            await _leaveRequestRepository.UpdateAsync(leaveRequest);
+
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred");
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
     [HttpDelete("{id:int}")]
+    [Authorize]
     public async Task<IActionResult> DeleteAsync(int id)
     {
         try
@@ -187,7 +200,7 @@ public class LeaveRequestController : ControllerBase
             }
 
             await _leaveRequestRepository.DeleteAsync(id);
-            
+
             return NoContent();
         }
         catch (Exception ex)
@@ -197,52 +210,12 @@ public class LeaveRequestController : ControllerBase
         }
     }
 
-    //Trí làm: Lấy tất cả đơn nghỉ phép của mình
-    [HttpGet("my-leaves")]
+    
+    [HttpGet("{id:int}/remaining-days")]
     [Authorize(Roles = "Employee")]
-    public async Task<IActionResult> GetMyLeaves()
+    public async Task<IActionResult> GetRemainingDays(int id)
     {
-        try
-        {
-            int userId = GetCurrentUserId();
-
-            var now = DateTime.Now;
-            Console.WriteLine($"[DEBUG] Now: {now}");
-            var leaves = await _leaveRequestRepository.GetMyLeavesInMonthAsync(userId, now.Month, now.Year);
-            Console.WriteLine($"[DEBUG] UserID: {userId}");
-            Console.WriteLine($"[DEBUG] Found {leaves.Count} leaves");
-            foreach (var lr in leaves)
-            {
-                Console.WriteLine($" - ID: {lr.LeaveRequestID}, Start: {lr.StartDate}, End: {lr.EndDate}, Status: {lr.Status}");
-            }
-            var result = leaves.Select(lr => new LeaveViewDto
-            {
-                LeaveRequestID = lr.LeaveRequestID,
-                StartDate = lr.StartDate,
-                EndDate = lr.EndDate,
-                LeaveType = lr.LeaveType,
-                Status = lr.Status
-            }).ToList();
-            foreach (var r in result)
-            {
-                Console.WriteLine($" - DTO ID: {r.LeaveRequestID}, Start: {r.StartDate}, End: {r.EndDate}, Status: {r.Status}");
-            }
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting my leaves");
-            return StatusCode(500, "Internal Server Error");
-        }
-    }
-
-    //Trí làm: Tính số ngày nghỉ phép
-    [HttpGet("remaining-days")]
-    [Authorize(Roles = "Employee")]
-    public async Task<IActionResult> GetRemainingDays()
-    {
-        int userId = GetCurrentUserId();
-        var leaves = await _leaveRequestRepository.GetMyLeavesInYearAsync(userId, DateTime.Now.Year);
+        var leaves = await _leaveRequestRepository.GetMyLeavesInYearAsync(id, DateTime.Now.Year);
 
         int totalUsed = leaves
             .Where(lr => lr.Status == "Approved" || lr.Status == "Pending")

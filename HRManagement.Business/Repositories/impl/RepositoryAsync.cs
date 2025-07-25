@@ -1,4 +1,5 @@
 using HRManagement.Data.Data;
+using HRManagement.Data.Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace HRManagement.Business.Repositories.impl;
@@ -16,9 +17,9 @@ public class RepositoryAsync<T> : IRepositoryAsync<T> where T : class
 
     public async Task<IEnumerable<T>> GetAsync()
     {
-       IQueryable<T> query = _dbSet;
-       var data = query.ToListAsync();
-       return await data;
+        IQueryable<T> query = _dbSet;
+        var data = query.ToListAsync();
+        return await data;
     }
 
     public async Task AddAsync(T entity)
@@ -30,7 +31,7 @@ public class RepositoryAsync<T> : IRepositoryAsync<T> where T : class
     public async Task DeleteAsync(int id)
     {
         var entity = await GetByIdAsync(id);
-        if(entity != null)
+        if (entity != null)
         {
             _dbSet.Remove(entity);
             await _context.SaveChangesAsync();
@@ -39,13 +40,17 @@ public class RepositoryAsync<T> : IRepositoryAsync<T> where T : class
 
     public async Task<T> GetByIdAsync(int id)
     {
-        return await _dbSet.FindAsync([id]) 
-               ?? throw new InvalidOperationException($"Entity with ID {id} not found.");
+        return await _dbSet.FindAsync([id]);
     }
 
     public Task UpdateAsync(T entity)
     {
         _dbSet.Update(entity);
         return _context.SaveChangesAsync();
+    }
+    
+    public IQueryable<T> GetQueryable()
+    {
+        return _dbSet.AsQueryable();
     }
 }

@@ -55,6 +55,7 @@ namespace HRManagement.Business.Services.Employee
                     PositionID = dto.PositionID,
                     EmployeeLevelID = dto.EmployeeLevelID,
                     ContractTypeID = dto.ContractTypeID,
+                    isVertify = false, 
                 };
                 _dbContext.User.Add(employee);
                 await _dbContext.SaveChangesAsync();

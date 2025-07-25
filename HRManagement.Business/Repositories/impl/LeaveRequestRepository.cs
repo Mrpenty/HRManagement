@@ -1,7 +1,7 @@
 ﻿using HRManagement.Data.Data;
 using HRManagement.Data.Entity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+
 using System;
 
 namespace HRManagement.Business.Repositories.impl;

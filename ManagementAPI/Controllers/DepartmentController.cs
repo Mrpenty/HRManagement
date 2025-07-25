@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using HRManagement.Business.dtos.department;
 using HRManagement.Business.Repositories;
+using HRManagement.Data.Data;
 using HRManagement.Data.Entity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.EntityFrameworkCore;
 
 namespace ManagementAPI.Controllers
 {
@@ -14,13 +17,20 @@ namespace ManagementAPI.Controllers
         private readonly ILogger<DepartmentController> _logger;
         private readonly IDepartmentRepository _departmentRepository;
         private readonly IMapper _mapper;
-        public DepartmentController(ILogger<DepartmentController> logger, IDepartmentRepository departmentRepository, IMapper mapper)
+        private readonly HRManagementDbContext _context;
+        public DepartmentController(ILogger<DepartmentController> logger, IDepartmentRepository departmentRepository, IMapper mapper, HRManagementDbContext context)
         {
             _logger = logger;
             _departmentRepository = departmentRepository;
             _mapper = mapper;
+            _context = context;
         }
-
+        [HttpGet("odata")]
+        [EnableQuery]
+        public IActionResult Get()
+        {
+            return Ok(_context.Departments.AsQueryable());
+        }
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
@@ -28,7 +38,7 @@ namespace ManagementAPI.Controllers
             {
                 var departments = await _departmentRepository.GetAsync();
                 return Ok(_mapper.Map<IEnumerable<DepartmentGet>>(departments));
-                
+
             }
             catch (Exception ex)
             {
@@ -101,7 +111,7 @@ namespace ManagementAPI.Controllers
                     return NotFound();
                 }
                 _mapper.Map(dpDto, department);
-                
+
                 await _departmentRepository.UpdateAsync(department);
 
                 return NoContent();
@@ -112,7 +122,7 @@ namespace ManagementAPI.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
-        
+
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {

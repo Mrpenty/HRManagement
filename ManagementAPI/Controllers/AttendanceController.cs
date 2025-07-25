@@ -49,7 +49,7 @@ public class AttendanceController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error in GetDailyAttendance");
-            return StatusCode(500, "Internal server error");
+            return StatusCode(500, new { message = "Internal server error", detail = ex.Message });
         }
     }
 

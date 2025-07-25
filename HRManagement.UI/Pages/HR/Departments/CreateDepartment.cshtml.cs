@@ -24,7 +24,7 @@ namespace HRManagement.UI.Pages.HR.Departments
             Department = new DepartmentCreate
             {
                 Status = "Inactive",
-                UpdateTime = DateTime.Now
+                UpdateTime = DateTime.Now,
             };
         }
 
@@ -33,7 +33,7 @@ namespace HRManagement.UI.Pages.HR.Departments
             if (!ModelState.IsValid)
                 return Page();
 
-            Department.Status = "Inactive"; // Đảm bảo vẫn set khi post
+            //Department.Status = Department.Status; 
             Department.UpdateTime = DateTime.Now;
 
             var response = await _httpClient.PostAsJsonAsync("https://localhost:7201/api/Department", Department);

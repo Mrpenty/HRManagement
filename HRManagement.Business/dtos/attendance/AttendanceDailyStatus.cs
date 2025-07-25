@@ -15,6 +15,6 @@ namespace HRManagement.Business.dtos.attendance
         public string Status { get; set; } // "OnTime", "Late", "OnLeave", "HasNotCheck"
         public DateTime AttendanceDate { get; set; }
 
-        public string Location { get; set; }
+        //public string Location { get; set; }
     }
 }

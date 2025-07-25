@@ -10,6 +10,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HRManagement.Data", "HRManagement.Data\HRManagement.Data.csproj", "{58F40F92-10BC-4A15-8A6B-6CE8C1361A1C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HRManagement.UI", "HRManagement.UI\HRManagement.UI.csproj", "{846301A2-4252-456F-BB5C-52345CBFAE96}"
+	ProjectSection(ProjectDependencies) = postProject
+		{58F40F92-10BC-4A15-8A6B-6CE8C1361A1C} = {58F40F92-10BC-4A15-8A6B-6CE8C1361A1C}
+		{7C3F5E38-5E50-4063-9F7C-EEE582AA27FA} = {7C3F5E38-5E50-4063-9F7C-EEE582AA27FA}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

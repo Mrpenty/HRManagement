@@ -1,6 +1,8 @@
 using AutoMapper;
+using HRManagement.Business.dtos.Employees;
 using HRManagement.Business.dtos.user;
 using HRManagement.Business.Repositories;
+using HRManagement.Business.Services.Employee;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ManagementAPI.Controllers;
@@ -12,12 +14,18 @@ public class UserController : ControllerBase
     private readonly ILogger<UserController> _logger;
     private readonly IMapper _mapper;
     private readonly IUserRepository _userRepository;
+    private readonly ISalaryRepository _salaryRepository;
+    private readonly HRManagement.Data.Data.HRManagementDbContext _dbContext;
+    private readonly IEmployeeService _employeeService;
 
-    public UserController(ILogger<UserController> logger, IMapper mapper, IUserRepository userRepository)
+    
+
+    public UserController(ILogger<UserController> logger, IMapper mapper, IUserRepository userRepository, IEmployeeService employeeService)
     {
         _logger = logger;
         _mapper = mapper;
         _userRepository = userRepository;
+        _employeeService = employeeService;
     }
 
     [HttpGet]
@@ -126,6 +134,20 @@ public class UserController : ControllerBase
         {
             _logger.LogError(ex, "An error occurred");
             return StatusCode(500, "Internal server error");  
+        }
+    }
+
+    [HttpPost("WithSalary")]
+    public async Task<IActionResult> CreateEmployeeWithSalary([FromBody] EmployeeWithSalaryCreateDto dto)
+    {
+        try
+        {
+            var employeeId = await _employeeService.CreateEmployeeWithSalaryAsync(dto);
+            return Ok(new { Id = employeeId });
+        }
+        catch
+        {
+            return BadRequest("Error creating employee and salary");
         }
     }
 }

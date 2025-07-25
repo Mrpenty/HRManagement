@@ -1,0 +1,132 @@
+﻿@page "/HR/EmployeeManagement/CreateEmployee"
+@model HRManagement.UI.Pages.HR.Employee_Management.CreateEmployeeModel
+@{
+    ViewData["Title"] = "Create Employee";
+    Layout = "_HRLayout";
+}
+<div class="container-fluid px-3">
+    <h2>Create New Employee</h2>
+    <form class="row g-3" id="createEmployeeForm">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label">First Name</label>
+                <input type="text" class="form-control" id="firstName" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="lastName" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Date of Birth</label>
+                <input type="date" class="form-control" id="dateOfBirth" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Department</label>
+                <select class="form-select" id="departmentId" required>
+                    <option value="">Select Department</option>
+                    @foreach (var d in Model.Departments)
+                    {
+                        <option value="@d.DepartmentID">@d.DepartmentName</option>
+                    }
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Position</label>
+                <select class="form-select" id="positionId" required>
+                    <option value="">Select Position</option>
+                    @foreach (var p in Model.Positions)
+                    {
+                        <option value="@p.PositionID">@p.PositionName</option>
+                    }
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Level</label>
+                <select class="form-select" id="employeeLevelId" required>
+                    <option value="">Select Level</option>
+                    @foreach (var l in Model.Levels)
+                    {
+                        <option value="@l.EmployeeLevelID">@l.EmployeeLevelName</option>
+                    }
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Contract Type</label>
+                <select class="form-select" id="contractTypeId" required>
+                    <option value="">Select Contract Type</option>
+                    @foreach (var c in Model.ContractTypes)
+                    {
+                        <option value="@c.ContractTypeID">@c.ContractTypeName</option>
+                    }
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Status</label>
+                <select class="form-select" id="status" required>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label">Base Salary</label>
+                <input type="number" step="0.01" class="form-control" id="baseSalary" value="0" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Allowances</label>
+                <input type="number" step="0.01" class="form-control" id="allowances" value="0" required />
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Salary Period</label>
+                <input type="datetime-local" class="form-control" id="salaryPeriod" value="@DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm")" required />
+            </div>
+        </div>
+        <div class="col-12 text-end">
+            <button type="submit" class="btn btn-primary">Save Employee</button>
+            <a href="/HR/EmployeeManagement" class="btn btn-secondary ms-2">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('createEmployeeForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const employeeWithSalaryData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                dateOfBirth: document.getElementById('dateOfBirth').value,
+                departmentID: parseInt(document.getElementById('departmentId').value),
+                positionID: parseInt(document.getElementById('positionId').value),
+                employeeLevelID: parseInt(document.getElementById('employeeLevelId').value),
+                contractTypeID: parseInt(document.getElementById('contractTypeId').value),
+                status: document.getElementById('status').value,
+                baseSalary: parseFloat(document.getElementById('baseSalary').value),
+                allowances: parseFloat(document.getElementById('allowances').value),
+                salaryPeriod: document.getElementById('salaryPeriod').value
+            };
+
+            fetch('https://localhost:7201/api/User/WithSalary', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(employeeWithSalaryData)
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Failed to create employee and salary');
+                window.location.href = '/HR/EmployeeManagement';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while saving the employee and salary.');
+            });
+        });
+    </script>
+}

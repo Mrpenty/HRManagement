@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HRManagement.Business.dtos.salary;
 using HRManagement.Business.Repositories;
+using HRManagement.Business.Services.Salarys;
 using HRManagement.Data.Data;
 using HRManagement.Data.Entity;
 using Microsoft.AspNetCore.Authorization;
@@ -18,12 +19,14 @@ public class SalaryController : ControllerBase
     private readonly ISalaryRepository _salaryRepository;
     private readonly HRManagementDbContext _context;
     private readonly IMapper _mapper;
-    public SalaryController(ILogger<SalaryController> logger, ISalaryRepository salaryRepository, HRManagementDbContext context, IMapper mapper)
+    private readonly ISalaryService _salaryService;
+    public SalaryController(ILogger<SalaryController> logger, ISalaryRepository salaryRepository, HRManagementDbContext context, IMapper mapper, ISalaryService salaryService)
     {
         _logger = logger;
         _salaryRepository = salaryRepository;
         _mapper = mapper;
         _context = context;
+        _salaryService = salaryService;
     }
 
     private int GetCurrentUserId()
@@ -169,4 +172,31 @@ public class SalaryController : ControllerBase
         return Ok(dto);
     }
 
+    [HttpPost("{salaryId}/bonus")]
+    public async Task<IActionResult> AddBonus(int salaryId, [FromBody] BonusDeductionDto dto)
+    {
+        await _salaryService.AddBonusAsync(salaryId, dto.Amount, dto.Reason);
+        return Ok("Bonus added.");
+    }
+
+    [HttpPost("{salaryId}/deduction")]
+    public async Task<IActionResult> AddDeduction(int salaryId, [FromBody] BonusDeductionDto dto)
+    {
+        await _salaryService.AddDeductionAsync(salaryId, dto.Amount, dto.Reason);
+        return Ok("Deduction added.");
+    }
+
+    [HttpPost("recalculate")]
+    public async Task<IActionResult> Recalculate([FromBody] RecalculateSalaryDto dto)
+    {
+        var netSalary = await _salaryService.CalculateNetSalaryAsync(dto.UserId, dto.SalaryPeriod);
+        return Ok(new { NetSalary = netSalary });
+    }
+
+    [HttpGet("{salaryId}/adjustments")]
+    public async Task<IActionResult> GetAdjustments(int salaryId)
+    {
+        var adjustments = await _salaryService.GetAdjustmentsAsync(salaryId);
+        return Ok(adjustments);
+    }
 }

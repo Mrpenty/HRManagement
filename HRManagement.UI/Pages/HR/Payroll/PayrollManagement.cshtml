@@ -1,0 +1,77 @@
+@page "/HR/Payroll/PayrollManagement"
+@model PayrollManagementModel
+@{
+    ViewData["Title"] = "Payroll Management";
+    Layout = "_HRLayout";
+}
+
+<div class="container-fluid px-3">
+    <h2>Payroll Management</h2>
+    <form method="get" class="row g-3 mb-4">
+        <div class="col-md-3">
+            <label class="form-label">Employee</label>
+            <select name="UserId" class="form-select">
+                <option value="">All</option>
+                @foreach (var u in Model.Users)
+                {
+                    <option value="@u.Id" selected="@(Model.UserId == u.Id)">@u.FirstName @u.LastName</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Salary Period</label>
+            <input type="month" name="SalaryPeriod" class="form-control" value="@Model.SalaryPeriodString" />
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Search</label>
+            <input type="text" name="Search" class="form-control" value="@Model.Search" placeholder="Name or Email" />
+        </div>
+        <div class="col-md-3 text-end align-self-end">
+            <button type="submit" class="btn btn-primary me-2">
+                <i class="bi bi-funnel-fill"></i> Filter
+            </button>
+            <a href="/HR/Payroll/PayrollManagement" class="btn btn-secondary">
+                <i class="bi bi-x-circle"></i> Clear
+            </a>
+        </div>
+    </form>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover" id="payroll-datatables">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Employee</th>
+                    <th>Base Salary</th>
+                    <th>Allowances</th>
+                    <th>Bonus</th>
+                    <th>Deduction</th>
+                    <th>Tax</th>
+                    <th>Net Salary</th>
+                    <th>Salary Period</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var s in Model.Salaries)
+                {
+                    var user = Model.Users.FirstOrDefault(u => u.Id == s.UserID);
+                    <tr>
+                        <td>@s.SalaryID</td>
+                        <td>@(user != null ? user.FirstName + " " + user.LastName : "")</td>
+                        <td>@s.BaseSalary</td>
+                        <td>@s.Allowances</td>
+                        <td>@s.Bonus</td>
+                        <td>@s.Deduction</td>
+                        <td>@s.Tax</td>
+                        <td>@s.NetSalary</td>
+                        <td>@s.SalaryPeriod.ToString("yyyy-MM")</td>
+                        <td>
+                            <a href="/HR/Payroll/Detail?id=@s.SalaryID" class="btn btn-sm btn-info">Detail</a>
+                            <a href="/HR/PayrollManagement/Update?id=@s.SalaryID" class="btn btn-sm btn-warning ms-1">Update</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div> 

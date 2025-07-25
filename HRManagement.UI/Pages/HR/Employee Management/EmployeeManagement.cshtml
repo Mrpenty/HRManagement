@@ -4,136 +4,91 @@
     ViewData["Title"] = "HR Dashboard";
     Layout = "_HRLayout";
 }
-div class="card">
-<div class="card-header">
-    <h4 class="card-title">Multi Filter Select</h4>
-</div>
-<div class="card-body">
-    <div class="table-responsive">
-        <div id="multi-filter-select_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
-            <table id="multi-filter-select" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="multi-filter-select_info">
-                <thead>
-                    <tr>
-                        <th>Họ tên</th>
-                        <th>Email</th>
-                        <th>Ngày sinh</th>
-                        <th>Vị trí</th>
-                        <th>Phòng ban</th>
-                        <th>Trạng thái</th>
-                        <th>Thao tác</th>
-                    </tr>
-                </thead>
-                <tbody id="employee-table-body">
-                    <!-- Data will be loaded here by JS -->
-                </tbody>
-            </table>
+
+<div class="container-fluid px-3">
+    <h2>Employee Management</h2>
+    <form method="get" class="row g-3 mb-4">
+        <div class="col-md-3">
+            <label class="form-label">Department</label>
+            <select name="DepartmentId" class="form-select">
+                <option value="">All</option>
+                @foreach (var d in Model.Departments)
+                {
+                    <option value="@d.DepartmentID" selected="@(Model.DepartmentId == d.DepartmentID)">@d.DepartmentName</option>
+                }
+            </select>
         </div>
+        <div class="col-md-3">
+            <label class="form-label">Position</label>
+            <select name="PositionId" class="form-select">
+                <option value="">All</option>
+                @foreach (var p in Model.Positions)
+                {
+                    <option value="@p.PositionID" selected="@(Model.PositionId == p.PositionID)">@p.PositionName</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Level</label>
+            <select name="LevelId" class="form-select">
+                <option value="">All</option>
+                @foreach (var l in Model.Levels)
+                {
+                    <option value="@l.EmployeeLevelID" selected="@(Model.LevelId == l.EmployeeLevelID)">@l.EmployeeLevelName</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Search</label>
+            <input type="text" name="Search" class="form-control" value="@Model.Search" placeholder="Name or Email" />
+        </div>
+        <div class="col-md-12 text-end">
+            <button type="submit" class="btn btn-primary me-2">
+                <i class="bi bi-funnel-fill"></i> Filter
+            </button>
+            <a href="/HR/EmployeeManagement" class="btn btn-secondary">
+                <i class="bi bi-x-circle"></i> Clear
+            </a>
+            <a href="/HR/EmployeeManagement/CreateEmployee" class="btn btn-success ms-2">
+                <i class="bi bi-plus-circle"></i> Create Employee
+            </a>
+        </div>
+    </form>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover" id="basic-datatables">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Date of Birth</th>
+                    <th>Status</th>
+                    <th>Department</th>
+                    <th>Position</th>
+                    <th>Level</th>
+                    <th>Contract Type</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var emp in Model.Employees)
+                {
+                    <tr>
+                        <td>@emp.Id</td>
+                        <td>@emp.FirstName @emp.LastName</td>
+                        <td>@emp.email</td>
+                        <td>@(emp.DateOfBirth?.ToString("yyyy-MM-dd") ?? "")</td>
+                        <td>@emp.Status</td>
+                        <td>@Model.Departments.FirstOrDefault(d => d.DepartmentID == emp.DepartmentID)?.DepartmentName</td>
+                        <td>@Model.Positions.FirstOrDefault(p => p.PositionID == emp.PositionID)?.PositionName</td>
+                        <td>@Model.Levels.FirstOrDefault(l => l.EmployeeLevelID == emp.EmployeeLevelID)?.EmployeeLevelName</td>
+                        <td>@Model.ContractTypes.FirstOrDefault(c => c.ContractTypeID == emp.ContractTypeID)?.ContractTypeName</td>
+                        <td>
+                            <a href="/HR/EmployeeManagement/EmployeeDetail?id=@emp.Id" class="btn btn-sm btn-info">Edit</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
-
-<!-- Modal xem/sửa nhân viên -->
-<div class="modal fade" id="employeeDetailModal" tabindex="-1" aria-labelledby="employeeDetailModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="employeeDetailModalLabel">Chi tiết nhân viên</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
-      </div>
-      <div class="modal-body">
-        <form id="employeeDetailForm">
-          <input type="hidden" id="empId" />
-          <div class="mb-3">
-            <label for="empName" class="form-label">Họ tên</label>
-            <input type="text" class="form-control" id="empName" />
-          </div>
-          <div class="mb-3">
-            <label for="empEmail" class="form-label">Email</label>
-            <input type="email" class="form-control" id="empEmail" />
-          </div>
-          <div class="mb-3">
-            <label for="empDob" class="form-label">Ngày sinh</label>
-            <input type="date" class="form-control" id="empDob" />
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-        <button type="button" class="btn btn-primary" id="saveEmployeeBtn">Lưu</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-@section Scripts {
-<script>
-let users = [];
-$(document).ready(function () {
-    Promise.all([
-        $.get('https://localhost:7201/api/User'),
-        $.get('https://localhost:7201/api/Position'),
-        $.get('https://localhost:7201/api/Department')
-    ]).then(function([userList, positions, departments]) {
-        users = userList;
-        const positionMap = {};
-        positions.forEach(p => positionMap[p.positionID] = p.positionName);
-        const departmentMap = {};
-        departments.forEach(d => departmentMap[d.departmentID] = d.departmentName);
-        let html = '';
-        users.forEach(function (user) {
-            const userId = user.id ?? user.Id ?? user.userId;
-            html += `<tr>
-                <td><a href="/HR/EmployeeManagement/EmployeeDetail?id=${userId}">${user.firstName ?? ''} ${user.lastName ?? ''}</a></td>
-                <td>${user.email ?? ''}</td>
-                <td>${user.dateOfBirth ? new Date(user.dateOfBirth).toLocaleDateString() : ''}</td>
-                <td>${positionMap[user.positionID] ?? ''}</td>
-                <td>${departmentMap[user.departmentID] ?? ''}</td>
-                <td>${user.status ?? ''}</td>
-                <td><button class="btn btn-primary btn-sm" onclick="editEmployee('${userId}')">Sửa</button></td>
-            </tr>`;
-        });
-        $('#employee-table-body').html(html);
-        $('#multi-filter-select').DataTable();
-    }).catch(function() {
-        $('#employee-table-body').html('<tr><td colspan="7">Không thể tải dữ liệu nhân viên</td></tr>');
-    });
-
-    // Xử lý click vào tên nhân viên
-    $(document).on('click', '.view-employee', function(e) {
-        e.preventDefault();
-        const userId = $(this).data('id');
-        const user = users.find(u => u.id == userId);
-        if (user) {
-            $('#empId').val(user.id);
-            $('#empName').val(`${user.firstName ?? ''} ${user.lastName ?? ''}`);
-            $('#empEmail').val(user.email ?? '');
-            $('#empDob').val(user.dateOfBirth ? new Date(user.dateOfBirth).toISOString().split('T')[0] : '');
-            $('#employeeDetailModal').modal('show');
-        }
-    });
-
-    // Xử lý lưu thông tin nhân viên
-    $('#saveEmployeeBtn').click(function() {
-        const id = $('#empId').val();
-        const [firstName, ...lastNameArr] = $('#empName').val().split(' ');
-        const lastName = lastNameArr.join(' ');
-        const data = {
-            firstName,
-            lastName,
-            email: $('#empEmail').val(),
-            dateOfBirth: $('#empDob').val()
-        };
-        $.ajax({
-            url: `https://localhost:7201/api/User/${id}`,
-            method: 'PUT',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            success: function() {
-                alert('Cập nhật thành công!');
-                $('#employeeDetailModal').modal('hide');
-                location.reload();
-            }
-        });
-    });
-});
-</script>
-}

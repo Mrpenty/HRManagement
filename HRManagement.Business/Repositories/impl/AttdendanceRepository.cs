@@ -79,8 +79,8 @@ public class AttdendanceRepository : IAttdendanceRepository
                 CheckInTime = attendance?.CheckInTime,
                 CheckOutTime = attendance?.CheckOutTime,
                 Status = status,
-                AttendanceDate = date.Date,
-                Location = "Office"
+                AttendanceDate = date.Date
+                
             });
         }
 

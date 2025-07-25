@@ -28,6 +28,8 @@ public class DepartmentConfiguration : IEntityTypeConfiguration<Department>
             .IsRequired()
             .HasDefaultValueSql("GETDATE()")
             .ValueGeneratedOnAddOrUpdate();
+        builder.Property(d=> d.Description)
+            .HasMaxLength(500);
         builder.HasMany(d => d.Users)
             .WithOne(u => u.Department)
             .HasForeignKey(u => u.DepartmentID)

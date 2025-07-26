@@ -29,7 +29,8 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.PositionName,
                 opt => opt.MapFrom(src => src.Position == null ? null : src.Position.PositionName))
             .ReverseMap();
-        CreateMap<User, UserUpdate>().ReverseMap();
+        CreateMap<UserUpdate, User>()
+            .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         CreateMap<Attendance, AttendanceGet>().ReverseMap();
         CreateMap<Attendance, AttendanceCreate>().ReverseMap();
         CreateMap<Attendance, AttendanceDailyStatus>().ReverseMap();

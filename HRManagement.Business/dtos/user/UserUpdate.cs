@@ -4,6 +4,7 @@ public class UserUpdate
 {
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
+    public string? Status { get; set; }
     public DateTime? DateOfBirth { get; set; }
     public string? ProfilePicture { get; set; }
     public int? DepartmentID { get; set; }

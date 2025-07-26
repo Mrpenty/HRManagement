@@ -3,6 +3,7 @@ using HRManagement.Business.dtos.user;
 using HRManagement.Business.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.EntityFrameworkCore;
 
 namespace ManagementAPI.Controllers;
 
@@ -27,40 +28,27 @@ public class UserController : ControllerBase
     {
         try
         {
-            var query = _userRepository.GetQueryable();
+            var query = _userRepository.GetQueryable().ToList();
 
-            var usersWithRoles = query
-                .Select(u => new UserGet
-                {
-                    Id = u.Id,
-                    FirstName = u.FirstName,
-                    LastName = u.LastName,
-                    Email = u.Email,
-                    DateOfBirth = u.DateOfBirth,
-                    HireDate = u.HireDate,
-                    ProfilePicture = u.ProfilePicture,
-                    IsVertify = u.IsVertify,
-                    Status = u.Status,
-                    DepartmentID = u.DepartmentID,
-                    EmployeeLevelID = u.EmployeeLevelID,
-                    ContractTypeID = u.ContractTypeID,
-                    PositionID = u.PositionID,
+            var userDtos = _mapper.Map<List<UserGet>>(query);
 
-                    RoleIds = _userRepository
+            foreach (var dto in userDtos)
+            {
+                dto.RoleIds = _userRepository
                     .GetDbContext()
                     .UserRoles
-                    .Where(ur => ur.UserId == u.Id)
+                    .Where(ur => ur.UserId == dto.Id)
                     .Select(ur => ur.RoleId)
-                    .ToList()
-                });
+                    .ToList();
+            }
 
-            return Ok(usersWithRoles);
+            return Ok(userDtos);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "An error occurred while retrieving users");
             return StatusCode(500, "Internal server error");
-        } 
+        }
     }
 
     [HttpGet("{id:int}")]

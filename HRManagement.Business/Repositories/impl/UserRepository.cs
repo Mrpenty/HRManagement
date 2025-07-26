@@ -75,7 +75,11 @@ public class UserRepository : IUserRepository
 
     public IQueryable<User> GetQueryable()
     {
-        return _userManager.Users;
+       return _userManager.Users
+                          .Include(u => u.Department)
+                          .Include(u => u.EmployeeLevel)
+                          .Include(u => u.ContractType)
+                          .Include(u => u.Position);
     }
 
     public HRManagementDbContext GetDbContext() => _context;

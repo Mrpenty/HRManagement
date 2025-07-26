@@ -62,7 +62,11 @@ namespace HRManagement.Business.Repositories.impl
 
             if (!createdUser.Succeeded)
             {
-                return new AuthMessDTO { IsAuthSuccessful = false, ErrorMessage = string.Join(", ", createdUser.Errors.Select(e => e.Description)) };
+                return new AuthMessDTO
+                {
+                    IsAuthSuccessful = false,
+                    ErrorMessage = string.Join(", ", createdUser.Errors.Select(e => e.Description))
+                };
             }
 
             var roleResult = await _userManager.AddToRoleAsync(user, "Employee");
@@ -70,11 +74,22 @@ namespace HRManagement.Business.Repositories.impl
             if (!roleResult.Succeeded)
             {
                 await _userManager.DeleteAsync(user);
-                return new AuthMessDTO { IsAuthSuccessful = false, ErrorMessage = string.Join(", ", roleResult.Errors.Select(e => e.Description)) };
+                return new AuthMessDTO
+                {
+                    IsAuthSuccessful = false,
+                    ErrorMessage = string.Join(", ", roleResult.Errors.Select(e => e.Description))
+                };
             }
 
-            return new AuthMessDTO { IsAuthSuccessful = true };
+            return new AuthMessDTO
+            {
+                IsAuthSuccessful = true,
+                Id = user.Id,         
+                Email = user.Email,        
+                Roles = ["Employee"]
+            };
         }
+
 
 
         public async Task LogoutAsync()

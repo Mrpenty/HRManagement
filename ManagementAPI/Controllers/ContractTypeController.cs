@@ -1,6 +1,5 @@
 using AutoMapper;
 using HRManagement.Business.dtos.contractType;
-using HRManagement.Business.dtos.page;
 using HRManagement.Business.Repositories;
 using HRManagement.Data.Entity;
 using Microsoft.AspNetCore.Mvc;

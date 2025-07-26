@@ -12,7 +12,5 @@ public class SalaryCreate
     public decimal Allowances { get; set; }
     public decimal Bonus { get; set; }
     public decimal Deduction { get; set; } 
-    public decimal Tax { get; set; }
-    public decimal NetSalary { get; set; }
     public DateTime SalaryPeriod { get; set; }
 }

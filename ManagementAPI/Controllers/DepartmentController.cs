@@ -4,6 +4,7 @@ using HRManagement.Business.dtos.page;
 using HRManagement.Business.Repositories;
 using HRManagement.Data.Data;
 using HRManagement.Data.Entity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 
@@ -64,6 +65,7 @@ namespace ManagementAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateAsync([FromBody] DepartmentCreate dpDto)
         {
             try
@@ -78,7 +80,7 @@ namespace ManagementAPI.Controllers
                 }
 
                 var department = _mapper.Map<Department>(dpDto);
-                department.Status = "Inactive"; // Đặt mặc định trạng thái
+                department.Status = "Inactive";
                 await _departmentRepository.AddAsync(department);
 
                 return CreatedAtAction(nameof(GetByIdAsync), new { id = department.DepartmentID }, _mapper.Map<DepartmentGet>(department));

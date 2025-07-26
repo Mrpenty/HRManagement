@@ -1,5 +1,6 @@
 using HRManagement.Business.dtos.page;
 using HRManagement.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace HRManagement.Business.Repositories.impl;
 
@@ -33,7 +34,7 @@ public class SalaryRepository : ISalaryRepository
 
     public IQueryable<Salary> GetQueryable()
     {
-        return _salaryRepository.GetQueryable();
+        return _salaryRepository.GetQueryable().Include(lr => lr.User);
     }
 
 

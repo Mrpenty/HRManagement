@@ -4,6 +4,7 @@ public class SalaryGet
 {
     public int SalaryID { get; set; }
     public int UserID { get; set; }
+    public string? UserName { get; set; }
     public decimal BaseSalary { get; set; }
     public decimal Allowances { get; set; } 
     public decimal Bonus { get; set; } 

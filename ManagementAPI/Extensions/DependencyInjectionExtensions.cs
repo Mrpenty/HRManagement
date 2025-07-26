@@ -19,6 +19,7 @@ public static class DependencyInjectionExtensions
         services.AddScoped<IPaySlipRepository, PaySlipRepository>();
         services.AddScoped<ISalaryRepository, SalaryRepository>();
         services.AddScoped<IAuthRepository, AuthRepository>();
+        services.AddScoped<IPdfGeneratorRepository, PdfGeneratorRepository>();
 
         return services;
     }    

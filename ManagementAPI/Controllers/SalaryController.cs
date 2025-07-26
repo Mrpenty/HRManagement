@@ -16,12 +16,14 @@ public class SalaryController : ControllerBase
 {
     private readonly ILogger<SalaryController> _logger;
     private readonly ISalaryRepository _salaryRepository;
+    private readonly IUserRepository _userRepository;
     private readonly HRManagementDbContext _context;
     private readonly IMapper _mapper;
-    public SalaryController(ILogger<SalaryController> logger, ISalaryRepository salaryRepository, HRManagementDbContext context, IMapper mapper)
+    public SalaryController(ILogger<SalaryController> logger, ISalaryRepository salaryRepository, IUserRepository userRepository, HRManagementDbContext context, IMapper mapper)
     {
         _logger = logger;
         _salaryRepository = salaryRepository;
+        _userRepository = userRepository;
         _mapper = mapper;
         _context = context;
     }
@@ -74,7 +76,6 @@ public class SalaryController : ControllerBase
             decimal taxRate = 0.1m;
             decimal taxableIncome = salaryDto.BaseSalary + salaryDto.Allowances + salaryDto.Bonus;
             decimal tax = taxableIncome * taxRate;
-
             decimal netSalary = taxableIncome - tax - salaryDto.Deduction;
 
             var salary = _mapper.Map<Salary>(salaryDto);
@@ -82,9 +83,19 @@ public class SalaryController : ControllerBase
             salary.NetSalary = netSalary;
 
             await _salaryRepository.AddAsync(salary);
+            
+            var user = await _userRepository.GetByIdAsync(salaryDto.UserID);
+            if (user == null)
+            {
+                _logger.LogWarning("User with ID {UserId} not found for salary assignment", salaryDto.UserID);
+                return BadRequest("User not found");
+            }
 
-            return CreatedAtAction(nameof(GetByIdAsync), 
-                new { id = salary.SalaryID }, 
+            user.SalaryID = salary.SalaryID; 
+            await _userRepository.UpdateAsync(user);
+
+            return CreatedAtAction(nameof(GetByIdAsync),
+                new { id = salary.SalaryID },
                 _mapper.Map<SalaryGet>(salary));
         }
         catch (Exception ex)

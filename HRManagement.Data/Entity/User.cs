@@ -16,6 +16,7 @@ public class User : IdentityUser<int>
     public DateTime? RefreshTokenExpiryTime { get; set; }
     public string Status { get; set; } = "InActive";
     public string? ProfilePicture { get; set; }
+    public int? SalaryID { get; set; }
     public int? DepartmentID { get; set; }
     public int? EmployeeLevelID { get; set; }
     public int? ContractTypeID { get; set; }

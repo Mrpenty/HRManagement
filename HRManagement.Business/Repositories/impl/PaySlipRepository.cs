@@ -1,5 +1,5 @@
-using HRManagement.Business.dtos.page;
 using HRManagement.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace HRManagement.Business.Repositories.impl;
 
@@ -31,12 +31,25 @@ public class PaySlipRepository : IPaySlipRepository
     {
         return await _paySlipRepository.GetByIdAsync(id);
     }
+    
+    public async Task<Payslip?> GetByIdWithDetailsAsync(int id)
+    {
+        return await _paySlipRepository
+            .GetQueryable()
+            .Include(ps => ps.User)
+            .Include(ps => ps.Salary)
+            .FirstOrDefaultAsync(ps => ps.PayslipID == id);
+    }
 
     public IQueryable<Payslip> GetQueryable()
     {
-        return _paySlipRepository.GetQueryable();   
+        return _paySlipRepository.GetQueryable()
+                                 .Include(ps => ps.User)
+                                 .ThenInclude(u => u.Department)
+                                 .Include(ps => ps.User)
+                                 .ThenInclude(u => u.Position)
+                                 .Include(ps => ps.Salary);
     }
-
 
     public async Task UpdateAsync(Payslip entity)
     {

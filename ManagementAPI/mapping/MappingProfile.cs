@@ -19,7 +19,16 @@ public class MappingProfile : Profile
     {
         CreateMap<Department, DepartmentGet>().ReverseMap();
         CreateMap<Department, DepartmentCreate>().ReverseMap();
-        CreateMap<User, UserGet>().ReverseMap();
+        CreateMap<User, UserGet>()
+            .ForMember(dest => dest.DepartmentName,
+                opt => opt.MapFrom(src => src.Department == null ? null : src.Department.DepartmentName))
+            .ForMember(dest => dest.EmployeeLevelName,
+                opt => opt.MapFrom(src => src.EmployeeLevel == null ? null : src.EmployeeLevel.EmployeeLevelName))
+            .ForMember(dest => dest.ContractTypeName,
+                opt => opt.MapFrom(src => src.ContractType == null ? null : src.ContractType.ContractTypeName))
+            .ForMember(dest => dest.PositionName,
+                opt => opt.MapFrom(src => src.Position == null ? null : src.Position.PositionName))
+            .ReverseMap();
         CreateMap<User, UserUpdate>().ReverseMap();
         CreateMap<Attendance, AttendanceGet>().ReverseMap();
         CreateMap<Attendance, AttendanceCreate>().ReverseMap();
@@ -37,7 +46,23 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.FirstName + " " + src.User.LastName));
         CreateMap<Salary, SalaryCreate>().ReverseMap();
         CreateMap<Payslip, PaySlipGet>()
-            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.FirstName + " " + src.User.LastName));
+            .ForMember(dest => dest.UserName,
+                       opt => opt.MapFrom(src => src.User.FirstName + " " + src.User.LastName))
+            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.User.Email))
+            .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.User.Department != null ? src.User.Department.DepartmentName : null))
+            .ForMember(dest => dest.PositionName, opt => opt.MapFrom(src => src.User.Position != null ? src.User.Position.PositionName : null))
+            .ForMember(dest => dest.BaseSalary,
+                       opt => opt.MapFrom(src => src.Salary.BaseSalary))
+            .ForMember(dest => dest.Allowances,
+                       opt => opt.MapFrom(src => src.Salary.Allowances))
+            .ForMember(dest => dest.Bonus,
+                       opt => opt.MapFrom(src => src.Salary.Bonus))
+            .ForMember(dest => dest.Deduction,
+                       opt => opt.MapFrom(src => src.Salary.Deduction))
+            .ForMember(dest => dest.Tax,
+                       opt => opt.MapFrom(src => src.Salary.Tax))
+            .ForMember(dest => dest.NetSalary,
+                       opt => opt.MapFrom(src => src.Salary.NetSalary));
         CreateMap<Payslip, PaySlipCreate>().ReverseMap();
     }
 }
